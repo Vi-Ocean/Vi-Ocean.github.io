@@ -1,0 +1,469 @@
+/* SymHPR Project Page Styles - Light Theme */
+
+:root {
+  --primary-color: #2e7d32;
+  --accent-color: #1565c0;
+  --highlight-color: #ff6f00;
+  --text-color: #333333;
+  --bg-light: #fafafa;
+  --bg-section: #f5f9f5;
+  --bg-alt-section: #f0f5fa;
+  --highlight-gold: #fffde7;
+  --highlight-green: #e8f5e9;
+  --border-light: #e0e0e0;
+}
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+  background-color: #fff;
+}
+
+/* Hero Section */
+.hero-body {
+  padding: 2rem 1.5rem 1.5rem;
+}
+
+.publication-title {
+  font-family: 'Google Sans', sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+  font-size: 2.2rem !important;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.highlight-text {
+  background: linear-gradient(120deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+.publication-authors {
+  margin-top: 0.6rem;
+  line-height: 1.8;
+}
+
+.author-block {
+  display: inline-block;
+  margin-right: 0.3rem;
+}
+
+.author-block a {
+  color: var(--text-color);
+}
+
+.author-block a:hover {
+  color: var(--primary-color);
+}
+
+.affiliations {
+  margin-top: 0.5rem;
+}
+
+.affiliations .author-block {
+  margin-right: 1rem;
+}
+
+/* Publication Links */
+.publication-links {
+  margin-top: 1rem;
+}
+
+.link-block {
+  margin: 0 0.25rem;
+}
+
+.external-link {
+  font-weight: 500;
+}
+
+.button.is-dark {
+  background-color: var(--primary-color);
+  transition: all 0.25s ease;
+}
+
+.button.is-dark:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+/* Teaser Section */
+.hero.teaser {
+  padding-bottom: 1.5rem;
+}
+
+.hero.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 1rem;
+}
+
+.hero.teaser .teaser-image img,
+.hero.teaser .teaser-image embed {
+  max-width: 80%;
+  margin: 0 auto;
+  display: block;
+}
+
+.hero.teaser .subtitle {
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  line-height: 1.6;
+  padding: 0 1rem;
+  color: #555;
+}
+
+/* Section Styles */
+.section {
+  padding: 2rem 1.5rem;
+}
+
+.section:nth-child(odd) {
+  background-color: var(--bg-section);
+}
+
+.section:nth-child(even) {
+  background-color: #fff;
+}
+
+h2.title.is-3 {
+  font-family: 'Google Sans', sans-serif;
+  margin-bottom: 1.2rem;
+  font-size: 1.6rem;
+  color: var(--text-color);
+}
+
+h2.title.is-3::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  margin: 0.6rem auto 0;
+}
+
+h3.title.is-4 {
+  font-family: 'Google Sans', sans-serif;
+  margin-top: 1rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+h4.title.is-5 {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1rem;
+  color: var(--accent-color);
+}
+
+/* Content Styles */
+.content p {
+  line-height: 1.7;
+  margin-bottom: 0.8rem;
+}
+
+.content ul {
+  margin-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+.content ul li {
+  margin-bottom: 0.4rem;
+  line-height: 1.6;
+}
+
+.method-details {
+  margin-top: 1rem;
+  background-color: rgba(46, 125, 50, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.key-findings {
+  margin-top: 1rem;
+  background-color: rgba(21, 101, 192, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-color);
+}
+
+.analysis-content {
+  margin-top: 1rem;
+}
+
+/* Table Styles - Clean Modern Theme */
+.table-container {
+  overflow-x: auto;
+  margin: 1rem 0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.results-table {
+  font-size: 0.85rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.results-table th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  color: #495057 !important;
+  font-weight: 600;
+  text-align: center !important;
+  padding: 0.75rem 0.6rem !important;
+  border-bottom: 2px solid #dee2e6 !important;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.results-table td {
+  text-align: center !important;
+  vertical-align: middle !important;
+  padding: 0.6rem 0.5rem !important;
+  border-bottom: 1px solid #f1f3f4;
+  color: #495057;
+}
+
+.results-table td:first-child {
+  text-align: left !important;
+  white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #343a40;
+}
+
+.results-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.results-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.results-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Section header rows */
+.results-table tr.section-header td {
+  background: linear-gradient(90deg, #f1f3f4 0%, #fff 100%) !important;
+  font-style: italic;
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.78rem;
+  padding: 0.5rem 0.6rem !important;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Highlighted Rows - Best results (subtle gray-blue) */
+.results-table tr.is-highlighted {
+  background-color: #f0f4f8 !important;
+}
+
+.results-table tr.is-highlighted td {
+  color: #1a365d;
+}
+
+.results-table tr.is-highlighted td:first-child {
+  color: #2c5282;
+  font-weight: 600;
+}
+
+.results-table tr.is-highlighted:hover {
+  background-color: #e8eef4 !important;
+}
+
+/* Alternative highlight (very subtle) */
+.results-table tr.is-cross {
+  background-color: #f7fafc !important;
+}
+
+.results-table tr.is-cross:hover {
+  background-color: #edf2f7 !important;
+}
+
+/* Section divider row */
+.results-table tr.section-divider td {
+  background-color: #f8f9fa !important;
+  padding: 0.15rem !important;
+  height: 3px;
+  border: none;
+}
+
+/* Bold values in table */
+.results-table strong {
+  color: #2c5282;
+  font-weight: 600;
+}
+
+/* Figure Styles */
+figure.image {
+  margin: 1rem auto;
+  text-align: center;
+}
+
+figure.image img,
+figure.image embed,
+figure.image object {
+  max-width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+figure.image:hover img,
+figure.image:hover embed {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.3s ease;
+}
+
+figure.image figcaption {
+  margin-top: 0.5rem;
+  color: #666;
+}
+
+/* BibTeX */
+#BibTeX {
+  padding: 1.5rem;
+}
+
+#BibTeX pre {
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  border: 1px solid #e8e8e8;
+}
+
+#BibTeX code {
+  background-color: transparent;
+  color: var(--text-color);
+}
+
+#BibTeX h2.title::after {
+  display: none;
+}
+
+/* Footer */
+.footer {
+  padding: 1.5rem;
+  background-color: var(--bg-light);
+}
+
+.footer a {
+  color: var(--primary-color);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .publication-title {
+    font-size: 1.4rem !important;
+  }
+
+  .hero.teaser .subtitle {
+    padding: 0;
+    font-size: 0.85rem;
+  }
+
+  .results-table {
+    font-size: 0.7rem;
+  }
+
+  .results-table th,
+  .results-table td {
+    padding: 0.4rem 0.3rem !important;
+  }
+
+  .section {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Container max width adjustment */
+.container.is-max-desktop {
+  max-width: 960px;
+}
+
+/* Highlight Box */
+.highlight-box {
+  background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 100%);
+  border-left: 3px solid var(--primary-color);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Columns spacing */
+.columns {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Strong text styling */
+strong {
+  color: #1a1a1a;
+}
+
+/* Special styling for method names */
+.method-name {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Arrow styling */
+.arrow {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+/* PDF embed fallback */
+object[type="application/pdf"] {
+  width: 100%;
+  min-height: 400px;
+}
+
+/* Image grid for comparisons */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.image-grid figure {
+  margin: 0;
+}
+
+/* Stats boxes */
+.stats-box {
+  background: linear-gradient(135deg, var(--highlight-green) 0%, #e3f2fd 100%);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  margin: 0.5rem;
+}
+
+.stats-box .stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  display: block;
+}
+
+.stats-box .stat-label {
+  font-size: 0.9rem;
+  color: #666;
+}
