@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Artemis: Structured Visual Reasoning for Perception Policy Learning">
+  <meta name="keywords" content="Visual grounding, Structured thinking, Visual reasoning, Reinforcement learning, Perception policy">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artemis: Structured Visual Reasoning for Perception Policy Learning</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              Artemis: Structured Visual Reasoning for Perception Policy Learning
+            </h1>
+  
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Wei Tang<sup>1,&dagger;</sup>,</span>
+              <span class="author-block">Yanpeng Sun<sup>2,&dagger;</sup>,</span>
+              <span class="author-block">Shan Zhang<sup>3,5,&dagger;</sup>,</span>
+              <span class="author-block">Xiaofan Li<sup>4,*</sup>,</span>
+              <span class="author-block">Piotr Koniusz<sup>5</sup>,</span>
+              <span class="author-block">Wei Li<sup>6</sup>,</span>
+              <span class="author-block">Na Zhao<sup>2</sup>,</span>
+              <span class="author-block">Zechao Li<sup>1</sup></span>
+            </div>
+  
+            <div class="is-size-6 publication-authors affiliations">
+              <span class="author-block"><sup>1</sup>NJUST IMAG</span>
+              <span class="author-block"><sup>2</sup>SUTD IMPL</span>
+              <span class="author-block"><sup>3</sup>Adelaide AIML</span>
+              <span class="author-block"><sup>4</sup>Baidu Inc.</span>
+              <span class="author-block"><sup>5</sup>Data61, CSIRO</span>
+              <span class="author-block"><sup>6</sup>SenseTime</span>
+            </div>
+  
+            <div class="is-size-7 publication-authors" style="margin-top: 3px;">
+              <span class="author-block"><sup>*</sup>Project Leader &nbsp; <sup>&dagger;</sup>ViOcean Initiative Collaborators</span>
+            </div>
+  
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- arXiv Link -->
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Code Link -->
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+<!-- Teaser Figure -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure class="image teaser-image">
+        <img src="./assets/images/artemis/Artemis_motivation.webp" alt="Comparison of latent spaces">
+      </figure>
+      <h2 class="subtitle has-text-centered">
+        Motivation of <strong>Artemis</strong>. Comparison between current perception-policy models and human perception. (a) Query: find the shortest player. (b) Perception–policy models depend on ungrounded language reasoning, leading to wrong localization. (c) Humans perform structured visual reasoning, progressively refining attention to identify the correct player.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Recent reinforcement-learning frameworks for visual perception policy have begun to incorporate intermediate reasoning chains expressed in natural language. Empirical observations indicate that such purely linguistic intermediate reasoning often reduces performance on perception tasks. We argue that the core issue lies not in reasoning per se but in the form of reasoning: while these chains perform semantic reasoning in an unstructured linguistic space, <strong>visual perception requires reasoning in a spatial and object-centric space</strong>.
+          </p>
+          <p>
+            In response, we introduce <strong>Artemis</strong>, a perception-policy learning framework that performs structured proposal-based reasoning, where each intermediate step is represented as a (label, bounding-box) pair capturing a verifiable visual state. This design enables explicit tracking of intermediate states, direct supervision for proposal quality, and avoids ambiguity introduced by language-based reasoning. 
+          </p>
+          <p>
+            Artemis is built on Qwen2.5-VL-3B, achieves strong performance on grounding and detection task and exhibits substantial generalization to counting and geometric-perception tasks. The consistent improvements across these diverse settings confirm that aligning reasoning with spatial representations enhances perception-policy learning. Owing to its strengthened visual reasoning, Artemis also achieves competitive performance on general MLLM benchmarks, illustrating that spatially grounded reasoning provides a principled route toward scalable and general perception policies.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Method Overview -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            <strong>Artemis</strong> is a unified framework for RL-based perception-policy learning. Rollouts generated by MLLM are encouraged to perceive structured visual evidence before decision-making, guided by the structured visual reasoning reward, while the outcome rewards supervise the format and answer generation. GRPO is employed to optimize the unified perception-policy learning framework.          </p>
+        </div>
+
+        <figure class="image">
+          <img src="./assets/images/artemis/main_framework.webp" alt="SymHPR Framework Overview">
+        </figure>
+
+        <div class="content has-text-justified method-details">
+          <h3 class="title is-4">Key Innovations</h3>
+          <ul>
+            <li><strong>Rethink of Perception-Policy Learning:</strong> Instead of reasoning in linguistic space or removing the thinking process, we rethink what form of thinking truly benefits perception, and align the learning with spatial and object-centric representations.</li>
+            <li><strong>Structured Visual Reasoning:</strong> Intermediate steps are represented as (label, bounding-box) pairs, enabling explicit tracking of key and contextual objects and reducing ambiguity from language-based reasoning.</li>
+            <li><strong>Cross-task Generalization:</strong> A single perception policy transfers from grounding to counting and from natural images to diagrams, achieving scalable improvements across diverse visual tasks.</li>
+          </ul>
+        
+          <h3 class="title is-4">Structured Visual Reasoning</h3>
+          <p>
+            Artemis explicitly generates structured visual evidence during the <code>&lt;think&gt;</code> phase. 
+            By tracking intermediate states as labeled bounding boxes, the model learns to locate key and contextual objects before producing final answers. 
+            This approach strengthens object-centric perception, reduces ambiguity from language-based reasoning, and enables robust generalization across multiple visual domains.
+          </p>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Results -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">In-domain Visual Perception</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            We evaluate our unified visual perception learning framework, <strong>Artemis</strong>, on two in-domain tasks: visual grounding and object detection. Models marked with <sup>†</sup> denote results from our own inference.
+          </p>
+        </div>
+
+        <!-- Grounding table wrapped in Object Detection style container -->
+<h3 class="title is-4">Referring Expression Comprehension (Grounding)</h3>
+<div class="columns">
+  <div class="column is-12">
+    <div class="table-container">
+      <table class="table is-bordered is-hoverable is-fullwidth results-table"
+             border="1" cellspacing="0" cellpadding="4"
+             style="border-collapse: collapse; width:100%; font-size:13px; text-align:center;">
+          <thead>
+            <!-- 第一行：Method / Size / 数据集名称跨12列 -->
+            <tr>
+              <th rowspan="2" style="text-align:left; vertical-align:middle;">Method</th>
+              <th rowspan="2" style="text-align:left; vertical-align:middle;">Size</th>
+              <th colspan="12">RefCOCO</th>
+            </tr>
+            <!-- 第二行：各指标列 -->
+            <tr>
+              <th>val@50</th><th>testA@50</th><th>testB@50</th>
+              <th>val@75</th><th>testA@75</th><th>testB@75</th>
+              <th>val@95</th><th>testA@95</th><th>testB@95</th>
+              <th>val<sub>Avg</sub></th><th>testA<sub>Avg</sub></th><th>testB<sub>Avg</sub></th>
+            </tr>
+          </thead>
+          <tbody>
+          
+          <!-- Expert Models -->
+          <tr style="background:#f6f6f6;text-align:left;"><td colspan="14"><i>Expert Models</i></td></tr>
+          
+          <tr style="color:#555;">
+          <td style="text-align:left;">MDETR</td><td>-</td><td>87.5</td><td>90.4</td><td>82.6</td>
+          <td>-</td><td>-</td><td>-</td>
+          <td>-</td><td>-</td><td>-</td>
+          <td>-</td><td>-</td><td>-</td></tr>
+          
+          <tr style="color:#555;">
+          <td style="text-align:left;">OFA</td><td>-</td><td>88.4</td><td>90.6</td><td>83.3</td>
+          <td>-</td><td>-</td><td>-</td>
+          <td>-</td><td>-</td><td>-</td>
+          <td>-</td><td>-</td><td>-</td></tr>
+          
+          <!-- General MLLMs -->
+          <tr style="background:#f6f6f6;text-align:left;"><td colspan="14"><i>General MLLMs</i></td></tr>
+          
+          <tr>
+          <td style="text-align:left;">LLaVA-v1.5</td><td>7B</td>
+          <td>49.1</td><td>54.9</td><td>43.3</td>
+          <td>10.7</td><td>13.6</td><td>6.9</td>
+          <td>0.4</td><td>0.3</td><td>0.3</td>
+          <td>20.1</td><td>22.9</td><td>16.8</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">LLaVA-OV</td><td>7B</td>
+          <td>73.0</td><td>82.3</td><td>63.5</td>
+          <td>24.2</td><td>29.6</td><td>15.9</td>
+          <td>0.5</td><td>0.5</td><td>0.5</td>
+          <td>32.6</td><td>37.5</td><td>26.6</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">Qwen2-VL</td><td>2B</td>
+          <td>86.8</td><td>89.6</td><td>82.0</td>
+          <td>77.2</td><td>80.6</td><td>70.1</td>
+          <td>33.0</td><td>35.7</td><td>26.9</td>
+          <td>65.7</td><td>68.6</td><td>59.7</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">Qwen2.5-VL<sup>†</sup></td><td>3B</td>
+          <td>88.6</td><td>91.7</td><td>84.0</td>
+          <td>79.1</td><td>83.5</td><td>71.2</td>
+          <td>34.6</td><td>37.9</td><td>27.8</td>
+          <td>67.4</td><td>71.0</td><td>61.0</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">DeepSeek-VL2-Tiny<sup>†</sup></td><td>3B</td>
+          <td>83.5</td><td>86.7</td><td>77.9</td>
+          <td>69.7</td><td>74.1</td><td>60.0</td>
+          <td>24.6</td><td>29.2</td><td>19.3</td>
+          <td>59.3</td><td>63.3</td><td>52.4</td></tr>
+          
+          <!-- RL-based -->
+          <tr style="background:#f6f6f6;text-align:left;"><td colspan="14"><i>RL-based MLLMs</i></td></tr>
+          
+          <tr>
+          <td style="text-align:left;">Perception-R1</td><td>2B</td>
+          <td>89.1</td><td>91.4</td><td>84.5</td>
+          <td>79.5</td><td>83.6</td><td>72.4</td>
+          <td>35.0</td><td>38.5</td><td>28.8</td>
+          <td>67.9</td><td>71.2</td><td>61.9</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">Vision-R1<sup>†</sup></td><td>7B</td>
+          <td>89.6</td><td>92.9</td><td>84.9</td>
+          <td>80.0</td><td>84.7</td><td>72.6</td>
+          <td>33.6</td><td>36.8</td><td>28.6</td>
+          <td>67.7</td><td>71.5</td><td>62.0</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">VLM-R1<sup>†</sup></td><td>3B</td>
+          <td>90.7</td><td>92.8</td><td>85.9</td>
+          <td>81.6</td><td>84.7</td><td>73.5</td>
+          <td>35.6</td><td>37.9</td><td>27.7</td>
+          <td>69.3</td><td>71.8</td><td>62.4</td></tr>
+          
+          <tr class="is-highlighted" style="background-color:#fff5cc !important;">
+          <td style="text-align:left;">Artemis</td><td>3B</td>
+          <td>91.3</td><td>93.4</td><td>87.0</td>
+          <td>83.6</td><td>86.4</td><td>76.5</td>
+          <td>40.1</td><td>42.8</td><td>33.4</td>
+          <td>71.7</td><td>74.2</td><td>65.6</td></tr>
+          
+          
+          <thead>
+            <!-- 第一行：Method / Size / 数据集名称跨12列 -->
+            <tr>
+              <th rowspan="2" style="text-align:left; vertical-align:middle;">Method</th>
+              <th rowspan="2" style="text-align:left; vertical-align:middle;">Size</th>
+              <th colspan="12">RefCOCO+</th>
+            </tr>
+            <!-- 第二行：各指标列 -->
+            <tr>
+              <th>val@50</th><th>testA@50</th><th>testB@50</th>
+              <th>val@75</th><th>testA@75</th><th>testB@75</th>
+              <th>val@95</th><th>testA@95</th><th>testB@95</th>
+              <th>val<sub>Avg</sub></th><th>testA<sub>Avg</sub></th><th>testB<sub>Avg</sub></th>
+            </tr>
+          </thead>
+          
+          <tr style="background:#f6f6f6;text-align:left;"><td colspan="14"><i>Expert Models</i></td></tr>
+          
+          <tr style="color:#555;">
+          <td style="text-align:left;">MDETR</td><td>-</td>
+          <td>81.1</td><td>85.5</td><td>72.9</td>
+          <td>-</td><td>-</td><td>-</td>
+          <td>-</td><td>-</td><td>-</td>
+          <td>-</td><td>-</td><td>-</td></tr>
+          
+          <tr style="color:#555;">
+          <td style="text-align:left;">OFA</td><td>-</td>
+          <td>81.3</td><td>87.1</td><td>74.2</td>
+          <td>-</td><td>-</td><td>-</td>
+          <td>-</td><td>-</td><td>-</td>
+          <td>-</td><td>-</td><td>-</td></tr>
+          
+          <!-- General MLLMs -->
+          <tr style="background:#f6f6f6;text-align:left;"><td colspan="14"><i>General MLLMs</i></td></tr>
+          
+          <tr>
+          <td style="text-align:left;">LLaVA-v1.5</td><td>7B</td>
+          <td>42.4</td><td>49.7</td><td>36.4</td>
+          <td>9.8</td><td>12.4</td><td>6.4</td>
+          <td>0.5</td><td>0.5</td><td>0.2</td>
+          <td>17.6</td><td>20.8</td><td>14.3</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">LLaVA-OV</td><td>7B</td>
+          <td>65.8</td><td>79.0</td><td>57.2</td>
+          <td>23.6</td><td>28.8</td><td>15.3</td>
+          <td>0.6</td><td>0.6</td><td>0.4</td>
+          <td>30.0</td><td>36.1</td><td>24.3</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">Qwen2-VL</td><td>2B</td>
+          <td>77.1</td><td>82.5</td><td>70.1</td>
+          <td>68.7</td><td>73.8</td><td>60.0</td>
+          <td>29.4</td><td>32.3</td><td>23.0</td>
+          <td>58.4</td><td>62.9</td><td>51.0</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">Qwen2.5-VL<sup>†</sup></td><td>3B</td>
+          <td>81.9</td><td>87.3</td><td>74.7</td>
+          <td>73.2</td><td>79.3</td><td>63.9</td>
+          <td>32.3</td><td>35.8</td><td>25.4</td>
+          <td>62.5</td><td>67.5</td><td>54.7</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">DeepSeek-VL2-Tiny<sup>†</sup></td><td>3B</td>
+          <td>73.3</td><td>81.3</td><td>63.5</td>
+          <td>61.9</td><td>70.2</td><td>49.4</td>
+          <td>22.1</td><td>27.3</td><td>16.1</td>
+          <td>52.4</td><td>59.6</td><td>43.0</td></tr>
+          
+          <!-- RL-based -->
+          <tr style="background:#f6f6f6;text-align:left;"><td colspan="14"><i>RL-based MLLMs</i></td></tr>
+          
+          <tr>
+          <td style="text-align:left;">Perception-R1</td><td>2B</td>
+          <td>81.7</td><td>86.8</td><td>74.3</td>
+          <td>73.6</td><td>79.3</td><td>64.2</td>
+          <td>32.6</td><td>36.9</td><td>26.7</td>
+          <td>62.6</td><td>67.7</td><td>55.1</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">Vision-R1<sup>†</sup></td><td>7B</td>
+          <td>83.0</td><td>89.0</td><td>75.3</td>
+          <td>74.7</td><td>81.7</td><td>64.1</td>
+          <td>31.5</td><td>35.2</td><td>25.6</td>
+          <td>63.1</td><td>68.6</td><td>55.0</td></tr>
+          
+          <tr>
+          <td style="text-align:left;">VLM-R1<sup>†</sup></td><td>3B</td>
+          <td>84.2</td><td>89.3</td><td>76.6</td>
+          <td>76.1</td><td>81.2</td><td>65.7</td>
+          <td>33.4</td><td>36.4</td><td>25.9</td>
+          <td>64.6</td><td>69.0</td><td>56.1</td></tr>
+          
+          <tr class="is-highlighted" style="background-color:#fff5cc !important;">
+          <td style="text-align:left;">Artemis</td><td>3B</td>
+          <td>85.3</td><td>89.9</td><td>77.8</td>
+          <td>78.3</td><td>82.9</td><td>68.7</td>
+          <td>38.3</td><td>41.7</td><td>30.0</td>
+          <td>67.3</td><td>71.5</td><td>58.7</td></tr>
+          
+          
+          <!-- ============ third block RefCOCOg ============ -->
+          <thead>
+            <!-- 第一行：Method / Size / 数据集名称跨12列 -->
+            <tr>
+              <th rowspan="2" style="text-align:left; vertical-align:middle;">Method</th>
+              <th rowspan="2" style="text-align:left; vertical-align:middle;">Size</th>
+              <th colspan="12">RefCOCOg</th>
+            </tr>
+            <!-- 第二行：各指标列 -->
+            <tr>
+              <th>val@50</th><th>testA@50</th><th>testB@50</th>
+              <th>val@75</th><th>testA@75</th><th>testB@75</th>
+              <th>val@95</th><th>testA@95</th><th>testB@95</th>
+              <th>val<sub>Avg</sub></th><th>testA<sub>Avg</sub></th><th>testB<sub>Avg</sub></th>
+            </tr>
+          </thead>
+          
+          <tr style="background:#f6f6f6;text-align:left;"><td colspan="14"><i>Expert Models</i></td></tr>
+          
+          <tr>
+            <td style="color:#555;text-align:left;">MDETR</td>
+            <td>-</td>
+            <td>83.3</td><td>83.3</td><td></td>
+            <td>-</td><td>-</td><td></td>
+            <td>-</td><td>-</td><td></td>
+            <td>-</td><td>-</td><td></td>
+          </tr>
+      
+          <tr>
+            <td style="color:#555;text-align:left;">OFA</td>
+            <td>-</td>
+            <td>82.2</td><td>82.3</td><td></td>
+            <td>-</td><td>-</td><td></td>
+            <td>-</td><td>-</td><td></td>
+            <td>-</td><td>-</td><td></td>
+          </tr>
+      
+          <!-- General MLLMs -->
+          <tr style="background-color:#f6f6f8;"><td colspan="14" style="text-align:left;"><i>General MLLMs</i></td></tr>
+      
+          <tr>
+            <td style="text-align:left;">LLaVA-v1.5</td>
+            <td><span style="font-size:12px;">7B</span></td>
+            <td>43.2</td><td>45.1</td><td></td>
+            <td>8.5</td><td>9.3</td><td></td>
+            <td>0.3</td><td>0.3</td><td></td>
+            <td>17.3</td><td>18.2</td><td></td>
+          </tr>
+      
+          <tr>
+            <td style="text-align:left;">LLaVA-OV</td>
+            <td><span style="font-size:12px;">7B</span></td>
+            <td>70.8</td><td>70.8</td><td></td>
+            <td>23.3</td><td>23.6</td><td></td>
+            <td>0.6</td><td>0.7</td><td></td>
+            <td>31.6</td><td>31.7</td><td></td>
+          </tr>
+      
+          <tr>
+            <td style="text-align:left;">Qwen2-VL</td>
+            <td><span style="font-size:12px;">2B</span></td>
+            <td>83.3</td><td>83.1</td><td></td>
+            <td>72.7</td><td>73.0</td><td></td>
+            <td>28.9</td><td>27.9</td><td></td>
+            <td>61.6</td><td>61.3</td><td></td>
+          </tr>
+      
+          <tr>
+            <td style="text-align:left;">Qwen2.5-VL<sup>†</sup></td>
+            <td><span style="font-size:12px;">3B</span></td>
+            <td>85.1</td><td>85.7</td><td></td>
+            <td>74.4</td><td>75.8</td><td></td>
+            <td>32.1</td><td>33.1</td><td></td>
+            <td>63.9</td><td>64.9</td><td></td>
+          </tr>
+      
+          <tr>
+            <td style="text-align:left;">DeepSeek-VL2-Tiny<sup>†</sup></td>
+            <td><span style="font-size:12px;">3B</span></td>
+            <td>75.7</td><td>79.2</td><td></td>
+            <td>60.4</td><td>63.1</td><td></td>
+            <td>19.1</td><td>21.0</td><td></td>
+            <td>38.8</td><td>54.4</td><td></td>
+          </tr>
+      
+          <!-- RL-based MLLMs -->
+          <tr style="background-color:#f6f6f8;"><td colspan="14" style="text-align:left;"><i>RL-based MLLMs</i></td></tr>
+      
+          <tr>
+            <td style="text-align:left;">Perception-R1</td>
+            <td><span style="font-size:12px;">2B</span></td>
+            <td>85.7</td><td>85.4</td><td></td>
+            <td>75.7</td><td>76.0</td><td></td>
+            <td>32.1</td><td>33.1</td><td></td>
+            <td>64.5</td><td>64.8</td><td></td>
+          </tr>
+      
+          <tr>
+            <td style="text-align:left;">Vision-R1<sup>†</sup></td>
+            <td><span style="font-size:12px;">7B</span></td>
+            <td>86.4</td><td>86.9</td><td></td>
+            <td>76.4</td><td>77.8</td><td></td>
+            <td>32.4</td><td>33.1</td><td></td>
+            <td>65.1</td><td>65.9</td><td></td>
+          </tr>
+      
+          <tr>
+            <td style="text-align:left;">VLM-R1<sup>†</sup></td>
+            <td><span style="font-size:12px;">3B</span></td>
+            <td>86.0</td><td>86.7</td><td></td>
+            <td>75.1</td><td>76.8</td><td></td>
+            <td>32.7</td><td>32.9</td><td></td>
+            <td>64.6</td><td>65.5</td><td></td>
+          </tr>
+      
+          <tr class="is-highlighted" style="background-color:#fff5cc !important;">
+            <td style="text-align:left;"><b>Artemis</b></td>
+            <td><span style="font-size:12px;">3B</span></td>
+            <td><b>87.3</b></td><td><b>87.3</b></td><td></td>
+            <td><b>77.7</b></td><td><b>79.4</b></td><td></td>
+            <td><b>36.3</b></td><td><b>37.9</b></td><td></td>
+            <td><b>67.1</b></td><td><b>68.2</b></td><td></td>
+          </tr>
+          </tbody>
+          </table>
+    </div>
+  </div>
+</div>
+
+          
+
+       <!-- Object Detection Table -->
+      <h3 class="title is-4">Object Detection (COCO2017 Val)</h3>
+      <div class="columns">
+        <div class="column is-10 is-offset-1">
+          <div class="table-container">
+            <table class="table is-bordered is-hoverable is-fullwidth results-table">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Size</th>
+                  <th>Epoch</th>
+                  <th>mAP</th>
+                  <th>AP50</th>
+                  <th>AP75</th>
+                  <th>AR100</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Expert Models -->
+                <tr class="is-subheader">
+                  <td colspan="7"><i>Expert Models</i></td>
+                </tr>
+                <tr class="has-text-grey">
+                  <td>YOLOv3</td>
+                  <td>-</td>
+                  <td>273</td>
+                  <td>27.9</td>
+                  <td>49.2</td>
+                  <td>28.3</td>
+                  <td>-</td>
+                </tr>
+                <tr class="has-text-grey">
+                  <td>Faster-RCNN</td>
+                  <td>-</td>
+                  <td>12</td>
+                  <td>35.6</td>
+                  <td>55.7</td>
+                  <td>37.9</td>
+                  <td>-</td>
+                </tr>
+
+                <!-- General MLLMs -->
+                <tr class="is-subheader">
+                  <td colspan="7"><i>General MLLMs</i></td>
+                </tr>
+                <tr>
+                  <td>Qwen2.5-VL†</td>
+                  <td>3B</td>
+                  <td>1</td>
+                  <td>15.4</td>
+                  <td>22.5</td>
+                  <td>15.9</td>
+                  <td>29.8</td>
+                </tr>
+                <tr>
+                  <td>Griffon</td>
+                  <td>13B</td>
+                  <td>1</td>
+                  <td>24.8</td>
+                  <td>40.6</td>
+                  <td>25.1</td>
+                  <td>-</td>
+                </tr>
+
+                <!-- RL-based MLLMs -->
+                <tr class="is-subheader">
+                  <td colspan="7"><i>RL-based MLLMs</i></td>
+                </tr>
+                <tr>
+                  <td>VLM-R1†</td>
+                  <td>3B</td>
+                  <td>1</td>
+                  <td>21.6</td>
+                  <td>35.6</td>
+                  <td>21.7</td>
+                  <td>33.2</td>
+                </tr>
+                <tr>
+                  <td>Vision-R1</td>
+                  <td>7B</td>
+                  <td>1</td>
+                  <td>26.6</td>
+                  <td>40.0</td>
+                  <td>27.8</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>Perception-R1</td>
+                  <td>3B</td>
+                  <td>1</td>
+                  <td><strong>31.9</strong></td>
+                  <td>46.7</td>
+                  <td><strong>33.4</strong></td>
+                  <td>41.2</td>
+                </tr>
+
+                <!-- Artemis -->
+                <tr class="is-highlighted" style="background-color:#fff5cc !important;">
+                  <td><strong>Artemis</strong></td>
+                  <td>3B</td>
+                  <td>1</td>
+                  <td>31.0</td>
+                  <td><strong>48.0</strong></td>
+                  <td>31.9</td>
+                  <td><strong>46.6</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+        <div class="content has-text-justified key-findings">
+          <h3 class="title is-4">Key Findings</h3>
+          <ul>
+            <li><strong>Superior Visual Grounding:</strong> Artemis consistently outperforms SOTA methods across RefCOCO/+/g splits, especially at high IoU thresholds, producing highly precise bounding boxes.</li>
+            <li><strong>Strong Object Detection:</strong> On COCO2017 val, Artemis achieves mAP 31.0, AP50 48.0, and AR100 46.6, representing the only unified RL-based 3B-scale model to surpass mAP 30 while demonstrating complete scene understanding.</li>            
+            <li><strong>Enhanced In-domain Perception:</strong> Structured visual reasoning significantly boosts MLLM perception abilities, with Artemis outperforming other RL-based models in in-domain tasks, highlighting its effectiveness for accurate object localization and recognition.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Visual Counting & Reasoning Grounding Table -->
+<section class="section">
+<div class="container is-max-desktop is-5">
+<h2 class="title is-3 has-text-centered">Zero-shot Out-of-domain Visual Perception on Natural Scenes</h2>
+<div class="content has-text-justified">
+  <p>
+    In zero-shot settings, we evaluate <strong>Artemis</strong> on out-of-domain visual counting using the Pixmo dataset and on reasoning grounding using the LISA grounding dataset. Models marked with <sup>†</sup> denote results from our own inference. Models marked with <sup>‡</sup> follow a detect-then-count paradigm, deriving counts from predicted boxes.
+  </p>
+</div>
+<div class="columns is-centered">
+    <div class="table-container">
+      <table class="table is-bordered is-hoverable is-fullwidth results-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Size</th>
+            <th>Pixmo_val</th>
+            <th>Pixmo_test</th>
+            <th>LISA_test</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- General MLLMs -->
+          <tr class="is-subheader">
+            <td colspan="5"><i>General MLLMs</i></td>
+          </tr>
+          <tr>
+            <td>LLaVA-v1.5<sup>†</sup></td>
+            <td>7B</td>
+            <td>33.3</td>
+            <td>31.0</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>LLaVA-OV</td>
+            <td>7B</td>
+            <td>55.8</td>
+            <td>53.7</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Qwen2-VL</td>
+            <td>2B</td>
+            <td>60.2</td>
+            <td>50.5</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Qwen2.5-VL<sup>†</sup></td>
+            <td>3B</td>
+            <td>58.0</td>
+            <td>57.8</td>
+            <td>67.4</td>
+          </tr>
+
+          <!-- RL-based MLLMs -->
+          <tr class="is-subheader">
+            <td colspan="5"><i>RL-based MLLMs</i></td>
+          </tr>
+          <tr>
+            <td>VisionReasoner<sup>‡</sup></td>
+            <td>7B</td>
+            <td>70.1</td>
+            <td>69.5</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>Perception-R1<sup>‡</sup></td>
+            <td>2B</td>
+            <td>78.1</td>
+            <td>75.6</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>UniVG-R1</td>
+            <td>7B</td>
+            <td>-</td>
+            <td>-</td>
+            <td>59.7</td>
+          </tr>
+          <tr>
+            <td>No-Thinking-RL</td>
+            <td>2B</td>
+            <td>-</td>
+            <td>-</td>
+            <td>61.8</td>
+          </tr>
+          <tr>
+            <td>VLM-R1</td>
+            <td>3B</td>
+            <td>-</td>
+            <td>-</td>
+            <td>63.1</td>
+          </tr>
+
+          <!-- Artemis -->
+          <tr class="is-highlighted" style="background-color:#fff5cc !important;">
+            <td><strong>Artemis</strong></td>
+            <td>3B</td>
+            <td><strong>81.4</strong></td>
+            <td><strong>76.92</strong></td>
+            <td><strong>78.3</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </div>
+  </div>
+  <div class="content has-text-justified key-findings">
+    <h3 class="title is-4">Key Findings</h3>
+    <ul>
+      <li><strong>Human-like Zero-shot Counting:</strong> On the Pixmo-Count dataset, Artemis internally enumerates instances during the <code>&lt;think&gt;</code> phase and directly outputs numeric counts, achieving strong zero-shot performance without any counting-specific training and outperforming detect-then-count baselines.</li>
+      <li><strong>Enhanced Zero-shot Visual Perception:</strong> On the LISA test set, Artemis reaches 78.3 accuracy, substantially exceeding prior methods, showing that structured visual reasoning improves reasoning-dependent perception in natural scenes and reduces linguistic hallucinations.</li>
+    </ul>
+  </div>
+  
+  
+</div>
+
+
+
+        <!-- Zero-shot Out-of-domain Visual Perception on Diagram Understanding -->
+        <section class="section">
+          <div class="container is-max-desktop">
+            <div class="columns is-centered">
+              <div class="column is-full-width">
+                <h2 class="title is-3 has-text-centered">Zero-shot Out-of-domain Visual Perception on Diagram Understanding</h2>
+
+                <div class="content has-text-justified">
+                  <p>
+                    We evaluate <strong>Artemis</strong> on the <strong>MATHGLANCE</strong> benchmark covering plane geometry, solid geometry, and graphs. The evaluation reports zero-shot accuracy for overall questions in each domain. Models marked with <sup>†</sup> denote results from our own inference.
+                  </p>
+                </div>
+
+                <div class="table-container">
+                  <table class="table is-bordered is-hoverable is-fullwidth results-table">
+                    <thead>
+                      <tr>
+                        <th>Model</th>
+                        <th>Size</th>
+                        <th>Avg.</th>
+                        <th>Plane Geo.</th>
+                        <th>Solid Geo.</th>
+                        <th>Graphs</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- General MLLMs -->
+                      <tr class="is-subheader">
+                        <td colspan="6"><i>General MLLMs</i></td>
+                      </tr>
+                      <tr>
+                        <td>G-LLaVA</td>
+                        <td>7B</td>
+                        <td>30.3</td>
+                        <td>25.6</td>
+                        <td>32.3</td>
+                        <td>33.9</td>
+                      </tr>
+                      <tr>
+                        <td>DeepSeek-VL2-Tiny</td>
+                        <td>3B</td>
+                        <td>32.6</td>
+                        <td>29.5</td>
+                        <td>39.0</td>
+                        <td>29.4</td>
+                      </tr>
+                      <tr>
+                        <td>Qwen2.5-VL†</td>
+                        <td>3B</td>
+                        <td>33.1</td>
+                        <td>31.0</td>
+                        <td>37.1</td>
+                        <td>31.2</td>
+                      </tr>
+                      <tr>
+                        <td>LLaVA-v1.5</td>
+                        <td>7B</td>
+                        <td>33.3</td>
+                        <td>29.2</td>
+                        <td>31.6</td>
+                        <td>39.0</td>
+                      </tr>
+
+                      <!-- RL-based MLLMs -->
+                      <tr class="is-subheader">
+                        <td colspan="6"><i>RL-based MLLMs</i></td>
+                      </tr>
+                      <tr>
+                        <td>VLM-R1†</td>
+                        <td>3B</td>
+                        <td>34.4</td>
+                        <td>26.9</td>
+                        <td>43.6</td>
+                        <td>32.6</td>
+                      </tr>
+                      <tr>
+                        <td>No-Thinking-RL†</td>
+                        <td>2B</td>
+                        <td>45.3</td>
+                        <td>33.2</td>
+                        <td>56.4</td>
+                        <td>46.3</td>
+                      </tr>
+                      <tr>
+                        <td>Perception-R1†</td>
+                        <td>2B</td>
+                        <td>45.3</td>
+                        <td>29.7</td>
+                        <td><strong>59.5</strong></td>
+                        <td>46.8</td>
+                      </tr>
+
+                      <!-- Artemis -->
+                      <tr class="is-highlighted" style="background-color:#fff5cc !important;">
+                        <td><strong>Artemis</strong></td>
+                        <td>3B</td>
+                        <td><strong>49.3</strong></td>
+                        <td><strong>39.2</strong></td>
+                        <td>56.4</td>
+                        <td><strong>52.3</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="content has-text-justified key-findings">
+                  <h3 class="title is-4">Key Findings</h3>
+                  <ul>
+                    <li><strong>Superior Zero-shot Math Perception:</strong> On the MATHGLANCE benchmark, <strong>Artemis</strong> achieves the best overall average score (49.3), substantially outperforming general MLLMs such as Qwen2.5-VL and LLaVA-v1.5.</li>
+                    <li><strong>Outperforming RL-based Models:</strong> Artemis surpasses recent R1-based models including Perception-R1 and No-Thinking-RL, demonstrating stronger visual reasoning across plane geometry, solid geometry, and graph-based problems.</li>
+                    <li><strong>Cross-domain Generalization:</strong> Structured visual reasoning learned from natural images transfers effectively to math-related visual scenes, highlighting Artemis’ robust perceptual capabilities and generalization across diverse visual tasks.</li>
+                  </ul>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- General Visual Perception Evaluation -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Zero-shot Comprehensive Visual Perception</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            We evaluate <strong>Artemis</strong> on multiple mainstream multimodal benchmarks, including MMBench, MMVet, MMStar, ScienceQA, SeedBench, MME, AI2D, OCRBench, POPE, and BLINK. The evaluation reports zero-shot performance across all benchmarks. Models marked with <sup>†</sup> denote results from our own inference.
+          </p>
+        </div>
+
+        <div class="table-container">
+          <table class="table is-bordered is-hoverable is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Size</th>
+                <th>MMBench Avg.</th>
+                <th>MMVet Avg.</th>
+                <th>MMStar Avg.</th>
+                <th>ScienceQA Avg.</th>
+                <th>SeedBench Avg.</th>
+                <th>MME Sum</th>
+                <th>AI2D Avg.</th>
+                <th>OCRBench Avg.</th>
+                <th>POPE Avg.</th>
+                <th>BLINK Avg.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- General MLLMs -->
+              <tr class="is-subheader"><td colspan="12"><i>General MLLMs</i></td></tr>
+              <tr>
+                <td>LLaVA-v1.5</td>
+                <td>7B</td>
+                <td>62.8</td>
+                <td>32.8</td>
+                <td>32.6</td>
+                <td>65.4</td>
+                <td>60.1</td>
+                <td>1338.3</td>
+                <td>51.9</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Qwen2-VL</td>
+                <td>2B</td>
+                <td>71.9</td>
+                <td>45.6</td>
+                <td>46.3</td>
+                <td>74.0</td>
+                <td>72.7</td>
+                <td>1471.1</td>
+                <td>71.6</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>DeepSeek-VL2-Tiny</td>
+                <td>3B</td>
+                <td>74.6</td>
+                <td>52.5</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>1905.5</td>
+                <td>-</td>
+                <td>805</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Qwen2.5-VL†</td>
+                <td>3B</td>
+                <td>79.1</td>
+                <td>60.0</td>
+                <td>53.8</td>
+                <td>79.3</td>
+                <td>74.0</td>
+                <td>2200.0</td>
+                <td><strong>78.3</strong></td>
+                <td>826</td>
+                <td>85.9</td>
+                <td><strong>48.8</strong></td>
+              </tr>
+
+              <!-- RL-based MLLMs -->
+              <tr class="is-subheader"><td colspan="12"><i>RL-based MLLMs</i></td></tr>
+              <tr>
+                <td>VLM-R1†</td>
+                <td>3B</td>
+                <td>70.7</td>
+                <td>58.8</td>
+                <td>53.1</td>
+                <td>69.4</td>
+                <td>68.8</td>
+                <td>2156.2</td>
+                <td>73.3</td>
+                <td>774</td>
+                <td>79.3</td>
+                <td>46.9</td>
+              </tr>
+              <tr>
+                <td>Perception-R1</td>
+                <td>2B</td>
+                <td>71.8</td>
+                <td>48.9</td>
+                <td>45.7</td>
+                <td>73.4</td>
+                <td>73.0</td>
+                <td>1903.9</td>
+                <td>71.8</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+
+              <!-- Artemis -->
+              <tr class="is-highlighted" style="background-color:#fff5cc !important;">
+                <td><strong>Artemis</strong></td>
+                <td>3B</td>
+                <td><strong>79.3</strong></td>
+                <td><strong>61.4</strong></td>
+                <td><strong>55.9</strong></td>
+                <td><strong>79.6</strong></td>
+                <td><strong>74.3</strong></td>
+                <td><strong>2229.7</strong></td>
+                <td>78.2</td>
+                <td><strong>828</strong></td>
+                <td><strong>88.6</strong></td>
+                <td>48.5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="content has-text-justified key-findings">
+          <h3 class="title is-4">Key Findings</h3>
+          <ul>
+            <li><strong>Enhanced General Visual Comprehension:</strong> Across a wide range of multimodal benchmarks, <strong>Artemis</strong> demonstrates consistently improved zero-shot performance, showing strengthened perception and uniform alignment across diverse visual tasks without any task-specific tuning.</li>
+          </ul>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Mathematical Reasoning
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Mathematical Reasoning</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            For geometric problem solving, we evaluate on <strong>MathVerse</strong> and <strong>GeoQA</strong> benchmarks.
+          </p>
+        </div>
+
+        <div class="columns">
+          <div class="column is-6">
+            <h4 class="title is-5 has-text-centered">MathVerse Results</h4>
+            <div class="table-container">
+              <table class="table is-bordered is-hoverable is-fullwidth results-table">
+                <thead>
+                  <tr>
+                    <th>Model</th>
+                    <th>All</th>
+                    <th>Vision Int.</th>
+                    <th>Vision Only</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Human</td>
+                    <td>67.7</td>
+                    <td>61.4</td>
+                    <td>66.7</td>
+                  </tr>
+                  <tr>
+                    <td>MAVIS-7B</td>
+                    <td>28.4</td>
+                    <td>24.7</td>
+                    <td>18.3</td>
+                  </tr>
+                  <tr>
+                    <td>Qwen2.5-VL-7B</td>
+                    <td>49.2</td>
+                    <td>33.2</td>
+                    <td>21.1</td>
+                  </tr>
+                  <tr class="is-highlighted">
+                    <td><strong>SymVAE+CoTs-7B</strong></td>
+                    <td><strong>51.8</strong></td>
+                    <td><strong>35.2</strong></td>
+                    <td><strong>24.9</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="column is-6">
+            <h4 class="title is-5 has-text-centered">GeoQA Results</h4>
+            <div class="table-container">
+              <table class="table is-bordered is-hoverable is-fullwidth results-table">
+                <thead>
+                  <tr>
+                    <th>Model</th>
+                    <th>Accuracy (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>G-LLaVA-7B</td>
+                    <td>64.2</td>
+                  </tr>
+                  <tr>
+                    <td>MAVIS-7B</td>
+                    <td>66.7</td>
+                  </tr>
+                  <tr>
+                    <td>MultiMath-7B</td>
+                    <td>74.1</td>
+                  </tr>
+                  <tr>
+                    <td>Qwen2.5-VL-7B</td>
+                    <td>76.4</td>
+                  </tr>
+                  <tr class="is-highlighted">
+                    <td><strong>SymVAE+CoTs-7B</strong></td>
+                    <td><strong>79.4</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- Attention Visualization
+        <h3 class="title is-4 has-text-centered" style="margin-top: 2rem;">Cross-Modal Attention Visualization</h3>
+        <div class="columns is-centered">
+          <div class="column is-5">
+            <figure class="image">
+              <img src="./assets/images/intro_mathglance.webp" alt="Attention on MathGlance">
+              <figcaption class="has-text-centered is-size-7">Geometric Description Task</figcaption>
+            </figure>
+          </div>
+          <div class="column is-5">
+            <figure class="image">
+              <img src="./assets/images/intro_mathverse.webp" alt="Attention on MathVerse">
+              <figcaption class="has-text-centered is-size-7">Reasoning Task</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="content has-text-justified analysis-content">
+          <p>
+            The base model (Qwen2.5-VL-7B) shows weak visual grounding during reasoning, whereas our model maintains consistent visual focus throughout. Even when prompted with diagram descriptions, the base model fails to attend to visual content, demonstrating the importance of symbolic visual representations.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- grd Visualization -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Visual Grounding Visualization</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Comparison of visual grounding results among <strong>Artemis</strong>, skip-reasoning <strong>Perception-R1</strong>, and linguistic reasoning <strong>VLM-R1</strong>. Skip-reasoning often leads to inaccurate predictions, while linguistic reasoning suffers from the difficulty of supervising perception-oriented reasoning within the linguistic space, frequently causing mismatches between intermediate reasoning and the final answer. In contrast, <strong>Artemis</strong> produces precise and high-quality bounding boxes, delivering coherent and accurate grounding by explicitly linking structured visual reasoning with the predicted outputs.
+          </p>
+        </div>
+        
+
+        <figure class="image">
+          <img src="./assets/images/artemis/visual_grd_1.webp" alt="Reconstruction Comparison">
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- cnt Visualization -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Visual Counting Visualization</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Comparison of zero-shot visual counting results among <strong>Perception-R1</strong> (trained on Pixmo), <strong>Qwen2.5-VL</strong> baseline, and <strong>Artemis</strong>. Both Perception-R1 and Qwen2.5-VL rely on detect-then-count post-processing, while Artemis internally enumerates queried objects during the reasoning process and directly outputs numeric counts. By leveraging structured visual reasoning, Artemis acquires perceptual skills that transfer seamlessly to counting tasks, resulting in behavior remarkably similar to <strong>human intuition</strong>.
+          </p>
+        </div>
+        
+
+        <figure class="image">
+          <img src="./assets/images/artemis/visual_cnt_2.webp" alt="Reconstruction Comparison">
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- math Visualization -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Mathematical Perception Visualization</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Comparison of mathematical perception between <strong>Artemis</strong> and <strong>Qwen2.5-VL</strong> on MATHGLANCE. Artemis correctly identifies shapes and relational configurations in counting and relation tasks, while Qwen2.5-VL makes mistakes, such as selecting an invalid quadrilateral or misperceiving relative positions. This demonstrates that perception capabilities learned from natural images transfer effectively to visually distinct domains, enabling accurate perceptual reasoning in mathematical scenes.
+          </p>
+        </div>
+        
+
+        <figure class="image">
+          <img src="./assets/images/artemis/mathglance_1.webp" alt="Reconstruction Comparison">
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- math Visualization -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Object Detection & Reasoning Grounding Visualization</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Visualization of <strong>Artemis</strong> on detection and reasoning grounding tasks shows enhanced scene-level perceptual capabilities. In detection cases, Artemis accurately perceives all ground-truth objects, while in LISA grounding, it identifies relevant visual evidence, such as a person and a ladder, and uses it to infer answers. These results demonstrate that structured visual reasoning training strengthens object-centric perception and improves reasoning-based grounding across diverse tasks.
+          </p>
+        </div>
+        
+
+        <figure class="image">
+          <img src="./assets/images/artemis/det.webp" alt="Reconstruction Comparison">
+        </figure>
+        <figure class="image">
+          <img src="./assets/images/artemis/lisa.webp" alt="Reconstruction Comparison">
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- data Visualization -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Training Data Examples</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            We supervise structured visual reasoning using a dedicated post-training dataset. 
+            To support this objective within our unified <strong>Artemis</strong> framework, we construct the <strong>Artemis-RFT</strong> dataset from MS-COCO, yielding roughly 77k post-training instances.
+          </p>
+          <p>
+            A data example of <strong>Artemis-RFT</strong> is shown below.
+          </p>
+        </div>
+        
+
+        <figure class="image">
+          <img src="./assets/images/artemis/Artemis_data_example.webp" alt="Reconstruction Comparison">
+        </figure>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- BibTeX -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{tang2026artemis,
+  title={Artemis: Structured Visual Reasoning for Perception Policy Learning},
+  author={Tang, Wei and Sun, Yanpeng and Zhang, Shan and Li, Xiaofan and Koniusz, Piotr and Li, Wei and Zhao Na, and Li Zechao},
+  booktitle={Arxiv preprint},
+  year={2026}
+}</code></pre>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        Website template borrowed from <a href="https://nerfies.github.io/">Nerfies</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

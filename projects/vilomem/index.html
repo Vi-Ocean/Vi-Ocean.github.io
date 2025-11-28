@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="ViLoMem: Agentic Learner with Grow-and-Refine Multimodal Semantic Memory">
+  <meta name="keywords" content="ViLoMem, Multimodal Learning, Memory-Augmented LLM, Visual Memory, Logical Memory, MLLM">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ViLoMem: Agentic Learner with Grow-and-Refine Multimodal Semantic Memory</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-left">
+
+          <h1 class="title is-1 publication-title">
+            <span class="vilomem">ViLoMem</span>: Agentic Learner with Grow-and-Refine Multimodal Semantic Memory
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Weihao Bo<sup>1,2</sup>,</span>
+            <span class="author-block">Shan Zhang<sup>3</sup>,</span>
+            <span class="author-block">Yanpeng Sun<sup>4</sup>,</span>
+            <span class="author-block">Jingjing Wu<sup>2</sup>,</span>
+            <span class="author-block">Qunyi Xie<sup>2</sup>,</span>
+            <span class="author-block">Xiao Tan<sup>2</sup>,</span>
+            <br>
+            <span class="author-block">Kunbin Chen<sup>2</sup>,</span>
+            <span class="author-block">Wei He<sup>2</sup>,</span>
+            <span class="author-block">Xiaofan Li<sup>2</sup>,</span>
+            <span class="author-block">Na Zhao<sup>4</sup>,</span>
+            <span class="author-block">Jingdong Wang<sup>2‡</sup>,</span>
+            <span class="author-block">Zechao Li<sup>1†</sup></span>
+          </div>
+
+          <div class="is-size-6 publication-authors affiliations">
+            <span class="author-block"><sup>1</sup>Nanjing University of Science and Technology</span>
+            <span class="author-block"><sup>2</sup>Baidu Inc</span>
+            <span class="author-block"><sup>3</sup>Adelaide AIML</span>
+            <span class="author-block"><sup>4</sup>Singapore University of Technology and Design</span>
+          </div>
+          <div class="is-size-7 publication-authors" style="margin-top: 3px;">
+            <span class="author-block"><sup>‡</sup>Project Leader</span>
+            <span class="author-block" style="margin-left: 1rem;"><sup>†</sup>Corresponding author</span>
+          </div>
+
+          <div class="column has-text-left" style="padding-left: 0;">
+            <div class="publication-links">
+              <!-- arXiv Link -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2511.21678" class="external-link button is-normal is-rounded is-arxiv">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link -->
+              <span class="link-block">
+                <a href="https://github.com/weihao-bo/ViLoMem" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser Figure -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure class="image teaser-image">
+        <img src="./assets/images/motivation-1.webp" alt="Motivation: Multimodal Semantic Memory Enables Progressive Learning">
+      </figure>
+      <h2 class="subtitle has-text-left">
+        <strong>Multimodal Semantic Memory Enables Progressive Learning.</strong> When solving multimodal problems, early attempts may contain both logical and visual errors. Through feedback, the model refines its logical memory for theorem application and its visual memory to avoid perceptual traps—improving by integrating <em>where to look</em> with <em>how to reason</em>.
+      </h2>
+
+      <!-- Table of Contents -->
+      <div class="toc-container">
+        <div class="toc-links">
+          <a href="#abstract">Abstract</a>
+          <span class="toc-sep">·</span>
+          <a href="#method">Method</a>
+          <span class="toc-sep">·</span>
+          <a href="#results">Results</a>
+          <span class="toc-sep">·</span>
+          <a href="#memory-analysis">Analysis</a>
+          <span class="toc-sep">·</span>
+          <a href="#case-study">Case Study</a>
+          <span class="toc-sep">·</span>
+          <a href="#ablation">Ablation</a>
+          <span class="toc-sep">·</span>
+          <a href="#BibTeX">BibTeX</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content">
+          <p>
+            MLLMs exhibit strong reasoning on isolated queries, yet they operate <em>de novo</em>—solving each problem independently and often repeating the same mistakes. Existing memory-augmented agents mainly store past trajectories for reuse. However, trajectory-based memory suffers from brevity bias, gradually losing essential domain knowledge. More critically, even in truly multimodal problem-solving settings, it records only a <strong>single-modality</strong> trace of past behavior, failing to preserve how visual attention and logical reasoning jointly contributed to the solution.
+          </p>
+          <p>
+            This is fundamentally misaligned with human cognition: semantic memory is both <strong>multimodal and integrated</strong>, preserving visual and abstract knowledge through coordinated but distinct representational streams. We thus introduce <strong>ViLoMem</strong>, a dual-stream memory framework that constructs compact, schema-based memory. It separately encodes visual distraction patterns and logical reasoning errors, enabling MLLMs to learn from their successful and failed experiences.
+          </p>
+          <p>
+            Following a grow-and-refine principle, the system incrementally accumulates and updates multimodal semantic knowledge—preserving stable, generalizable strategies while avoiding catastrophic forgetting. Across six multimodal benchmarks, <strong>ViLoMem</strong> consistently improves pass@1 accuracy and substantially reduces repeated visual and logical errors.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Method Overview -->
+<section class="section" id="method">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Method</h2>
+
+        <div class="content">
+          <p>
+            <strong>ViLoMem</strong> is a plug-in dual-stream memory framework for multimodal reasoning, featuring a closed-loop <em>Memory Cycle</em> that enables continuous learning from reasoning and perception errors.
+          </p>
+        </div>
+
+        <figure class="image">
+          <img src="./assets/images/method_2-1.webp" alt="ViLoMem Framework Overview">
+        </figure>
+
+        <div class="content has-text-left method-details">
+          <h3 class="title is-4">Key Components</h3>
+          <ul>
+            <li><strong>(a) Memory Cycle:</strong> A closed-loop learning mechanism where both logical and visual memories are retrieved and utilized by the solver. The verifier evaluates actions to filter redundant trajectories and update both memory streams.</li>
+            <li><strong>(b) Memory Generation:</strong> An error-attribution framework using LLM for logical analysis and MLLM for visual analysis, producing structured memory schemas through similarity-based merge and create operations.</li>
+            <li><strong>(c) Memory Retrieval:</strong> Specialized dual-stream retrieval—visual memories undergo image-embedding retrieval followed by question-specific filtering; logical memories are retrieved through problem analysis and text-embedding similarity.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Results -->
+<section class="section" id="results">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Main Results</h2>
+
+        <div class="content">
+          <p>
+            We evaluate <strong>ViLoMem</strong> across six multimodal reasoning benchmarks covering mathematical reasoning, hallucination robustness, and visual knowledge understanding.
+          </p>
+        </div>
+
+        <!-- Main Results Table -->
+        <div class="table-container">
+          <table class="table is-bordered is-hoverable is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>MMMU</th>
+                <th>MathVista</th>
+                <th>MathVision</th>
+                <th>HallusionBench</th>
+                <th>MMStar</th>
+                <th>RealWorldQA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GPT-4.1 (baseline)</td>
+                <td>74.00</td>
+                <td>70.40</td>
+                <td>46.12</td>
+                <td>58.50</td>
+                <td>69.80</td>
+                <td>73.72</td>
+              </tr>
+              <tr>
+                <td>GPT-4.1 (step)</td>
+                <td>74.16</td>
+                <td>74.27</td>
+                <td>47.47</td>
+                <td>74.44</td>
+                <td>70.43</td>
+                <td>72.03</td>
+              </tr>
+              <tr class="is-highlighted">
+                <td><strong>GPT-4.1 (+ ViLoMem)</strong></td>
+                <td><strong>77.26</strong></td>
+                <td><strong>76.88</strong></td>
+                <td><strong>53.95</strong></td>
+                <td><strong>75.29</strong></td>
+                <td><strong>72.43</strong></td>
+                <td><strong>74.38</strong></td>
+              </tr>
+              <tr class="section-divider"><td colspan="7"></td></tr>
+              <tr>
+                <td>Qwen3-VL-235B (baseline)</td>
+                <td>78.70</td>
+                <td>84.90</td>
+                <td>61.28</td>
+                <td>63.20</td>
+                <td>78.40</td>
+                <td>79.30</td>
+              </tr>
+              <tr>
+                <td>Qwen3-VL-235B (step)</td>
+                <td>75.97</td>
+                <td>83.66</td>
+                <td>62.17</td>
+                <td>74.58</td>
+                <td>76.16</td>
+                <td>78.66</td>
+              </tr>
+              <tr class="is-highlighted">
+                <td><strong>Qwen3-VL-235B (+ ViLoMem)</strong></td>
+                <td><strong>79.40</strong></td>
+                <td><strong>84.98</strong></td>
+                <td><strong>62.83</strong></td>
+                <td><strong>75.21</strong></td>
+                <td>78.31</td>
+                <td>77.22</td>
+              </tr>
+              <tr class="section-divider"><td colspan="7"></td></tr>
+              <tr>
+                <td>Qwen3-VL-8B (baseline)</td>
+                <td>66.38</td>
+                <td>77.20</td>
+                <td>48.13</td>
+                <td>61.10</td>
+                <td>70.91</td>
+                <td>71.50</td>
+              </tr>
+              <tr>
+                <td>Qwen3-VL-8B (step)</td>
+                <td>65.52</td>
+                <td>77.80</td>
+                <td>48.35</td>
+                <td>73.08</td>
+                <td>70.22</td>
+                <td>70.85</td>
+              </tr>
+              <tr class="is-highlighted">
+                <td><strong>Qwen3-VL-8B (+ ViLoMem)</strong></td>
+                <td><strong>69.90</strong></td>
+                <td><strong>77.87</strong></td>
+                <td><strong>49.34</strong></td>
+                <td><strong>73.19</strong></td>
+                <td><strong>72.13</strong></td>
+                <td><strong>73.59</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content has-text-left key-findings">
+          <h3 class="title is-4">Key Findings</h3>
+          <ul>
+            <li><strong>Consistent Improvements:</strong> ViLoMem achieves gains across all models and benchmarks, with particularly notable improvements on mathematical reasoning tasks.</li>
+            <li><strong>GPT-4.1 Benefits Most:</strong> +6.48 on MathVision and +2.61 on MathVista, owing to stronger contextual learning ability.</li>
+            <li><strong>Smaller Models Gain Significantly:</strong> Qwen3-VL-8B achieves +4.38 on MMMU and +2.74 on RealWorldQA, indicating structured memory provides complementary knowledge beyond limited parametric capacity.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Memory Analysis -->
+<section class="section" id="memory-analysis">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Memory Analysis</h2>
+
+        <figure class="image">
+          <img src="./assets/images/memory_analysis.webp" alt="Memory Analysis">
+        </figure>
+
+        <div class="content has-text-left analysis-content">
+          <p>
+            <strong>(a) Memory generation and retrieval statistics</strong> show that visual errors dominate generation (59% to 93%), demonstrating that visual perception remains the primary bottleneck in multimodal reasoning. Despite this generation asymmetry, both streams contribute comparably during retrieval.
+          </p>
+          <p>
+            <strong>(b) Cross-task dependency analysis</strong> reveals balanced utilization of both memory streams during retrieval across diverse tasks and models, confirming effective dual-stream coordination.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cross-Model Memory Transfer -->
+<section class="section" id="cross-model">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Cross-Model Memory Transfer</h2>
+
+        <div class="content">
+          <p>
+            We evaluate the reusability of dual-stream memory by conducting cross-model transfer experiments, where each solver retrieves memories generated by other models rather than its own.
+          </p>
+        </div>
+
+        <div class="table-container compact-table">
+          <table class="table is-bordered is-hoverable results-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>MMMU</th>
+                <th>MathVista</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GPT-4.1 (step)</td>
+                <td>74.16</td>
+                <td>74.27</td>
+              </tr>
+              <tr class="is-highlighted">
+                <td><strong>GPT-4.1 (+ ViLoMem)</strong></td>
+                <td>77.26</td>
+                <td><strong>76.88</strong></td>
+              </tr>
+              <tr class="is-cross">
+                <td>GPT-4.1 (+ ViLoMem Cross)</td>
+                <td><strong>78.21</strong></td>
+                <td>76.58</td>
+              </tr>
+              <tr class="section-divider"><td colspan="3"></td></tr>
+              <tr>
+                <td>Qwen3-VL-235B (step)</td>
+                <td>75.97</td>
+                <td>83.66</td>
+              </tr>
+              <tr class="is-highlighted">
+                <td><strong>Qwen3-VL-235B (+ ViLoMem)</strong></td>
+                <td><strong>79.40</strong></td>
+                <td><strong>84.98</strong></td>
+              </tr>
+              <tr class="is-cross">
+                <td>Qwen3-VL-235B (+ ViLoMem Cross)</td>
+                <td>79.26</td>
+                <td>84.21</td>
+              </tr>
+              <tr class="section-divider"><td colspan="3"></td></tr>
+              <tr>
+                <td>Qwen3-VL-8B (step)</td>
+                <td>65.52</td>
+                <td>77.80</td>
+              </tr>
+              <tr class="is-highlighted">
+                <td><strong>Qwen3-VL-8B (+ ViLoMem)</strong></td>
+                <td>69.90</td>
+                <td>77.87</td>
+              </tr>
+              <tr class="is-cross">
+                <td>Qwen3-VL-8B (+ ViLoMem Cross)</td>
+                <td><strong>71.26</strong></td>
+                <td><strong>79.20</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content has-text-left analysis-content">
+          <p>
+            Smaller models benefit most from cross-model memories: Qwen3-VL-8B achieves <strong>+1.36</strong> on MMMU and <strong>+1.33</strong> on MathVista compared to its self-generated memory, suggesting that memories from stronger models encode higher-quality error patterns. This demonstrates that dual-stream memory enables effective <strong>knowledge distillation</strong> from stronger to weaker models without fine-tuning.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Case Study -->
+<section class="section" id="case-study">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Case Study</h2>
+
+        <div class="content">
+          <p>
+            We present representative cases demonstrating <strong>ViLoMem</strong>'s memory generation and retrieval process across different multimodal reasoning tasks. These examples illustrate how the dual-stream memory mechanism captures and transfers both visual and logical knowledge.
+          </p>
+        </div>
+
+        <!-- Dynamic Case Study Container -->
+        <div id="case-study-container"></div>
+
+        <div class="content has-text-left analysis-content">
+          <p>
+            For vision-intensive questions (e.g., traffic-light color, object localization, optical-illusion setups), visual memory provides concrete viewing strategies such as checking the actual illuminated region or isolating targets from distracting backgrounds. Attention maps concentrate on task-relevant regions, steering the solver toward correct visual evidence.
+          </p>
+          <p>
+            For geometry and chart-reading tasks, visual and logical memories work in complementary roles: logical memory provides reusable rules for measurement and graph interpretation, while visual memory focuses on concrete inspection behaviors such as aligning with gridlines or checking true line orientation. This demonstrates a clear division of labor: <em>visual memory governs "where to look"</em> while <em>logical memory refines "how to reason"</em>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ablation Study -->
+<section class="section" id="ablation">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Ablation Study</h2>
+
+        <div class="content">
+          <p>
+            We validate the necessity of dual-stream memory by selectively disabling each component on GPT-4.1.
+          </p>
+        </div>
+
+        <div class="table-container compact-table">
+          <table class="table is-bordered is-hoverable results-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>MMMU</th>
+                <th>MathVista</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GPT-4.1 (baseline)</td>
+                <td>74.00</td>
+                <td>70.40</td>
+              </tr>
+              <tr>
+                <td>GPT-4.1 (step)</td>
+                <td>74.16</td>
+                <td>74.27</td>
+              </tr>
+              <tr>
+                <td>GPT-4.1 (w/o logic memory)</td>
+                <td>76.64</td>
+                <td>75.59</td>
+              </tr>
+              <tr>
+                <td>GPT-4.1 (w/o visual memory)</td>
+                <td>76.88</td>
+                <td>75.66</td>
+              </tr>
+              <tr class="is-highlighted">
+                <td><strong>GPT-4.1 (+ ViLoMem)</strong></td>
+                <td>77.26</td>
+                <td><strong>76.88</strong></td>
+              </tr>
+              <tr class="is-cross">
+                <td>GPT-4.1 (+ ViLoMem & attention)</td>
+                <td><strong>78.21</strong></td>
+                <td>76.87</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content has-text-left analysis-content">
+          <p>
+            Removing either stream consistently degrades performance, confirming that <strong>both memory types are essential</strong>. The gap between single-stream variants and the full ViLoMem model demonstrates their complementarity: the visual and logical streams capture distinct error patterns rather than redundant information. Augmenting visual memory with question-aware attention maps yields additional gains on MMMU.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BibTeX -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{bo2025agenticlearnergrowandrefinemultimodal,
+      title={Agentic Learner with Grow-and-Refine Multimodal Semantic Memory}, 
+      author={Weihao Bo and Shan Zhang and Yanpeng Sun and Jingjing Wu and Qunyi Xie and Xiao Tan and Kunbin Chen and Wei He and Xiaofan Li and Na Zhao and Jingdong Wang and Zechao Li},
+      year={2025},
+      eprint={2511.21678},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2511.21678}, 
+}</code></pre>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container is-max-desktop">
+    <div class="content has-text-left">
+      <p>
+        Website template borrowed from <a href="https://nerfies.github.io/">Nerfies</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="./assets/js/case_study_data.js"></script>
+<script src="./assets/js/case_study_renderer.js"></script>
+</body>
+</html>
