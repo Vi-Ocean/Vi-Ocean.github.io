@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="SymHPR: Hierarchical Process Reward Models are Symbolic Vision Learners">
+  <meta name="keywords" content="SymHPR, Symbolic Vision, Process Reward Models, Geometric Diagram Understanding, MLLM">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SymHPR: Hierarchical Process Reward Models are Symbolic Vision Learners</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-left">
+          <h1 class="title is-1 publication-title">
+            Hierarchical Process Reward Models are <span class="highlight-text">Symbolic Vision</span> Learners
+          </h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Shan Zhang<sup>1,5,*,&dagger;</sup>,</span>
+            <span class="author-block">Aotian Chen<sup>2,*</sup>,</span>
+            <span class="author-block">Kai Zou<sup>3</sup>,</span>
+            <span class="author-block">Jindong Gu<sup>4</sup>,</span>
+            <span class="author-block">Yuan Xue<sup>2,&ddagger;</sup>,</span>
+            <span class="author-block">Anton van den Hengel<sup>1</sup></span>
+          </div>
+
+          <div class="is-size-6 publication-authors affiliations">
+            <span class="author-block"><sup>1</sup>Adelaide AIML</span>
+            <span class="author-block"><sup>2</sup>Ohio State University</span>
+            <span class="author-block"><sup>3</sup>NetMind.ai</span>
+            <span class="author-block"><sup>4</sup>University of Oxford</span>
+            <span class="author-block"><sup>5</sup>Data61 & CSIRO</span>
+          </div>
+
+          <div class="is-size-7 publication-authors" style="margin-top: 3px;">
+            <span class="author-block"><sup>*</sup>Core Contribution &nbsp; <sup>&dagger;</sup>Project Lead &nbsp; <sup>&ddagger;</sup>Corresponding Author</span>
+          </div>
+
+          <div class="column has-text-left" style="padding-left: 0;">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/AI4Math-ShanZhang/SymVAE" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser Figure -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure class="image teaser-image">
+        <img src="./assets/images/symvae/Intro_latent-v2.webp" alt="Comparison of latent spaces">
+      </figure>
+      <h2 class="subtitle has-text-left">
+        <strong>Comparison of latent spaces formed by semantic auto-encoder and symbolic auto-encoder.</strong> Semantic auto-encoders capture color and texture, which are uninformative for semantically sparse diagrams. Our symbolic auto-encoder forms structured latent spaces representing dependencies among primitives, with the decoder reconstructing diagrams based on visual-logic rules.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Symbolic computer vision represents diagrams through explicit logical rules and structured representations, enabling interpretable understanding in machine vision. This requires fundamentally different learning paradigms from pixel-based visual models. Symbolic visual learners parse diagrams into geometric primitives&mdash;points, lines, and shapes&mdash;whereas pixel-based learners operate on textures and colors.
+            We propose a novel <strong>self-supervised symbolic auto-encoder</strong> that encodes diagrams into structured primitives and their interrelationships within the latent space, and decodes them through our executable engine to reconstruct the input diagrams. Central to this architecture is <strong>SymHPR</strong> (Symbolic Hierarchical Process Reward Modeling), which applies hierarchical step-level parsing rewards to enforce point-on-line, line-on-shape, and shape-on-relation consistency.
+          </p>
+          <p>
+            Evaluations across reconstruction, perception, and reasoning tasks demonstrate the effectiveness of our approach: achieving a <strong>98.2% reduction in MSE</strong> for geometric diagram reconstruction, surpassing GPT-4o by <strong>0.6%</strong> with a 7B model on chart reconstruction, improving by <strong>+13%</strong> on the MathGlance perception benchmark, and by <strong>+3%</strong> on MathVerse and GeoQA reasoning benchmarks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Method Overview -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+
+        <figure class="image">
+          <img src="./assets/images/symvae/Method.webp" alt="SymHPR Framework Overview">
+        </figure>
+
+        <div class="content has-text-justified method-details">
+          <h3 class="title is-4">Key Innovations</h3>
+          <ul>
+            <li><strong>Cost-Free Dataset Construction:</strong> A synthetic logic-form engine that constructs structured parsing paths (Point &rarr; Line &rarr; Shape &rarr; Shape Properties &rarr; Geometric Relations) paired with rendered diagrams, eliminating manual annotation.</li>
+            <li><strong>Rule-based Rewards:</strong> Computed via verifiable metrics such as F1 scores and L2 distances, removing hallucinated supervision.</li>
+            <li><strong>Hierarchical Dependency Modeling:</strong> Enforces step-level constraints (point-on-line, line-on-shape, shape-on-relation), ensuring geometric rewards are granted only when lower-level detections are reliable.</li>
+          </ul>
+
+          <h3 class="title is-4">Symbolic Auto-Encoder</h3>
+          <p>
+            Our auto-encoder uses a <strong>rendering engine as decoder</strong> that reconstructs diagrams from symbolic logic forms. This enables self-supervised training through perceptual loss between input diagrams and their reconstructions. To address training collapse due to sparse supervision, we introduce two stabilization strategies:
+          </p>
+          <ul>
+            <li><strong>Hard Negative Contrastive Learning:</strong> Gaussian noise injection to increase reward variance.</li>
+            <li><strong>Power Normalization Annealing:</strong> Amplifies reward differences while preserving relative ranking.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Results -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Main Results</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            We evaluate our symbolic auto-encoder (<strong>SymVAE</strong>) across three tasks: geometric diagram reconstruction, diagram understanding, and mathematical reasoning.
+          </p>
+        </div>
+
+        <!-- Geometric Reconstruction Table -->
+        <h3 class="title is-4">Geometric Diagram Reconstruction</h3>
+        <div class="table-container">
+          <table class="table is-bordered is-hoverable is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th colspan="4">Synthetic Diagrams</th>
+                <th colspan="4">Geo170K Diagrams</th>
+              </tr>
+              <tr>
+                <th></th>
+                <th>MSE&darr;</th>
+                <th>LPIPS&darr;</th>
+                <th>SSIM&uarr;</th>
+                <th>DINO&uarr;</th>
+                <th>MSE&darr;</th>
+                <th>LPIPS&darr;</th>
+                <th>SSIM&uarr;</th>
+                <th>DINO&uarr;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="section-header">
+                <td colspan="9"><em>Pixel-Level Auto-Encoder</em></td>
+              </tr>
+              <tr>
+                <td>VAE</td>
+                <td>12.9</td><td>0.29</td><td>0.62</td><td>0.81</td>
+                <td>37.9</td><td>0.37</td><td>0.64</td><td>0.80</td>
+              </tr>
+              <tr>
+                <td>VQ-GAN</td>
+                <td>11.7</td><td>0.21</td><td>0.69</td><td>0.81</td>
+                <td>37.2</td><td>0.31</td><td>0.73</td><td>0.83</td>
+              </tr>
+              <tr class="section-header">
+                <td colspan="9"><em>Close-Source MLLMs</em></td>
+              </tr>
+              <tr>
+                <td>GPT-4o</td>
+                <td>34.3</td><td>0.15</td><td>0.82</td><td><strong>0.96</strong></td>
+                <td>39.9</td><td>0.22</td><td>0.76</td><td>0.92</td>
+              </tr>
+              <tr class="section-header">
+                <td colspan="9"><em>Our Symbolic Models</em></td>
+              </tr>
+              <tr>
+                <td>SymParser-3B</td>
+                <td>7.64</td><td>0.12</td><td>0.76</td><td>0.93</td>
+                <td>36.8</td><td>0.28</td><td>0.76</td><td>0.93</td>
+              </tr>
+              <tr>
+                <td>SymHPR-3B</td>
+                <td>7.02</td><td>0.08</td><td>0.83</td><td><strong>0.96</strong></td>
+                <td>27.7</td><td>0.26</td><td>0.77</td><td>0.95</td>
+              </tr>
+              <tr>
+                <td>SymVAE-3B</td>
+                <td>6.13</td><td>0.01</td><td>0.89</td><td>0.95</td>
+                <td>21.8</td><td>0.20</td><td>0.79</td><td>0.95</td>
+              </tr>
+              <tr class="is-highlighted">
+                <td><strong>SymVAE-7B</strong></td>
+                <td><strong>6.01</strong></td><td><strong>0.05</strong></td><td><strong>0.94</strong></td><td><strong>0.96</strong></td>
+                <td><strong>16.8</strong></td><td><strong>0.17</strong></td><td><strong>0.83</strong></td><td><strong>0.96</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content has-text-justified key-findings">
+          <h3 class="title is-4">Key Findings</h3>
+          <ul>
+            <li><strong>Superior Reconstruction Fidelity:</strong> SymVAE-7B achieves the best performance across all metrics on both synthetic and real-world diagrams.</li>
+            <li><strong>Outperforms Closed-Source Models:</strong> SymVAE-7B significantly surpasses GPT-4o on MSE (6.01 vs 34.3 on synthetic; 16.8 vs 39.9 on Geo170K).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Diagram Understanding -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Diagram Understanding</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            We evaluate on the <strong>MathGlance</strong> benchmark covering plane geometry, solid geometry, and graphs.
+          </p>
+        </div>
+
+        <div class="table-container">
+          <table class="table is-bordered is-hoverable is-fullwidth results-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Size</th>
+                <th>Avg.</th>
+                <th>Plane Geo.</th>
+                <th>Solid Geo.</th>
+                <th>Graphs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>GPT-4o</td><td>-</td><td>53.3</td><td>42.8</td><td>60.7</td><td>56.4</td></tr>
+              <tr><td>GPT-o4-mini-high</td><td>-</td><td>48.0</td><td>19.1</td><td>64.7</td><td>60.1</td></tr>
+              <tr><td>Qwen2.5-VL</td><td>7B</td><td>59.2</td><td>44.0</td><td>63.1</td><td>65.7</td></tr>
+              <tr><td>Math-LLaVA</td><td>13B</td><td>40.0</td><td>27.9</td><td>44.8</td><td>47.3</td></tr>
+              <tr><td>Primitive</td><td>7B</td><td>46.6</td><td>35.4</td><td>49.4</td><td>55.1</td></tr>
+              <tr class="is-highlighted">
+                <td><strong>SymVAE+GeoPeP</strong></td>
+                <td><strong>7B</strong></td>
+                <td><strong>72.6</strong></td>
+                <td><strong>77.9</strong></td>
+                <td><strong>67.6</strong></td>
+                <td><strong>72.2</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mathematical Reasoning -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Mathematical Reasoning</h2>
+
+        <div class="columns">
+          <div class="column is-6">
+            <h4 class="title is-5 has-text-centered">MathVerse Results</h4>
+            <div class="table-container">
+              <table class="table is-bordered is-hoverable is-fullwidth results-table">
+                <thead>
+                  <tr><th>Model</th><th>All</th><th>Vision Int.</th><th>Vision Only</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>G-LLaVA-7B</td><td>16.6</td><td>17.2</td><td>9.4</td></tr>
+                  <tr><td>Math-LLaVA-13B</td><td>24.1</td><td>17.6</td><td>16.4</td></tr>
+                  <tr><td>MAVIS-7B</td><td>28.4</td><td>24.7</td><td>18.3</td></tr>
+                  <tr><td>Qwen2.5-VL-7B</td><td>49.2</td><td>33.2</td><td>21.1</td></tr>
+                  <tr class="is-highlighted">
+                    <td><strong>SymVAE+CoTs-7B</strong></td>
+                    <td><strong>51.8</strong></td><td><strong>35.2</strong></td><td><strong>24.9</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="column is-6">
+            <h4 class="title is-5 has-text-centered">GeoQA Results</h4>
+            <div class="table-container">
+              <table class="table is-bordered is-hoverable is-fullwidth results-table">
+                <thead>
+                  <tr><th>Model</th><th>Accuracy (%)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>G-LLaVA-7B</td><td>64.2</td></tr>
+                  <tr><td>MAVIS-7B</td><td>66.7</td></tr>
+                  <tr><td>MultiMath-7B</td><td>74.1</td></tr>
+                  <tr><td>Qwen2.5-VL-7B</td><td>76.4</td></tr>
+                  <tr class="is-highlighted">
+                    <td><strong>SymVAE+CoTs-7B</strong></td><td><strong>79.4</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Attention Visualization -->
+        <h3 class="title is-4 has-text-centered" style="margin-top: 2rem;">Cross-Modal Attention Visualization</h3>
+        <div class="columns is-centered">
+          <div class="column is-5">
+            <figure class="image">
+              <img src="./assets/images/symvae/intro_mathglance.webp" alt="Attention on MathGlance">
+              <figcaption class="has-text-centered is-size-7">Geometric Description Task</figcaption>
+            </figure>
+          </div>
+          <div class="column is-5">
+            <figure class="image">
+              <img src="./assets/images/symvae/intro_mathverse.webp" alt="Attention on MathVerse">
+              <figcaption class="has-text-centered is-size-7">Reasoning Task</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Visualization -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Reconstruction Visualization</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Comparison of geometric reconstructions between our approach and general-purpose multimodal models. General-purpose multimodal models struggle to preserve fine-grained geometric structure, whereas our approach yields substantially more faithful geometric and relational reconstructions.
+          </p>
+        </div>
+
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <figure class="image">
+              <img src="./assets/images/symvae/vis_compare.webp" alt="Reconstruction Comparison">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Logic Form Examples -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Logic Form Examples</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Our symbolic representations consist of compositional geometric primitives organized in a hierarchy: <strong>Points</strong> &rarr; <strong>Lines</strong> &rarr; <strong>Shapes</strong> &rarr; <strong>Shape Indicators</strong> &rarr; <strong>Relations</strong>.
+          </p>
+        </div>
+
+        <div class="columns is-centered">
+          <div class="column is-6">
+            <figure class="image">
+              <img src="./assets/images/symvae/LogicForm_demo1.webp" alt="Logic Form Example 1">
+            </figure>
+          </div>
+          <div class="column is-6">
+            <figure class="image">
+              <img src="./assets/images/symvae/LogicForm_demo2.webp" alt="Logic Form Example 2">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cross-Domain Generalization -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Cross-Domain Generalization</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Our symbolic encoder demonstrates strong cross-domain generalization, extending beyond geometric diagrams to electrical circuits and chemical structures.
+          </p>
+        </div>
+
+        <div class="columns">
+          <div class="column is-6">
+            <figure class="image">
+              <embed src="./assets/images/symvae/correct_mol_circuit_demo1.pdf" type="application/pdf" width="100%" height="400px">
+              <figcaption class="has-text-centered is-size-7">Chemical structure reconstruction</figcaption>
+            </figure>
+          </div>
+          <div class="column is-6">
+            <figure class="image">
+              <embed src="./assets/images/symvae/correct_mol_circuit_demo2.pdf" type="application/pdf" width="100%" height="400px">
+              <figcaption class="has-text-centered is-size-7">Electrical circuit reconstruction</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cross-Lingual and Cross-Modal Translation -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Cross-Lingual and Cross-Modal Transfer</h2>
+
+        <div class="content has-text-justified">
+          <h3 class="title is-4">Emergent Cross-Lingual Transfer</h3>
+          <p>
+            After fine-tuning on perception tasks, our model exhibits emergent cross-lingual transfer: formal logic forms are automatically translated into fluent natural-language chain-of-thoughts without any explicit CoT supervision.
+          </p>
+        </div>
+
+        <div class="carousel-container carousel-small">
+          <div class="carousel" id="carousel-lingual">
+            <div class="carousel-slide active">
+              <img src="./assets/images/symvae/MathGlance_Demo1.webp" alt="CoT Demo 1" class="img-responsive">
+            </div>
+            <div class="carousel-slide">
+              <img src="./assets/images/symvae/MathGlance_Demo2.webp" alt="CoT Demo 2" class="img-responsive">
+            </div>
+            <div class="carousel-slide">
+              <img src="./assets/images/symvae/MathGlance_Demo3.webp" alt="CoT Demo 3" class="img-responsive">
+            </div>
+          </div>
+          <button class="carousel-btn prev" onclick="moveSlide('carousel-lingual', -1)">&#10094;</button>
+          <button class="carousel-btn next" onclick="moveSlide('carousel-lingual', 1)">&#10095;</button>
+          <div class="carousel-dots" id="dots-lingual"></div>
+        </div>
+
+        <div class="content has-text-justified" style="margin-top: 2rem;">
+          <h3 class="title is-4">Emergent Cross-Modal Adaptation</h3>
+          <p>
+            Although trained only on 2D geometric diagrams, the model automatically adapts point primitives to 3D scenes, enriching them with attributes such as object shape, color, and material.
+          </p>
+        </div>
+
+        <div class="carousel-container carousel-small">
+          <div class="carousel" id="carousel-modal">
+            <div class="carousel-slide active">
+              <img src="./assets/images/symvae/MathGlance_Demo6.webp" alt="3D Adaptation" class="img-responsive">
+            </div>
+            <div class="carousel-slide">
+              <img src="./assets/images/symvae/MathGlance_Demo4.webp" alt="3D Adaptation" class="img-responsive">
+            </div>
+            <div class="carousel-slide">
+              <img src="./assets/images/symvae/MathGlance_Demo5.webp" alt="3D Adaptation" class="img-responsive">
+            </div>
+          </div>
+          <button class="carousel-btn prev" onclick="moveSlide('carousel-modal', -1)">&#10094;</button>
+          <button class="carousel-btn next" onclick="moveSlide('carousel-modal', 1)">&#10095;</button>
+          <div class="carousel-dots" id="dots-modal"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Qualitative Reasoning Examples -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Qualitative Reasoning Examples</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Our model produces correct reasoning chains grounded in accurate visual perception.
+          </p>
+        </div>
+
+        <div class="carousel-container carousel-large">
+          <div class="carousel" id="carousel-reasoning">
+            <div class="carousel-slide active">
+              <img src="./assets/images/symvae/MathVerse_demo4.webp" alt="Reasoning Example" class="img-responsive">
+            </div>
+            <div class="carousel-slide">
+              <img src="./assets/images/symvae/MathVerse_demo1.webp" alt="Reasoning Example" class="img-responsive">
+            </div>
+            <div class="carousel-slide">
+              <img src="./assets/images/symvae/MathVerse_demo2.webp" alt="Reasoning Example" class="img-responsive">
+            </div>
+          </div>
+          <button class="carousel-btn prev" onclick="moveSlide('carousel-reasoning', -1)">&#10094;</button>
+          <button class="carousel-btn next" onclick="moveSlide('carousel-reasoning', 1)">&#10095;</button>
+          <div class="carousel-dots" id="dots-reasoning"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BibTeX -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{zhang2026symhpr,
+  title={Hierarchical Process Reward Models are Symbolic Vision Learners},
+  author={Zhang, Shan and Chen, Aotian and Zou, Kai and Gu, Jindong and Xue, Yuan and van den Hengel, Anton},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2026}
+}</code></pre>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        Website template borrowed from <a href="https://nerfies.github.io/">Nerfies</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const carousels = {};
+
+  function initCarousel(carouselId, dotsId) {
+    const carousel = document.getElementById(carouselId);
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dotsContainer = document.getElementById(dotsId);
+
+    carousels[carouselId] = { currentSlide: 0, totalSlides: slides.length };
+
+    for (let i = 0; i < slides.length; i++) {
+      const dot = document.createElement('span');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goToSlide(carouselId, i);
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function moveSlide(carouselId, direction) {
+    const carousel = document.getElementById(carouselId);
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots = document.getElementById('dots-' + carouselId.split('-')[1]).querySelectorAll('.dot');
+    const state = carousels[carouselId];
+
+    slides[state.currentSlide].classList.remove('active');
+    dots[state.currentSlide].classList.remove('active');
+    state.currentSlide = (state.currentSlide + direction + state.totalSlides) % state.totalSlides;
+    slides[state.currentSlide].classList.add('active');
+    dots[state.currentSlide].classList.add('active');
+  }
+
+  function goToSlide(carouselId, slideIndex) {
+    const carousel = document.getElementById(carouselId);
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots = document.getElementById('dots-' + carouselId.split('-')[1]).querySelectorAll('.dot');
+    const state = carousels[carouselId];
+
+    slides[state.currentSlide].classList.remove('active');
+    dots[state.currentSlide].classList.remove('active');
+    state.currentSlide = slideIndex;
+    slides[state.currentSlide].classList.add('active');
+    dots[state.currentSlide].classList.add('active');
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    initCarousel('carousel-lingual', 'dots-lingual');
+    initCarousel('carousel-modal', 'dots-modal');
+    initCarousel('carousel-reasoning', 'dots-reasoning');
+  });
+</script>
+
+</body>
+</html>
