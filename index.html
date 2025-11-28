@@ -6,6 +6,7 @@
   <meta name="description" content="ViOcean Research - Advancing Visual Understanding in AI">
   <title>ViOcean Research</title>
 
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,7 +18,14 @@
   <header class="site-header">
     <div class="container">
       <div class="header-content">
-        <a href="/" class="logo">Vi<span>Ocean</span></a>
+        <a href="/" class="header-logo">
+          <img src="logo.png" alt="ViOcean">
+          <img src="title.png" alt="Viocean" class="logo-text">
+        </a>
+        <nav class="header-nav">
+          <a href="#research">Research</a>
+          <a href="https://github.com/Vi-Ocean" target="_blank" rel="noopener">GitHub</a>
+        </nav>
       </div>
     </div>
   </header>
@@ -25,47 +33,61 @@
   <!-- Hero -->
   <section class="hero">
     <div class="container">
-      <h1>ViOcean Research</h1>
-      <p class="subtitle">Advancing Visual Understanding and Multimodal Reasoning in AI</p>
+      <div class="hero-brand">
+        <img src="logo.png" alt="ViOcean Logo" class="hero-logo">
+        <img src="title.png" alt="Viocean" class="hero-title">
+      </div>
+      <p class="hero-tagline">Advancing Visual Understanding and Multimodal Reasoning in AI</p>
     </div>
   </section>
 
   <!-- Mission -->
   <section class="mission">
     <div class="container">
-      <p>We focus on developing benchmarks, frameworks, and methods that push the boundaries of visual perception, mathematical reasoning, and multimodal learning in large language models.</p>
+      <p>We focus on developing benchmarks, frameworks, and methods that push the boundaries of visual perception, mathematical reasoning, and multimodal learning.</p>
     </div>
   </section>
 
   <!-- Publications -->
-  <section class="publications">
+  <section class="publications" id="research">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Research</h2>
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="benchmark">Benchmark</button>
+          <button class="filter-tab" data-filter="method">Method</button>
+        </div>
       </div>
 
       <div class="pub-grid">
 
         <!-- MathGlance -->
-        <a href="projects/mathglance/index.html" class="pub-card" target="_blank" rel="noopener">
-          <span class="pub-category">Benchmark</span>
+        <a href="projects/mathglance/index.html" class="pub-card" data-category="benchmark">
+          <div class="pub-header">
+            <span class="pub-category benchmark">Benchmark</span>
+            <span class="pub-date">2025</span>
+          </div>
           <div class="pub-content">
-            <h3 class="pub-title">MathGlance: Evaluating MLLMs on Mathematical Diagram Understanding</h3>
-            <p class="pub-desc">A benchmark specifically designed to isolate and evaluate diagram perception in Multimodal Large Language Models, comprising 1.2K diagrams and 1.6K carefully curated questions spanning four perception tasks.</p>
+            <h3 class="pub-title">MathGlance: Multimodal Large Language Models Do Not Know Where to Look in Mathematical Diagrams</h3>
+            <p class="pub-desc">A benchmark specifically designed to isolate and evaluate diagram perception in MLLMs, comprising 1.2K diagrams and 1.6K carefully curated questions spanning four perception tasks.</p>
             <div class="pub-meta">
               <span class="pub-tag">MLLM</span>
               <span class="pub-tag">Math</span>
               <span class="pub-tag">Perception</span>
             </div>
           </div>
-          <span class="pub-date">2025</span>
+          <span class="pub-arrow">→</span>
         </a>
 
         <!-- Artemis -->
-        <a href="projects/artemis/index.html" class="pub-card" target="_blank" rel="noopener">
-          <span class="pub-category">Framework</span>
+        <a href="projects/artemis/index.html" class="pub-card" data-category="method">
+          <div class="pub-header">
+            <span class="pub-category method">Method</span>
+            <span class="pub-date">2025</span>
+          </div>
           <div class="pub-content">
-            <h3 class="pub-title">Artemis: Structured Visual Reasoning for Perception Policy Learning</h3>
+            <h3 class="pub-title">Artemis: Towards Referential Understanding in Complex Visual Environments</h3>
             <p class="pub-desc">A framework that enables structured visual reasoning in spatial and object-centric space, improving visual perception tasks through reinforcement learning with intermediate reasoning chains.</p>
             <div class="pub-meta">
               <span class="pub-tag">Visual Reasoning</span>
@@ -73,12 +95,15 @@
               <span class="pub-tag">Grounding</span>
             </div>
           </div>
-          <span class="pub-date">2025</span>
+          <span class="pub-arrow">→</span>
         </a>
 
         <!-- ViLoMem -->
-        <a href="projects/vilomem/index.html" class="pub-card" target="_blank" rel="noopener">
-          <span class="pub-category">Method</span>
+        <a href="projects/vilomem/index.html" class="pub-card" data-category="method">
+          <div class="pub-header">
+            <span class="pub-category method">Method</span>
+            <span class="pub-date">2025</span>
+          </div>
           <div class="pub-content">
             <h3 class="pub-title">ViLoMem: Agentic Learner with Grow-and-Refine Multimodal Semantic Memory</h3>
             <p class="pub-desc">An agentic learning framework that enables progressive improvement through multimodal semantic memory, integrating visual and logical memory to refine both perception and reasoning.</p>
@@ -88,7 +113,25 @@
               <span class="pub-tag">Agent</span>
             </div>
           </div>
-          <span class="pub-date">2025</span>
+          <span class="pub-arrow">→</span>
+        </a>
+
+        <!-- SymVAE -->
+        <a href="projects/symvae/index.html" class="pub-card" data-category="method">
+          <div class="pub-header">
+            <span class="pub-category method">Method</span>
+            <span class="pub-date">2025</span>
+          </div>
+          <div class="pub-content">
+            <h3 class="pub-title">SymHPR: Hierarchical Process Reward Models are Symbolic Vision Learners</h3>
+            <p class="pub-desc">A self-supervised symbolic auto-encoder that encodes diagrams into structured primitives and their interrelationships, achieving 98.2% MSE reduction in geometric diagram reconstruction.</p>
+            <div class="pub-meta">
+              <span class="pub-tag">Symbolic</span>
+              <span class="pub-tag">Geometry</span>
+              <span class="pub-tag">PRM</span>
+            </div>
+          </div>
+          <span class="pub-arrow">→</span>
         </a>
 
       </div>
@@ -98,9 +141,38 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
-      <p>ViOcean Research Initiative</p>
+      <div class="footer-brand">
+        <img src="logo.png" alt="ViOcean">
+      </div>
+      <p class="footer-text">ViOcean Research Initiative</p>
     </div>
   </footer>
+
+  <!-- Filter Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.filter-tab');
+      const cards = document.querySelectorAll('.pub-card');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Update active tab
+          tabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+
+          // Filter cards
+          const filter = this.dataset.filter;
+          cards.forEach(card => {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
