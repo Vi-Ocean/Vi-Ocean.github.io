@@ -10,19 +10,459 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="shared/css/main.css">
+
+  <style>
+    :root {
+      --color-kraft: #d4a27f;
+      --color-sky: #6a9bcc;
+      --color-primary: #2563eb;
+      --color-purple: #6b21a8;
+      --text-color: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --bg-page: #ffffff;
+      --bg-secondary: #f8fafc;
+      --border-light: #e5e7eb;
+      --transition: cubic-bezier(.165,.84,.44,1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-color);
+      background: var(--bg-page);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+      z-index: 100;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .header-logo img {
+      height: 40px;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .header-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s var(--transition);
+    }
+
+    .header-nav a:hover {
+      color: var(--color-primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 6rem 0 4rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .hero-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-logo {
+      height: 80px;
+    }
+
+    .hero-title {
+      height: 60px;
+    }
+
+    .hero-tagline {
+      font-size: 1.75rem;
+      font-weight: 700;
+      max-width: 1000px;
+      margin: 0 auto;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+
+    /* Mission Statement */
+    .mission {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .mission p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .mission p strong {
+      font-size: 1.35rem;
+      font-weight: 600;
+      font-family: 'Georgia', 'Palatino', 'Times New Roman', serif;
+      font-style: italic;
+      letter-spacing: 0.02em;
+      color: var(--text-color);
+    }
+
+    /* Featured Projects */
+    .featured-projects {
+      padding: 2rem 0 3rem;
+      background: var(--bg-secondary);
+    }
+
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .featured-card {
+      position: relative;
+      height: clamp(18rem, 25vw, 24rem);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+    }
+
+    .featured-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .featured-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: white;
+      transition: transform 0.4s var(--transition);
+    }
+
+    .featured-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .featured-card-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+      padding: 2rem 1.5rem 1.5rem;
+      color: white;
+    }
+
+    .featured-card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .featured-card-desc {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      line-height: 1.5;
+    }
+
+    /* Research Section */
+    .research {
+      padding: 6rem 0;
+    }
+
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-tab {
+      padding: 0.625rem 1.5rem;
+      border: 2px solid var(--border-light);
+      background: white;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.3s var(--transition);
+      color: var(--text-secondary);
+    }
+
+    .filter-tab:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .filter-tab.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: white;
+    }
+
+    /* Publication Cards */
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .pub-item {
+      display: grid;
+      grid-template-columns: 120px 100px 1fr;
+      gap: 2rem;
+      padding: 2rem 1.5rem;
+      border-left: 3px solid transparent;
+      transition: all 0.3s var(--transition);
+      text-decoration: none;
+      color: var(--text-color);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .pub-item:hover {
+      border-left-color: var(--color-primary);
+      background: var(--bg-secondary);
+    }
+
+    .pub-item.hidden {
+      display: none;
+    }
+
+    .pub-category {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .pub-category.publication {
+      color: #2563eb;
+    }
+
+    .pub-category.model {
+      color: #7c3aed;
+    }
+
+    .pub-category.benchmark {
+      color: var(--color-purple);
+    }
+
+    .pub-category.dataset {
+      color: #059669;
+    }
+
+    .pub-category.code {
+      color: #dc2626;
+    }
+
+    .pub-date {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .pub-content-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .pub-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text-color);
+    }
+
+    .pub-desc {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .pub-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .pub-tag {
+      padding: 0.25rem 0.75rem;
+      background: var(--bg-secondary);
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text-color);
+      color: white;
+      padding: 4rem 0 2rem;
+      margin-top: 6rem;
+    }
+
+    .footer-content {
+      text-align: center;
+    }
+
+    .footer-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .footer-text {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-bottom: 2rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    .footer-brand {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      opacity: 0.6;
+    }
+
+    .footer-brand img {
+      height: 40px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1.5rem;
+      }
+
+      .hero {
+        padding: 4rem 0 3rem;
+      }
+
+      .hero-logo {
+        height: 60px;
+      }
+
+      .hero-title {
+        height: 45px;
+      }
+
+      .hero-tagline {
+        font-size: 1.125rem;
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+      }
+
+      .featured-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pub-item {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .filter-tabs {
+        gap: 0.5rem;
+      }
+
+      .filter-tab {
+        padding: 0.5rem 1rem;
+        font-size: 0.8125rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
   <!-- Header -->
-  <header class="site-header">
+  <header>
     <div class="container">
       <div class="header-content">
         <a href="/" class="header-logo">
           <img src="logo.png" alt="ViOcean">
-          <img src="title2.png" alt="Viocean" class="logo-text">
+          <img src="title2.png" alt="ViOcean" style="height: 28px;">
         </a>
         <nav class="header-nav">
+          <a href="#featured">Featured</a>
           <a href="#research">Research</a>
           <a href="https://github.com/Vi-Ocean" target="_blank" rel="noopener">GitHub</a>
         </nav>
@@ -35,103 +475,200 @@
     <div class="container">
       <div class="hero-brand">
         <img src="logo.png" alt="ViOcean Logo" class="hero-logo">
-        <img src="title2.png" alt="Viocean" class="hero-title">
+        <img src="title2.png" alt="ViOcean" class="hero-title">
       </div>
-      <p class="hero-tagline">Advancing Visual Understanding and Multimodal Reasoning in AI</p>
+      <p class="hero-tagline"><span style="background: linear-gradient(135deg, #2563eb 0%, #6b21a8 50%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Perceive the world in its nature,</span> <span style="color: #3b82f6;">and explore the unknown.</span></p>
     </div>
   </section>
 
   <!-- Mission -->
   <section class="mission">
     <div class="container">
-      <p>We focus on developing benchmarks, frameworks, and methods that push the boundaries of visual perception, mathematical reasoning, and multimodal learning.</p>
+      <p><strong>Perception, reasoning, and interaction:</strong> The world reveals itself not through pixels, but through the symbols and structures underneath. Vision speaks its own language, directing where to look and what to understand. To live in the world is to engage with the knowledge it offers—absorbing it and transforming experience into capability, not just caching isolated data.</p>
     </div>
   </section>
 
-  <!-- Publications -->
-  <section class="publications" id="research">
+  <!-- Featured Projects -->
+  <section class="featured-projects" id="featured">
     <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Research</h2>
-        <div class="filter-tabs">
-          <button class="filter-tab active" data-filter="all">All</button>
-          <button class="filter-tab" data-filter="benchmark">Benchmark</button>
-          <button class="filter-tab" data-filter="method">Method</button>
-        </div>
+      <div class="featured-grid">
+
+        <!-- Artemis Card -->
+        <a href="projects/artemis/index.html" class="featured-card">
+          <img src="projects/artemis/assets/images/artemis/Artemis_motivation.webp" alt="Artemis">
+          <div class="featured-card-overlay">
+            <h3 class="featured-card-title">Artemis</h3>
+            <p class="featured-card-desc">Moving spotlight in visual space for perception policy learning</p>
+          </div>
+        </a>
+
+        <!-- MathGlance Card -->
+        <a href="projects/MATHEMETRIC/index.html" class="featured-card">
+          <img src="projects/MATHEMETRIC/assets/images/radar_fig1_cropped.webp" alt="MathGlance">
+          <div class="featured-card-overlay">
+            <h3 class="featured-card-title">MATHEMETRIC</h3>
+            <p class="featured-card-desc">Benchmark and structure-aware geometric dataset for diagram perception in MLLMs</p>
+          </div>
+        </a>
+
+        <!-- SymVAE Card -->
+        <a href="projects/SymVAE/index.html" class="featured-card">
+          <img src="projects/SymVAE/assets/images/symvae/Intro_latent-v2.webp" alt="SymVAE">
+          <div class="featured-card-overlay">
+            <h3 class="featured-card-title">SymVAE</h3>
+            <p class="featured-card-desc">Symbolic Vision Auto-Encoder interprets diagrams through topological structure rather than semantic patterns</p>
+          </div>
+        </a>
+
+        <!-- ViLoMem Card -->
+        <a href="projects/vilomem/index.html" class="featured-card">
+          <img src="projects/vilomem/assets/images/motivation-1.webp" alt="ViLoMem">
+          <div class="featured-card-overlay">
+            <h3 class="featured-card-title">ViLoMem</h3>
+            <p class="featured-card-desc">Stateful agents learn from mistakes and experience, maintaining multimodal semantic memory across interactions over time</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Research Publications -->
+  <section class="research" id="research">
+    <div class="container">
+      <h2 class="section-title">Our Research</h2>
+
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="publication">Publication</button>
+        <button class="filter-tab" data-filter="model">Model</button>
+        <button class="filter-tab" data-filter="benchmark">Benchmark</button>
+        <button class="filter-tab" data-filter="dataset">Dataset</button>
+        <button class="filter-tab" data-filter="code">Code</button>
       </div>
 
-      <div class="pub-grid">
+      <div class="pub-list">
 
-        <!-- MathGlance -->
-        <a href="projects/MATHEMETRIC/index.html" class="pub-card" data-category="benchmark">
-          <div class="pub-header">
-            <span class="pub-category benchmark">Benchmark</span>
-            <span class="pub-date">2025</span>
+        <!-- Publications -->
+        <!-- Artemis Publication -->
+        <a href="#" class="pub-item" data-category="publication">
+          <div class="pub-category publication">Publication</div>
+          <div class="pub-date">2025</div>
+          <div class="pub-content-block">
+            <h3 class="pub-title">Artemis: Structured Visual Reasoning for Perception Policy Learning</h3>
+            <p class="pub-desc">A framework that enables structured visual reasoning in spatial and object-centric space, improving visual perception tasks through reinforcement learning with verifiable reasoning chains.</p>
+            <div class="pub-tags">
+              <span class="pub-tag">Visual Reasoning</span>
+              <span class="pub-tag">Reinforcement Learning</span>
+              <span class="pub-tag">Grounding</span>
+            </div>
           </div>
-          <div class="pub-content">
-            <h3 class="pub-title">MathGlance: Multimodal Large Language Models Do Not Know Where to Look in Mathematical Diagrams</h3>
-            <p class="pub-desc">A benchmark specifically designed to isolate and evaluate diagram perception in MLLMs, comprising 1.2K diagrams and 1.6K carefully curated questions spanning four perception tasks.</p>
-            <div class="pub-meta">
+        </a>
+
+        <!-- MathGlance Publication -->
+        <a href="https://arxiv.org/pdf/2503.20745" target="_blank" rel="noopener" class="pub-item" data-category="publication">
+          <div class="pub-category publication">Publication</div>
+          <div class="pub-date">2025</div>
+          <div class="pub-content-block">
+            <h3 class="pub-title">Math Blind: Failures in Diagram Understanding Undermine Reasoning in MLLMs</h3>
+            <p class="pub-desc">Current MLLMs perform poorly on basic diagram perceptual tasks, relying on textual shortcuts rather than visual understanding (<strong>math blind</strong>). Representing diagrams as graphs of primitives is crucial; our results show that strong low-level perception drives faithful high-level mathematical reasoning.</p>
+            <div class="pub-tags">
               <span class="pub-tag">MLLM</span>
               <span class="pub-tag">Math</span>
               <span class="pub-tag">Perception</span>
             </div>
           </div>
-          <span class="pub-arrow">→</span>
         </a>
 
-        <!-- Artemis -->
-        <a href="projects/artemis/index.html" class="pub-card" data-category="method">
-          <div class="pub-header">
-            <span class="pub-category method">Method</span>
-            <span class="pub-date">2025</span>
-          </div>
-          <div class="pub-content">
-            <h3 class="pub-title">Artemis: Towards Referential Understanding in Complex Visual Environments</h3>
-            <p class="pub-desc">A framework that enables structured visual reasoning in spatial and object-centric space, improving visual perception tasks through reinforcement learning with intermediate reasoning chains.</p>
-            <div class="pub-meta">
-              <span class="pub-tag">Visual Reasoning</span>
-              <span class="pub-tag">RL</span>
-              <span class="pub-tag">Grounding</span>
-            </div>
-          </div>
-          <span class="pub-arrow">→</span>
-        </a>
-
-        <!-- ViLoMem -->
-        <a href="projects/vilomem/index.html" class="pub-card" data-category="method">
-          <div class="pub-header">
-            <span class="pub-category method">Method</span>
-            <span class="pub-date">2025</span>
-          </div>
-          <div class="pub-content">
-            <h3 class="pub-title">ViLoMem: Agentic Learner with Grow-and-Refine Multimodal Semantic Memory</h3>
-            <p class="pub-desc">An agentic learning framework that enables progressive improvement through multimodal semantic memory, integrating visual and logical memory to refine both perception and reasoning.</p>
-            <div class="pub-meta">
-              <span class="pub-tag">Memory</span>
-              <span class="pub-tag">Multimodal</span>
-              <span class="pub-tag">Agent</span>
-            </div>
-          </div>
-          <span class="pub-arrow">→</span>
-        </a>
-
-        <!-- SymVAE -->
-        <a href="projects/SymVAE/index.html" class="pub-card" data-category="method">
-          <div class="pub-header">
-            <span class="pub-category method">Method</span>
-            <span class="pub-date">2025</span>
-          </div>
-          <div class="pub-content">
-            <h3 class="pub-title">SymHPR: Hierarchical Process Reward Models are Symbolic Vision Learners</h3>
-            <p class="pub-desc">A self-supervised symbolic auto-encoder that encodes diagrams into structured primitives and their interrelationships, achieving 98.2% MSE reduction in geometric diagram reconstruction.</p>
-            <div class="pub-meta">
-              <span class="pub-tag">Symbolic</span>
+        <!-- SymVAE Publication -->
+        <a href="#" class="pub-item" data-category="publication">
+          <div class="pub-category publication">Publication</div>
+          <div class="pub-date">2025</div>
+          <div class="pub-content-block">
+            <h3 class="pub-title">SymVAE: Hierarchical Process Reward Models are Symbolic Vision Learners</h3>
+            <p class="pub-desc">A self-supervised symbolic auto-encoder that encodes diagrams into structured primitives and their interrelationships, achieving 98.2% MSE reduction in geometric diagram reconstruction, improving by +13% on the diagram perception benchmark, and by +3% on MathVerse and GeoQA reasoning benchmarks.</p>
+            <div class="pub-tags">
+              <span class="pub-tag">Symbolic Vision</span>
               <span class="pub-tag">Geometry</span>
-              <span class="pub-tag">PRM</span>
+              <span class="pub-tag">Process Rewards</span>
             </div>
           </div>
-          <span class="pub-arrow">→</span>
+        </a>
+
+        <!-- ViLoMem Publication -->
+        <a href="https://arxiv.org/pdf/2511.21678" target="_blank" rel="noopener" class="pub-item" data-category="publication">
+          <div class="pub-category publication">Publication</div>
+          <div class="pub-date">2025</div>
+          <div class="pub-content-block">
+            <h3 class="pub-title">ViLoMem: Agentic Learner with Grow-and-Refine Multimodal Semantic Memory</h3>
+            <p class="pub-desc">An agentic learning framework that enables progressive improvement through multimodal semantic memory, integrating visual and logical memory to refine both perception and reasoning for lifelong and cross-domain agentic learning.</p>
+            <div class="pub-tags">
+              <span class="pub-tag">Memory Systems</span>
+              <span class="pub-tag">Multimodal</span>
+              <span class="pub-tag">Agentic Learning</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Model -->
+        <a href="https://huggingface.co/zs0506/SVE-Math-DeepSeek-7B" target="_blank" rel="noopener" class="pub-item" data-category="model">
+          <div class="pub-category model">Model</div>
+          <div class="pub-date">2025</div>
+          <div class="pub-content-block">
+            <h3 class="pub-title">Math MLLM Models</h3>
+            <p class="pub-desc">The model trained with GEOMETRIC for enhanced geometric diagram understanding and mathematical reasoning.</p>
+            <div class="pub-tags">
+              <span class="pub-tag">HuggingFace</span>
+              <span class="pub-tag">MLLMs</span>
+              <span class="pub-tag">Math</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Benchmark -->
+        <a href="https://github.com/Vi-Ocean/MathGlance_Benchmark" target="_blank" rel="noopener" class="pub-item" data-category="benchmark">
+          <div class="pub-category benchmark">Benchmark</div>
+          <div class="pub-date">2025</div>
+          <div class="pub-content-block">
+            <h3 class="pub-title">MATHEMETRIC Benchmark</h3>
+            <p class="pub-desc">A benchmark that isolates diagram perception from reasoning in MLLMs, featuring 1.2K diagrams and 1.6K curated questions across four tasks: shape classification, counting, relationship identification, and grounding.</p>
+            <div class="pub-tags">
+              <span class="pub-tag">GitHub</span>
+              <span class="pub-tag">Evaluation</span>
+              <span class="pub-tag">Perception</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Dataset -->
+        <a href="https://huggingface.co/datasets/zs0506/GeoPeP_Caption" target="_blank" rel="noopener" class="pub-item" data-category="dataset">
+          <div class="pub-category dataset">Dataset</div>
+          <div class="pub-date">2025</div>
+          <div class="pub-content-block">
+            <h3 class="pub-title">GEOMETRIC Dataset</h3>
+            <p class="pub-desc">A structure-aware geometric diagram-description dataset encoding shapes, attributes, and interrelationships as graphs with fine-grained
+              spatial annotations for model training.</p>
+            <div class="pub-tags">
+              <span class="pub-tag">HuggingFace</span>
+              <span class="pub-tag">Geometry</span>
+              <span class="pub-tag">Captions</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Code -->
+        <a href="https://github.com/weihao-bo/ViLoMem" target="_blank" rel="noopener" class="pub-item" data-category="code">
+          <div class="pub-category code">Code</div>
+          <div class="pub-date">2025</div>
+          <div class="pub-content-block">
+            <h3 class="pub-title">ViLoMem Implementation</h3>
+            <p class="pub-desc">Official implementation of the ViLoMem framework, featuring multimodal semantic memory architecture and agentic learning algorithms.</p>
+            <div class="pub-tags">
+              <span class="pub-tag">GitHub</span>
+              <span class="pub-tag">PyTorch</span>
+              <span class="pub-tag">Open Source</span>
+            </div>
+          </div>
         </a>
 
       </div>
@@ -139,12 +676,23 @@
   </section>
 
   <!-- Footer -->
-  <footer class="site-footer">
+  <footer>
     <div class="container">
-      <div class="footer-brand">
-        <img src="logo.png" alt="ViOcean">
+      <div class="footer-content">
+        <h2 class="footer-title">Let's Connect</h2>
+        <p class="footer-text">Interested in collaboration or have questions about our research?</p>
+        <div class="footer-links">
+          <a href="https://github.com/Vi-Ocean" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:contact@viocean.research" target="_blank">Contact</a>
+        </div>
+        <div class="footer-brand">
+          <img src="logo.png" alt="ViOcean">
+          <p style="margin-top: 0rem; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em;">
+            <span style="font-weight: 700;">ViOcean Research Initiative</span>
+            <span style="font-style: italic; opacity: 0.8; font-size: 0.85rem;">— <span style="font-weight: 600; font-style: normal;">"Vi"</span> perceives the world from its nature, and <span style="font-weight: 600; font-style: normal;">"Ocean"</span> explores the unknown</span>
+          </p>
+        </div>
       </div>
-      <p class="footer-text">ViOcean Research Initiative</p>
     </div>
   </footer>
 
@@ -152,7 +700,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const tabs = document.querySelectorAll('.filter-tab');
-      const cards = document.querySelectorAll('.pub-card');
+      const items = document.querySelectorAll('.pub-item');
 
       tabs.forEach(tab => {
         tab.addEventListener('click', function() {
@@ -160,13 +708,13 @@
           tabs.forEach(t => t.classList.remove('active'));
           this.classList.add('active');
 
-          // Filter cards
+          // Filter items
           const filter = this.dataset.filter;
-          cards.forEach(card => {
-            if (filter === 'all' || card.dataset.category === filter) {
-              card.classList.remove('hidden');
+          items.forEach(item => {
+            if (filter === 'all' || item.dataset.category === filter) {
+              item.classList.remove('hidden');
             } else {
-              card.classList.add('hidden');
+              item.classList.add('hidden');
             }
           });
         });
