@@ -53,7 +53,7 @@
             <span class="mathvista" style="vertical-align: middle">MATHEMETRIC(aka. MathGlance)</span>
             </h1>
           <h2 class="subtitle is-3 publication-subtitle">
-            Evaluating MLLMs on Abstract Visual and Symbolic Understanding in Mathematical Diagrams
+            Math Blind: Failures in Diagram Understanding Undermine Reasoning in MLLMs
             <!-- <br> -->
             <!-- with GPT-4V, Bard, and Other Large Multimodal Models -->
           </h2>
@@ -232,7 +232,22 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Diagrams are a form of visual language, representing complex concepts and their interrelationships through structured symbols, shapes, and spatial arrangements. 
+            Diagrams represent a form of visual language that encodes abstract concepts and relationships through structured symbols and their spatial arrangements. 
+            Unlike natural images, they are inherently symbolic, and entirely artificial.  They thus pose unique challenges for Multimodal Large Language Models (MLLMs) distinct from 
+            natural image processing. Recent studies have shown that MLLMs often exhibit flawed reasoning and hallucinations when handling diagram inputs.  
+            We investigate here whether these limitations stem from shortcomings in the models' ability to interpret diagrams themselves. 
+            To this end, we develop a diagnostic test suite that isolates perception from reasoning. 
+            Our systematic evaluation reveals that MLLMs perform poorly on basic perceptual tasks, e.g., shape classification, object counting, relationship identification, and 
+            object grounding, with near-zero accuracy on fine-grained grounding. 
+            Further analysis shows that weak diagram perception leads to "blind faith in text", where models rely on textual shortcuts rather than visual understanding 
+            (that is, they are <b>Math Blind</b>). We hypothesize that enabling models to capture the inherent structural properties of diagrams, 
+            represented as graphs of primitives and their interrelationships, is essential for improving diagram understanding. 
+            Experiments with 7B and 32B MLLMs validate this assumption, with models trained on such representations achieving a +79% gain on the grounding task. 
+            Crucially, these gains transfer to reasoning, achieving 3–4% cross-suite improvements on three public benchmarks even without additional chain-of-thought reasoning data. 
+            Our findings demonstrate that low-level perception supports faithful high-level reasoning in mathematical MLLMs.
+            We provide both methodological frameworks and empirical evidence to guide future research in this direction. 
+            
+            <!-- Diagrams are a form of visual language, representing complex concepts and their interrelationships through structured symbols, shapes, and spatial arrangements. 
             Unlike natural images, they are inherently symbolic and abstract.  Diagrams thus pose significant challenges for Multimodal Large Language Models (MLLMs). 
             Current benchmarks conflate perceptual and reasoning tasks, making it difficult to assess whether MLLMs genuinely understand mathematical diagrams beyond superficial 
             pattern recognition and textual memorization. To address this gap, we introduce <img src="./assets/images/MathGlance_logo.webp" style="width:1.0em;vertical-align: middle" alt="Logo"/> <b>MathGLance</b>, a benchmark specifically designed to isolate and evaluate diagram perception 
@@ -241,7 +256,7 @@
             Our evaluation of MLLMs reveals that their ability to understand diagrams is limited, particularly in fine-grained grounding tasks. 
             In response, we construct the perception-oriented GeoPeP, a 200K dataset that represents geometric diagrams as structured graphs capturing primitives, 
             their spatial relationships, and fine-grained bounding boxes. Training MLLM on GeoPeP leads to significant gains in perceptual accuracy, 
-            which in turn substantially improves mathematical reasoning. Our benchmark and dataset establish critical standards for multimodal mathematical understanding and offer valuable resources to advance MLLM research.
+            which in turn substantially improves mathematical reasoning. Our benchmark and dataset establish critical standards for multimodal mathematical understanding and offer valuable resources to advance MLLM research. -->
           </p>
         </div>
       </div>
