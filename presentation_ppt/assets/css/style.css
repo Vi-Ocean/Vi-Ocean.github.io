@@ -11,16 +11,31 @@
     --content-height: calc(var(--slide-height) - var(--footer-height));
 }
 
-* {
+/* Reset and base styles */
+*, *::before, *::after {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    /* Prevent text size adjustment on orientation change */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #000; /* Black for letterbox effect */
+    background-color: #0a0f1a; /* Slightly darker for contrast */
     font-family: 'Inter', sans-serif;
+    /* Prevent unwanted scrolling */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
 }
 
 h1, h2, h3 {
@@ -32,21 +47,31 @@ h1, h2, h3 {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #000; /* Black for letterboxing */
+    background-color: #0a0f1a; /* Slightly darker for contrast */
+    overflow: hidden;
 }
 
 /* ========== Slide Wrapper (gets scaled) ========== */
 .slide-wrapper {
-    width: var(--slide-width);
-    height: var(--slide-height);
+    width: 1920px;
+    height: 1080px;
     position: relative;
     transform-origin: center center;
     background-color: #0f172a; /* Slide background */
+    border-radius: 12px;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    /* Prevent layout shift */
+    flex-shrink: 0;
     /* Scale will be set by JavaScript */
 }
 
@@ -55,8 +80,8 @@ h1, h2, h3 {
     position: absolute;
     top: 0;
     left: 0;
-    width: var(--slide-width);
-    height: var(--content-height);
+    width: 1920px;
+    height: calc(1080px - 48px); /* slide height - footer height */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -82,14 +107,14 @@ footer.slide-footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: var(--slide-width);
-    height: var(--footer-height);
+    width: 1920px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 80px;
-    background: rgba(30, 41, 59, 0.9);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: #0f172a; /* Match slide background exactly */
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     font-size: 14px;
     z-index: 100;
 }
@@ -338,4 +363,38 @@ footer.slide-footer {
 /* ========== Cover Slide Title ========== */
 .slide[data-index="0"] h1 {
     white-space: nowrap;
+}
+
+/* ========== Fullscreen Mode ========== */
+:fullscreen .slide-wrapper,
+:-webkit-full-screen .slide-wrapper,
+:-moz-full-screen .slide-wrapper {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+:fullscreen #slides-container,
+:-webkit-full-screen #slides-container,
+:-moz-full-screen #slides-container {
+    background-color: #0f172a;
+}
+
+:fullscreen body,
+:-webkit-full-screen body,
+:-moz-full-screen body {
+    background-color: #0f172a;
+}
+
+/* ========== Mobile Optimizations ========== */
+@media (max-width: 768px) {
+    .slide-wrapper {
+        border-radius: 8px;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    /* Touch devices - ensure smooth interaction */
+    .slide-wrapper {
+        -webkit-tap-highlight-color: transparent;
+    }
 }

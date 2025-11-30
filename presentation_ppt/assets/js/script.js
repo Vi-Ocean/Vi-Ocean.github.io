@@ -7,8 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configuration
     const DESIGN_WIDTH = 1920;
     const DESIGN_HEIGHT = 1080;
-    const MIN_SCALE = 0.2;
+    const MIN_SCALE = 0.1;
     const MAX_SCALE = 2.0;
+    const MARGIN = 20; // Margin around the slide
 
     // DOM Elements
     const slidesContainer = document.getElementById('slides-container');
@@ -24,33 +25,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ========== Viewport Scaling ==========
     function updateScale() {
-        if (!slideWrapper) return;
+        if (!slideWrapper || !slidesContainer) return;
 
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+        // Use visualViewport if available (handles browser zoom correctly)
+        const viewport = window.visualViewport || {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            scale: 1
+        };
 
-        // Calculate scale to fit viewport while maintaining aspect ratio
-        const scaleX = viewportWidth / DESIGN_WIDTH;
-        const scaleY = viewportHeight / DESIGN_HEIGHT;
+        // Get actual viewport dimensions
+        let viewportWidth = viewport.width;
+        let viewportHeight = viewport.height;
+
+        // Fallback for browsers without visualViewport
+        if (!window.visualViewport) {
+            // Account for device pixel ratio and zoom
+            const zoom = Math.round(window.devicePixelRatio * 100) / 100;
+            viewportWidth = document.documentElement.clientWidth;
+            viewportHeight = document.documentElement.clientHeight;
+        }
+
+        // Check if fullscreen
+        const isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement);
+        const margin = isFullscreen ? 0 : MARGIN;
+
+        // Available space for the slide
+        const availableWidth = viewportWidth - (margin * 2);
+        const availableHeight = viewportHeight - (margin * 2);
+
+        // Calculate scale to fit viewport while maintaining 16:9 aspect ratio
+        const scaleX = availableWidth / DESIGN_WIDTH;
+        const scaleY = availableHeight / DESIGN_HEIGHT;
         let scale = Math.min(scaleX, scaleY);
 
         // Clamp scale within bounds
         scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale));
 
-        // Apply scale transform
+        // Apply transform with proper centering
         slideWrapper.style.transform = `scale(${scale})`;
+        slideWrapper.style.transformOrigin = 'center center';
 
-        // Calculate actual dimensions after scaling
-        const scaledWidth = DESIGN_WIDTH * scale;
-        const scaledHeight = DESIGN_HEIGHT * scale;
+        // Ensure the wrapper is properly sized
+        slideWrapper.style.width = DESIGN_WIDTH + 'px';
+        slideWrapper.style.height = DESIGN_HEIGHT + 'px';
 
-        // Update CSS custom properties for any dependent calculations
+        // Update CSS custom properties
         document.documentElement.style.setProperty('--current-scale', scale);
+        document.documentElement.style.setProperty('--viewport-width', viewportWidth + 'px');
+        document.documentElement.style.setProperty('--viewport-height', viewportHeight + 'px');
     }
 
-    // Initial scale and update on resize
+    // Initial scale
     updateScale();
-    window.addEventListener('resize', updateScale);
+
+    // Show content after initial scale is applied
+    requestAnimationFrame(() => {
+        slideWrapper.classList.add('ready');
+    });
+
+    // Update on resize (debounced for performance)
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(updateScale, 16);
+    });
+
+    // Update on orientation change (mobile)
+    window.addEventListener('orientationchange', () => {
+        setTimeout(updateScale, 100);
+        setTimeout(updateScale, 300); // Double check after animation
+    });
+
+    // Update when visualViewport changes (handles pinch zoom, keyboard, etc.)
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', updateScale);
+        window.visualViewport.addEventListener('scroll', updateScale);
+    }
 
     // ========== Page Number Display ==========
     if (totalPagesEl) totalPagesEl.textContent = totalSlides;
