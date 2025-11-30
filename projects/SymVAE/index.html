@@ -71,11 +71,18 @@
 <!-- Teaser Figure -->
 <section class="hero teaser">
   <div class="container is-max-desktop">
-    <div class="hero-body">
-      <figure class="image teaser-image">
-        <img src="./assets/images/symvae/Intro_latent-v2.webp" alt="Comparison of latent spaces">
-      </figure>
-      <h2 class="subtitle has-text-left">
+    <div class="hero-body" style="padding-top: 0; margin-top: -1.5rem;">
+      <div class="columns is-centered" style="margin-bottom: 0.5rem;">
+        <div class="column is-9">
+          <figure class="image teaser-image" style="margin-bottom: 0;">
+            <video autoplay muted loop playsinline style="width: 100%; height: auto;">
+              <source src="./assets/SymVAE-demo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </figure>
+        </div>
+      </div>
+      <h2 class="subtitle has-text-left" style="margin-top: 0.5rem;">
         <strong>Comparison of latent spaces formed by semantic auto-encoder and symbolic auto-encoder.</strong> Semantic auto-encoders capture color and texture, which are uninformative for semantically sparse diagrams. Our symbolic auto-encoder forms structured latent spaces representing dependencies among primitives, with the decoder reconstructing diagrams based on visual-logic rules.
       </h2>
     </div>
