@@ -1,0 +1,102 @@
+/* Custom Scroll Snap and Animations */
+body {
+    overflow: hidden; /* Prevent default scroll */
+    background-color: #0f172a;
+    font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Slide Styling */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(20px) scale(0.98);
+    z-index: 1;
+    overflow: hidden;
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    z-index: 10;
+}
+
+.slide.previous {
+    transform: translateY(-20px) scale(0.98);
+}
+
+/* Navigation Dots */
+.nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-dot.active {
+    background-color: #60a5fa; /* Blue-400 */
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+}
+
+.nav-dot:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Animations */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeRight {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Animation Classes applied when slide becomes active */
+.slide.active .animate-fade-up { animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide.active .animate-fade-down { animation: fadeDown 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide.active .animate-fade-right { animation: fadeRight 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide.active .animate-fade-left { animation: fadeLeft 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide.active .animate-zoom-in { animation: zoomIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+/* Staggered delays */
+.slide.active .delay-100 { animation-delay: 100ms; }
+.slide.active .delay-200 { animation-delay: 200ms; }
+.slide.active .delay-300 { animation-delay: 300ms; }
+
+/* Glassmorphism Utilities */
+.glass-panel {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
