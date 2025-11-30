@@ -18,6 +18,12 @@ Vi-Ocean.github.io 是 ViOcean Research 的 GitHub Pages 静态网站，用于�
 ├── index.html              # 汇总主页 (论文列表)
 ├── shared/
 │   └── css/main.css        # 主页共享样式
+├── presentation_ppt/       # 演示文稿 (reveal.js 风格)
+│   ├── index.html          # 演示主文件
+│   └── assets/
+│       ├── css/style.css   # 演示样式
+│       ├── js/script.js    # 幻灯片控制逻辑
+│       └── images/         # 按项目分类的图片
 └── projects/
     ├── mathglance/
     │   ├── index.html      # MathGlance 项目页面
@@ -39,6 +45,7 @@ Vi-Ocean.github.io 是 ViOcean Research 的 GitHub Pages 静态网站，用于�
 部署后的 URL 格式：
 - 主页: `https://vi-ocean.github.io/`
 - 项目: `https://vi-ocean.github.io/projects/{project-name}/`
+- 演示: `https://vi-ocean.github.io/presentation_ppt/`
 
 ## Development
 
@@ -98,3 +105,97 @@ python -m http.server 8000
 ### 迁移新项目
 
 详见 `projects/MIGRATION.md`
+
+## Presentation PPT (演示文稿)
+
+### 技术规格
+
+| 规格 | 值 |
+|------|------|
+| 设计尺寸 | 1920 × 1080 (16:9) |
+| 缩放方式 | JavaScript viewport scaling |
+| 框架依赖 | Tailwind CSS (CDN)、Font Awesome |
+| 字体 | Inter (正文)、Playfair Display (标题) |
+
+### 文件结构
+
+```
+presentation_ppt/
+├── index.html              # 所有幻灯片都在此文件中
+└── assets/
+    ├── css/style.css       # 布局、动画、固定尺寸样式
+    ├── js/script.js        # 缩放、导航、键盘/触摸控制
+    └── images/
+        ├── logo.png        # 左上角 logo (48px)
+        ├── title2.png      # logo 旁文字 (28px)
+        ├── artemis/        # Artemis 项目图片
+        ├── MATHEMETRIC/    # MATHEMETRIC 项目图片
+        ├── SymVAE/         # SymVAE 项目图片
+        └── vilomem/        # ViLoMem 项目图片
+```
+
+### 幻灯片结构
+
+每张幻灯片使用 `<section>` 标签，必须包含：
+
+```html
+<section class="slide flex items-center px-20" data-index="N">
+    <!-- 幻灯片内容 -->
+</section>
+```
+
+- `data-index`: 从 0 开始的幻灯片索引（必须连续）
+- 第一张幻灯片需添加 `active` class
+
+### 新增/修改幻灯片要点
+
+1. **添加新幻灯片**
+   - 在 `.slide-wrapper` 内添加新的 `<section class="slide" data-index="N">`
+   - `data-index` 必须是连续的数字，新增时更新后续所有幻灯片的索引
+
+2. **更新页码显示**
+   - Footer 中的总页数 `<span id="total-pages">` 由 JS 自动计算，无需手动修改
+
+3. **更新导航点提示**
+   - 修改 `script.js` 中的 `tooltips` 对象来更新导航点悬停提示：
+   ```javascript
+   const tooltips = {
+       0: 'Cover',
+       1: 'Agenda',
+       2: 'Artemis',
+       // ... 添加新的索引和标题
+   };
+   ```
+
+4. **添加项目图片**
+   - 图片放入 `assets/images/{项目名}/` 目录
+   - 优先使用 WebP 格式
+
+### 常用幻灯片模板
+
+**双栏布局（左文右图）**
+```html
+<section class="slide flex items-center px-20" data-index="N">
+    <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+        <div class="space-y-8"><!-- 文字内容 --></div>
+        <div class="relative group"><!-- 图片 --></div>
+    </div>
+</section>
+```
+
+**全宽内容布局**
+```html
+<section class="slide flex items-center px-20" data-index="N">
+    <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+        <div class="mb-12 text-center"><!-- 标题 --></div>
+        <div class="bg-slate-800/30 p-8 rounded-3xl"><!-- 主要内容 --></div>
+    </div>
+</section>
+```
+
+### 导航控制
+
+- **键盘**: 方向键、空格、Enter、PageUp/Down、Home/End
+- **鼠标**: 滚轮、点击右侧导航点
+- **触摸**: 上下/左右滑动
+- **全屏**: 按 `F` 键
