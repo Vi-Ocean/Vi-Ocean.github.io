@@ -67,7 +67,7 @@
                 <div class="flex items-center justify-end gap-4 text-slate-400">
                     <span>2 Dec 2025</span>
                     <span class="text-slate-300 font-mono">
-                        <span id="current-page">1</span> / <span id="total-pages">15</span>
+                        <span id="current-page">1</span> / <span id="total-pages">17</span>
                     </span>
                 </div>
             </footer>
@@ -420,51 +420,285 @@
             </div>
         </section>
 
-        <!-- Slide 10: Experiments -->
-        <!-- <section class="slide flex items-center px-20" data-index="10">
-            <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-                <div class="order-1 relative animate-fade-right">
-                     <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl blur opacity-25"></div>
-                    <img src="assets/images/artemis/visual_grd_1.webp" alt="Artemis Results" class="relative rounded-xl shadow-2xl border border-slate-700 w-full">
+        <!-- Slide 10: Zero-shot Comprehensive Visual Perception -->
+        <section class="slide flex items-center px-20" data-index="10">
+            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                <div class="mb-8 animate-fade-down">
+                    <h2 class="text-4xl font-bold font-serif mb-3">Zero-shot Comprehensive Visual Perception</h2>
+                    <p class="text-xl text-slate-400">General MLLM Benchmarks</p>
                 </div>
-                <div class="order-2 space-y-8 animate-fade-left">
-                    <h2 class="text-4xl font-bold font-serif">Experimental Results</h2>
-                    <div class="space-y-6">
-                        <div class="flex items-start gap-4">
-                            <div class="bg-blue-500/20 p-3 rounded-lg text-blue-400">
-                                <i class="fa-solid fa-trophy"></i>
+
+                <div class="grid grid-cols-[2fr,1fr] gap-10">
+                    <!-- Left: Results Table -->
+                    <div class="bg-slate-800/30 p-6 rounded-2xl border border-slate-700 backdrop-blur-sm animate-fade-right">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-slate-600">
+                                    <th class="text-left py-3 px-3 font-bold text-slate-300 text-base">Model</th>
+                                    <th class="text-center py-3 px-2 font-bold text-slate-300 text-base">Size</th>
+                                    <th class="text-center py-3 px-2 font-bold text-slate-300 text-base">MMBench</th>
+                                    <th class="text-center py-3 px-2 font-bold text-slate-300 text-base">MMVet</th>
+                                    <th class="text-center py-3 px-2 font-bold text-slate-300 text-base">MMStar</th>
+                                    <th class="text-center py-3 px-2 font-bold text-slate-300 text-base">ScienceQA</th>
+                                    <th class="text-center py-3 px-2 font-bold text-slate-300 text-base">SeedBench</th>
+                                    <th class="text-center py-3 px-2 font-bold text-slate-300 text-base">MME</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300">
+                                <!-- General MLLMs -->
+                                <tr class="border-b border-slate-700/30">
+                                    <td colspan="8" class="py-2 px-3 text-sm text-slate-500 italic">General MLLMs</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-3 text-slate-400 text-base">Qwen2-VL</td>
+                                    <td class="text-center py-3 px-2 text-base">2B</td>
+                                    <td class="text-center py-3 px-2 text-base">71.9</td>
+                                    <td class="text-center py-3 px-2 text-base">45.6</td>
+                                    <td class="text-center py-3 px-2 text-base">46.3</td>
+                                    <td class="text-center py-3 px-2 text-base">74.0</td>
+                                    <td class="text-center py-3 px-2 text-base">72.7</td>
+                                    <td class="text-center py-3 px-2 text-base">1471</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-3 text-slate-400 text-base">Qwen2.5-VL</td>
+                                    <td class="text-center py-3 px-2 text-base">3B</td>
+                                    <td class="text-center py-3 px-2 text-base">79.1</td>
+                                    <td class="text-center py-3 px-2 text-base">60.0</td>
+                                    <td class="text-center py-3 px-2 text-base">53.8</td>
+                                    <td class="text-center py-3 px-2 text-base">79.3</td>
+                                    <td class="text-center py-3 px-2 text-base">74.0</td>
+                                    <td class="text-center py-3 px-2 text-base">2200</td>
+                                </tr>
+
+                                <!-- RL-based MLLMs -->
+                                <tr class="border-b border-slate-700/30">
+                                    <td colspan="8" class="py-2 px-3 text-sm text-slate-500 italic">RL-based MLLMs</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-3 text-slate-400 text-base">VLM-R1</td>
+                                    <td class="text-center py-3 px-2 text-base">3B</td>
+                                    <td class="text-center py-3 px-2 text-base">70.7</td>
+                                    <td class="text-center py-3 px-2 text-base">58.8</td>
+                                    <td class="text-center py-3 px-2 text-base">53.1</td>
+                                    <td class="text-center py-3 px-2 text-base">69.4</td>
+                                    <td class="text-center py-3 px-2 text-base">68.8</td>
+                                    <td class="text-center py-3 px-2 text-base">2156</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-3 text-slate-400 text-base">Perception-R1</td>
+                                    <td class="text-center py-3 px-2 text-base">2B</td>
+                                    <td class="text-center py-3 px-2 text-base">71.8</td>
+                                    <td class="text-center py-3 px-2 text-base">48.9</td>
+                                    <td class="text-center py-3 px-2 text-base">45.7</td>
+                                    <td class="text-center py-3 px-2 text-base">73.4</td>
+                                    <td class="text-center py-3 px-2 text-base">73.0</td>
+                                    <td class="text-center py-3 px-2 text-base">1904</td>
+                                </tr>
+                                <tr class="bg-blue-500/10 border-b border-blue-500/30">
+                                    <td class="py-3 px-3 font-bold text-white text-base">Artemis</td>
+                                    <td class="text-center py-3 px-2 text-base">3B</td>
+                                    <td class="text-center py-3 px-2 font-bold text-blue-400 text-base">79.3</td>
+                                    <td class="text-center py-3 px-2 font-bold text-blue-400 text-base">61.4</td>
+                                    <td class="text-center py-3 px-2 font-bold text-blue-400 text-base">55.9</td>
+                                    <td class="text-center py-3 px-2 font-bold text-blue-400 text-base">79.6</td>
+                                    <td class="text-center py-3 px-2 font-bold text-blue-400 text-base">74.3</td>
+                                    <td class="text-center py-3 px-2 font-bold text-blue-400 text-base">2230</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Right: Key Insights -->
+                    <div class="space-y-5 animate-fade-left">
+                        <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-trophy text-blue-400 text-xl"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-blue-400">Best Performance</h4>
                             </div>
-                            <div>
-                                <h4 class="text-xl font-bold text-white">Superior Grounding</h4>
-                                <p class="text-slate-400">Consistently outperforms SOTA on RefCOCO/+/g.</p>
-                            </div>
+                            <p class="text-base text-slate-300 leading-relaxed">
+                                Artemis achieves <strong class="text-white">SOTA</strong> across most benchmarks among 3B models
+                            </p>
                         </div>
-                        <div class="flex items-start gap-4">
-                            <div class="bg-blue-500/20 p-3 rounded-lg text-blue-400">
-                                <i class="fa-solid fa-expand"></i>
+
+                        <div class="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 p-6 rounded-xl border border-blue-500/30">
+                            <h4 class="text-lg font-bold text-white mb-4">Strongest Improvements</h4>
+                            <div class="space-y-3 text-base text-slate-300">
+                                <div class="flex justify-between items-center">
+                                    <span>MMVet</span>
+                                    <span class="font-bold text-blue-400">61.4 (+1.4)</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>MMStar</span>
+                                    <span class="font-bold text-blue-400">55.9 (+2.1)</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span>MME</span>
+                                    <span class="font-bold text-blue-400">2230 (+30)</span>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="text-xl font-bold text-white">Zero-Shot Transfer</h4>
-                                <p class="text-slate-400">Strong performance on counting and math diagrams.</p>
-                            </div>
+                            <p class="text-sm text-slate-400 mt-3 italic">
+                                vs. Qwen2.5-VL baseline
+                            </p>
                         </div>
-                        <div class="flex items-start gap-4">
-                            <div class="bg-blue-500/20 p-3 rounded-lg text-blue-400">
-                                <i class="fa-solid fa-check-double"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xl font-bold text-white">Precise Localization</h4>
-                                <p class="text-slate-400">Eliminates ambiguity with verifiable visual states.</p>
+
+                        <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-lightbulb text-blue-400 text-2xl mt-1"></i>
+                                <div>
+                                    <h5 class="font-bold text-white mb-2 text-base">Key Insight</h5>
+                                    <p class="text-sm text-slate-300 leading-relaxed">
+                                        Structured visual reasoning enhances <span class="text-blue-400 font-semibold">general perception</span> without task-specific tuning
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section>
+
+        <!-- Slide 11: Zero-shot Diagram Understanding -->
+        <section class="slide flex items-center px-20" data-index="11">
+            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                <div class="mb-10 text-center animate-fade-down">
+                    <h2 class="text-4xl font-bold font-serif mb-3">Zero-shot Diagram Understanding</h2>
+                    <p class="text-xl text-slate-400">Out-of-Domain Perception on MATHGLANCE</p>
+                </div>
+
+                <div class="grid grid-cols-[3fr,2fr] gap-12 items-center">
+                    <!-- Left: Results Table -->
+                    <div class="bg-slate-800/30 p-6 rounded-2xl border border-slate-700 backdrop-blur-sm animate-fade-right">
+                        <table class="w-full text-base">
+                            <thead>
+                                <tr class="border-b border-slate-600">
+                                    <th class="text-left py-3 px-4 font-bold text-slate-300">Model</th>
+                                    <th class="text-center py-3 px-3 font-bold text-slate-300">Size</th>
+                                    <th class="text-center py-3 px-3 font-bold text-slate-300">Avg.</th>
+                                    <th class="text-center py-3 px-3 font-bold text-slate-300">Plane Geo.</th>
+                                    <th class="text-center py-3 px-3 font-bold text-slate-300">Solid Geo.</th>
+                                    <th class="text-center py-3 px-3 font-bold text-slate-300">Graphs</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300">
+                                <!-- General MLLMs -->
+                                <tr class="border-b border-slate-700/30">
+                                    <td colspan="6" class="py-2 px-4 text-sm text-slate-500 italic">General MLLMs</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-4 text-slate-400">G-LLaVA</td>
+                                    <td class="text-center py-3 px-3">7B</td>
+                                    <td class="text-center py-3 px-3">30.3</td>
+                                    <td class="text-center py-3 px-3">25.6</td>
+                                    <td class="text-center py-3 px-3">32.3</td>
+                                    <td class="text-center py-3 px-3">33.9</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-4 text-slate-400">Qwen2.5-VL</td>
+                                    <td class="text-center py-3 px-3">3B</td>
+                                    <td class="text-center py-3 px-3">33.1</td>
+                                    <td class="text-center py-3 px-3">31.0</td>
+                                    <td class="text-center py-3 px-3">37.1</td>
+                                    <td class="text-center py-3 px-3">31.2</td>
+                                </tr>
+
+                                <!-- RL-based MLLMs -->
+                                <tr class="border-b border-slate-700/30">
+                                    <td colspan="6" class="py-2 px-4 text-sm text-slate-500 italic">RL-based MLLMs</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-4 text-slate-400">VLM-R1</td>
+                                    <td class="text-center py-3 px-3">3B</td>
+                                    <td class="text-center py-3 px-3">34.4</td>
+                                    <td class="text-center py-3 px-3">26.9</td>
+                                    <td class="text-center py-3 px-3">43.6</td>
+                                    <td class="text-center py-3 px-3">32.6</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-4 text-slate-400">No-Thinking-RL</td>
+                                    <td class="text-center py-3 px-3">2B</td>
+                                    <td class="text-center py-3 px-3">45.3</td>
+                                    <td class="text-center py-3 px-3">33.2</td>
+                                    <td class="text-center py-3 px-3">56.4</td>
+                                    <td class="text-center py-3 px-3">46.3</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-4 text-slate-400">Perception-R1</td>
+                                    <td class="text-center py-3 px-3">2B</td>
+                                    <td class="text-center py-3 px-3">45.3</td>
+                                    <td class="text-center py-3 px-3">29.7</td>
+                                    <td class="text-center py-3 px-3 font-bold text-blue-400">59.5</td>
+                                    <td class="text-center py-3 px-3">46.8</td>
+                                </tr>
+                                <tr class="bg-blue-500/10 border-b border-blue-500/30">
+                                    <td class="py-3 px-4 font-bold text-white">Artemis</td>
+                                    <td class="text-center py-3 px-3">3B</td>
+                                    <td class="text-center py-3 px-3 font-bold text-blue-400">49.3</td>
+                                    <td class="text-center py-3 px-3 font-bold text-blue-400">39.2</td>
+                                    <td class="text-center py-3 px-3">56.4</td>
+                                    <td class="text-center py-3 px-3 font-bold text-blue-400">52.3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Right: Key Insights -->
+                    <div class="space-y-6 animate-fade-left">
+                        <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-crosshairs text-blue-400"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-blue-400">Cross-Domain Transfer</h4>
+                            </div>
+                            <p class="text-base text-slate-300 leading-relaxed">
+                                Perception learned from natural images transfers to <strong class="text-white">math diagrams</strong>
+                            </p>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 p-6 rounded-xl border border-blue-500/30">
+                            <h4 class="text-lg font-bold text-white mb-4">Artemis Gains vs. Baselines</h4>
+                            <div class="space-y-3">
+                                <div class="bg-slate-800/80 p-4 rounded-lg">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="text-sm text-slate-400">Overall Average</span>
+                                        <span class="text-2xl font-bold text-blue-400">49.3%</span>
+                                    </div>
+                                    <div class="text-xs text-slate-500">+4.0% vs. best RL baseline</div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="bg-slate-800/80 p-3 rounded-lg text-center">
+                                        <div class="text-xl font-bold text-blue-400">39.2%</div>
+                                        <div class="text-xs text-slate-400 mt-1">Plane Geo.</div>
+                                    </div>
+                                    <div class="bg-slate-800/80 p-3 rounded-lg text-center">
+                                        <div class="text-xl font-bold text-blue-400">52.3%</div>
+                                        <div class="text-xs text-slate-400 mt-1">Graphs</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-lightbulb text-blue-400 text-xl mt-1"></i>
+                                <div>
+                                    <h5 class="font-bold text-white mb-2">Key Insight</h5>
+                                    <p class="text-sm text-slate-300 leading-relaxed">
+                                        Structured visual reasoning enables <span class="text-blue-400 font-semibold">zero-shot perception</span> on visually distinct domains
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- PROJECT 4: ViLoMem -->
-        <!-- Slide 11: Motivation -->
-        <section class="slide flex items-center px-20" data-index="11">
+        <!-- Slide 12: Motivation -->
+        <section class="slide flex items-center px-20" data-index="12">
             <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
                 <div class="space-y-8 animate-fade-right">
                     <div class="flex items-center gap-4">
@@ -485,8 +719,8 @@
             </div>
         </section>
 
-        <!-- Slide 12: Methodology -->
-        <section class="slide flex items-center px-20" data-index="12">
+        <!-- Slide 13: Methodology -->
+        <section class="slide flex items-center px-20" data-index="13">
             <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
                 <div class="mb-12 text-center animate-fade-down">
                     <h2 class="text-4xl font-bold font-serif mb-4">Grow-and-Refine Framework</h2>
@@ -495,50 +729,287 @@
                 <div class="bg-slate-800/30 p-8 rounded-3xl border border-slate-700 backdrop-blur-sm animate-zoom-in">
                     <img src="assets/images/vilomem/method_2-1.webp" alt="Method" class="w-full h-auto max-h-[60vh] object-contain mx-auto rounded-lg">
                 </div>
-                <div class="grid grid-cols-3 gap-8 mt-8 text-center animate-fade-up">
-                    <div class="p-4">
-                        <h4 class="text-rose-400 font-bold">Memory Generation</h4>
-                        <p class="text-xs text-slate-400 mt-2">Error attribution for visual & logical flaws.</p>
+                <div class="grid grid-cols-3 gap-6 mt-6 animate-fade-up">
+                    <!-- Memory Cycle -->
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 hover:border-rose-500 transition-all">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+                                <i class="fa-solid fa-rotate text-rose-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-rose-400">Memory Cycle</h4>
+                        </div>
+                        <ul class="text-sm text-slate-300 leading-relaxed space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>Closed-loop learning mechanism</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>Dual-stream retrieval (visual + logical)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>Verifier-guided trajectory filtering</span>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="p-4">
-                        <h4 class="text-rose-400 font-bold">Dual Retrieval</h4>
-                        <p class="text-xs text-slate-400 mt-2">Image embedding + Question filtering.</p>
+
+                    <!-- Memory Generation -->
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 hover:border-rose-500 transition-all">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+                                <i class="fa-solid fa-brain text-rose-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-rose-400">Memory Generation</h4>
+                        </div>
+                        <ul class="text-sm text-slate-300 leading-relaxed space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>LLM for logical error analysis</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>MLLM for visual error analysis</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span>Similarity-based merge & create</span>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="p-4">
-                        <h4 class="text-rose-400 font-bold">Refinement</h4>
-                        <p class="text-xs text-slate-400 mt-2">Merges similar schemas to prevent bloat.</p>
+
+                    <!-- Dual Retrieval -->
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 hover:border-rose-500 transition-all">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+                                <i class="fa-solid fa-magnifying-glass text-rose-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-rose-400">Memory Retrieval</h4>
+                        </div>
+                        <ul class="text-sm text-slate-300 leading-relaxed space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span><strong class="text-white">Visual:</strong> Image-embedding + question filtering</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-rose-400 mt-1">•</span>
+                                <span><strong class="text-white">Logical:</strong> Problem analysis + text-embedding</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 13: Experiments -->
-        <section class="slide flex items-center px-20" data-index="13">
-            <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-                <div class="order-1 relative animate-fade-right">
-                    <img src="assets/images/vilomem/memory_analysis.webp" alt="Analysis" class="relative rounded-xl shadow-2xl border border-slate-700 w-full">
+        <!-- Slide 14: Main Results -->
+        <section class="slide flex items-center px-20" data-index="14">
+            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                <div class="mb-8 animate-fade-down">
+                    <h2 class="text-4xl font-bold font-serif mb-3">Main Results</h2>
+                    <p class="text-xl text-slate-400">Consistent Improvements Across 6 Benchmarks</p>
                 </div>
-                <div class="order-2 space-y-8 animate-fade-left">
-                    <h2 class="text-4xl font-bold font-serif">Impact</h2>
-                    <p class="text-lg text-slate-300">
-                        Validates that <span class="text-rose-400 font-bold">visual errors dominate</span> (up to 93%) in multimodal reasoning.
-                    </p>
-                    <div class="space-y-4">
-                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 flex justify-between items-center">
-                            <span>MathVision (GPT-4.1)</span>
-                            <span class="text-rose-400 font-bold">+6.48%</span>
+
+                <!-- Results Table -->
+                <div class="bg-slate-800/30 p-6 rounded-2xl border border-slate-700 backdrop-blur-sm animate-zoom-in mb-6">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-600">
+                                <th class="text-left py-3 px-4 font-bold text-slate-300">Method</th>
+                                <th class="text-center py-3 px-3 font-bold text-slate-300">MMMU</th>
+                                <th class="text-center py-3 px-3 font-bold text-slate-300">MathVista</th>
+                                <th class="text-center py-3 px-3 font-bold text-slate-300">MathVision</th>
+                                <th class="text-center py-3 px-3 font-bold text-slate-300">HallusionB.</th>
+                                <th class="text-center py-3 px-3 font-bold text-slate-300">MMStar</th>
+                                <th class="text-center py-3 px-3 font-bold text-slate-300">RealWorldQA</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300">
+                            <!-- GPT-4.1 -->
+                            <tr class="border-b border-slate-700/50">
+                                <td class="py-2 px-4 text-slate-400">GPT-4.1 (baseline)</td>
+                                <td class="text-center py-2 px-3">74.00</td>
+                                <td class="text-center py-2 px-3">70.40</td>
+                                <td class="text-center py-2 px-3">46.12</td>
+                                <td class="text-center py-2 px-3">58.50</td>
+                                <td class="text-center py-2 px-3">69.80</td>
+                                <td class="text-center py-2 px-3">73.72</td>
+                            </tr>
+                            <tr class="bg-rose-500/10 border-b border-rose-500/30">
+                                <td class="py-2 px-4 font-bold text-white">GPT-4.1 (+ ViLoMem)</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">77.26</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">76.88</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">53.95</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">75.29</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">72.43</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">74.38</td>
+                            </tr>
+                            <!-- Spacer -->
+                            <tr class="h-2"></tr>
+                            <!-- Qwen3-VL-8B -->
+                            <tr class="border-b border-slate-700/50">
+                                <td class="py-2 px-4 text-slate-400">Qwen3-VL-8B (baseline)</td>
+                                <td class="text-center py-2 px-3">66.38</td>
+                                <td class="text-center py-2 px-3">77.20</td>
+                                <td class="text-center py-2 px-3">48.13</td>
+                                <td class="text-center py-2 px-3">61.10</td>
+                                <td class="text-center py-2 px-3">70.91</td>
+                                <td class="text-center py-2 px-3">71.50</td>
+                            </tr>
+                            <tr class="bg-rose-500/10 border-b border-rose-500/30">
+                                <td class="py-2 px-4 font-bold text-white">Qwen3-VL-8B (+ ViLoMem)</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">69.90</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">77.87</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">49.34</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">73.19</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">72.13</td>
+                                <td class="text-center py-2 px-3 font-bold text-rose-400">73.59</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Key Findings -->
+                <div class="grid grid-cols-3 gap-6 animate-fade-up">
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center">
+                                <i class="fa-solid fa-trophy text-rose-400 text-sm"></i>
+                            </div>
+                            <h4 class="font-bold text-rose-400">GPT-4.1 Gains</h4>
                         </div>
-                        <div class="bg-slate-800 p-4 rounded-lg border border-slate-700 flex justify-between items-center">
-                            <span>MMMU (Qwen-8B)</span>
-                            <span class="text-rose-400 font-bold">+4.38%</span>
+                        <p class="text-sm text-slate-300">MathVision <strong class="text-white">+6.48%</strong>, MathVista <strong class="text-white">+6.48%</strong></p>
+                    </div>
+
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center">
+                                <i class="fa-solid fa-chart-line text-rose-400 text-sm"></i>
+                            </div>
+                            <h4 class="font-bold text-rose-400">Smaller Models</h4>
+                        </div>
+                        <p class="text-sm text-slate-300">Qwen-8B: MMMU <strong class="text-white">+4.38%</strong>, RealWorldQA <strong class="text-white">+2.74%</strong></p>
+                    </div>
+
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center">
+                                <i class="fa-solid fa-eye text-rose-400 text-sm"></i>
+                            </div>
+                            <h4 class="font-bold text-rose-400">Visual Errors</h4>
+                        </div>
+                        <p class="text-sm text-slate-300">Dominate generation: <strong class="text-white">59%-93%</strong> across tasks</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Cross-Model Memory Transfer -->
+        <section class="slide flex items-center px-20" data-index="15">
+            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                <div class="mb-10 text-center animate-fade-down">
+                    <h2 class="text-4xl font-bold font-serif mb-4">Cross-Model Memory Transfer</h2>
+                    <p class="text-xl text-slate-400">Memories from Stronger Models Enhance Weaker Models</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-12 items-center">
+                    <!-- Left: Table -->
+                    <div class="bg-slate-800/30 p-6 rounded-2xl border border-slate-700 backdrop-blur-sm animate-fade-right">
+                        <table class="w-full text-base">
+                            <thead>
+                                <tr class="border-b border-slate-600">
+                                    <th class="text-left py-3 px-4 font-bold text-slate-300">Method</th>
+                                    <th class="text-center py-3 px-4 font-bold text-slate-300">MMMU</th>
+                                    <th class="text-center py-3 px-4 font-bold text-slate-300">MathVista</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-300">
+                                <!-- GPT-4.1 -->
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-4 text-slate-400">GPT-4.1 (step)</td>
+                                    <td class="text-center py-3 px-4">74.16</td>
+                                    <td class="text-center py-3 px-4">74.27</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-4 font-semibold text-white">GPT-4.1 (+ ViLoMem)</td>
+                                    <td class="text-center py-3 px-4">77.26</td>
+                                    <td class="text-center py-3 px-4">76.88</td>
+                                </tr>
+                                <tr class="bg-rose-500/10 border-b border-rose-500/30">
+                                    <td class="py-3 px-4 font-bold text-white">GPT-4.1 (+ ViLoMem Cross)</td>
+                                    <td class="text-center py-3 px-4 font-bold text-rose-400">78.21</td>
+                                    <td class="text-center py-3 px-4">76.58</td>
+                                </tr>
+                                <!-- Spacer -->
+                                <tr class="h-3"></tr>
+                                <!-- Qwen3-VL-8B -->
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-4 text-slate-400">Qwen3-VL-8B (step)</td>
+                                    <td class="text-center py-3 px-4">65.52</td>
+                                    <td class="text-center py-3 px-4">77.80</td>
+                                </tr>
+                                <tr class="border-b border-slate-700/50">
+                                    <td class="py-3 px-4 font-semibold text-white">Qwen3-VL-8B (+ ViLoMem)</td>
+                                    <td class="text-center py-3 px-4">69.90</td>
+                                    <td class="text-center py-3 px-4">77.87</td>
+                                </tr>
+                                <tr class="bg-rose-500/10 border-b border-rose-500/30">
+                                    <td class="py-3 px-4 font-bold text-white">Qwen3-VL-8B (+ ViLoMem Cross)</td>
+                                    <td class="text-center py-3 px-4 font-bold text-rose-400">71.26</td>
+                                    <td class="text-center py-3 px-4 font-bold text-rose-400">79.20</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Right: Key Insights -->
+                    <div class="space-y-6 animate-fade-left">
+                        <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-share-nodes text-rose-400"></i>
+                                </div>
+                                <h4 class="text-xl font-bold text-rose-400">Knowledge Transfer</h4>
+                            </div>
+                            <p class="text-base text-slate-300 leading-relaxed">
+                                Smaller models benefit most from cross-model memories generated by stronger models
+                            </p>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-rose-500/10 to-pink-500/10 p-6 rounded-xl border border-rose-500/30">
+                            <h4 class="text-lg font-bold text-white mb-4">Qwen3-VL-8B Cross-Model Gains</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-slate-800/80 p-4 rounded-lg text-center">
+                                    <div class="text-3xl font-bold text-rose-400 mb-1">+1.36%</div>
+                                    <div class="text-sm text-slate-400">MMMU</div>
+                                </div>
+                                <div class="bg-slate-800/80 p-4 rounded-lg text-center">
+                                    <div class="text-3xl font-bold text-rose-400 mb-1">+1.33%</div>
+                                    <div class="text-sm text-slate-400">MathVista</div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-4 italic">
+                                vs. self-generated memory
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+                            <div class="flex items-start gap-3">
+                                <i class="fa-solid fa-lightbulb text-rose-400 text-xl mt-1"></i>
+                                <div>
+                                    <h5 class="font-bold text-white mb-2">Key Insight</h5>
+                                    <p class="text-sm text-slate-300 leading-relaxed">
+                                        Dual-stream memory enables effective <span class="text-rose-400 font-semibold">knowledge distillation</span> from stronger to weaker models without fine-tuning
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 14: Closing -->
-        <section class="slide flex flex-col items-center justify-center text-center" data-index="14">
+        <!-- Slide 16: Closing -->
+        <section class="slide flex flex-col items-center justify-center text-center" data-index="16">
             <div class="max-w-5xl space-y-8 animate-fade-up">
                 <h2 class="font-serif font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-400" style="font-size: 80px; line-height: 1.2;">Thank you for listening.</h2>
                 <h3 class="font-serif font-semibold text-slate-300" style="font-size: 48px; line-height: 1.3;">Any questions?</h3>
