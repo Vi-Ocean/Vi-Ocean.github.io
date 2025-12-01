@@ -50,7 +50,8 @@
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title is-bold">
             <img src="./assets/images/MathGlance_logo.webp" style="width:1em;vertical-align: middle" alt="Logo"/>
-            <span class="mathvista" style="vertical-align: middle">MATHEMETRIC(aka. MathGlance)</span>
+            <span class="mathvista" style="vertical-align: middle">MATHEMETRIC</span>
+            <span style="vertical-align: middle; font-size: 0.6em; font-style: italic; color: #db2777; font-weight: 500; margin-left: 0.3em; background: linear-gradient(135deg, #6b21a8 0%, #db2777 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">(aka. MathGlance)</span>
             </h1>
           <h2 class="subtitle is-3 publication-subtitle">
             Math Blind: Failures in Diagram Understanding Undermine Reasoning in MLLMs
@@ -977,6 +978,45 @@
 
 </section>
 
+<!-- Video Demonstrations -->
+<div class="container is-max-desktop" style="margin-top: 3rem; margin-bottom: 3rem;">
+  <div class="columns is-centered">
+    <div class="column is-5">
+      <div class="content has-text-centered">
+        <video class="w-100" style="max-width:100%;" src="./assets/images/video/ChatGPT-Demo.mov" controls loop playsinline></video>
+      </div>
+    </div>
+    <div class="column is-7">
+      <div class="content has-text-centered">
+        <video class="w-100" style="max-width:100%;" src="./assets/images/video/OurModel-Demo.mov" controls loop playsinline></video>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Decorative Design Element -->
+<div class="container is-max-desktop" style="margin-top: 0rem; margin-bottom: 0rem;">
+  <div class="has-text-centered">
+    <svg width="100%" height="80" viewBox="0 0 1200 80" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#6b21a8;stop-opacity:0.3" />
+          <stop offset="50%" style="stop-color:#db2777;stop-opacity:0.5" />
+          <stop offset="100%" style="stop-color:#6b21a8;stop-opacity:0.3" />
+        </linearGradient>
+      </defs>
+      <path d="M0,40 Q300,10 600,40 T1200,40" stroke="url(#grad1)" stroke-width="3" fill="none" opacity="0.6"/>
+      <path d="M0,45 Q300,65 600,45 T1200,45" stroke="url(#grad1)" stroke-width="2" fill="none" opacity="0.4"/>
+      <circle cx="600" cy="40" r="8" fill="#db2777" opacity="0.7">
+        <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="200" cy="35" r="5" fill="#6b21a8" opacity="0.5"/>
+      <circle cx="1000" cy="45" r="5" fill="#6b21a8" opacity="0.5"/>
+    </svg>
+  </div>
+</div>
+
 <div class="container">
 <div id="results-carousel" class="carousel results-carousel">
   <div class="box m-5">
@@ -1033,10 +1073,8 @@
       <p> Response comparisons between SVE-Math-DeepSeek<sup>+</sup>, SVE-Math-DeepSeek, and InterVL2.5.</p>
     </div>
   </div>
-  
+
 </div>
-
-
 
 <!-- @PAN TODO: bibtex -->
 <section class="section" id="BibTeX">
