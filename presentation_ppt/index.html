@@ -67,7 +67,7 @@
                 <div class="flex items-center justify-end gap-4 text-slate-400">
                     <span>2 Dec 2025</span>
                     <span class="text-slate-300 font-mono">
-                        <span id="current-page">1</span> / <span id="total-pages">17</span>
+                        <span id="current-page">1</span> / <span id="total-pages">20</span>
                     </span>
                 </div>
             </footer>
@@ -105,92 +105,104 @@
                 <div class="grid grid-cols-4 gap-6">
 
                     <!-- 01 MATHEMETRIC -->
-                    <div class="group relative cursor-pointer h-[28rem] rounded-xl overflow-hidden border border-slate-800 bg-slate-900 hover:border-purple-500 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10" onclick="goToSlide(2)">
+                    <div class="group relative cursor-pointer h-[28rem] rounded-xl overflow-hidden border border-slate-800 hover:border-purple-500 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10" onclick="goToSlide(5)">
                         <!-- Background Image -->
-                        <div class="absolute inset-0">
-                            <img src="assets/images/MATHEMETRIC/radar_fig1_cropped.webp" alt="MATHEMETRIC" class="w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0 bg-white">
-                            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/40 to-slate-900"></div>
+                        <div class="absolute inset-0 bg-white flex items-center justify-center p-4">
+                            <img src="assets/images/MATHEMETRIC/radar_fig1_cropped.webp" alt="MATHEMETRIC" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-all duration-700">
                         </div>
+                        <!-- Gray Overlay -->
+                        <div class="absolute inset-0 bg-slate-800/40 group-hover:bg-slate-800/20 transition-all duration-500"></div>
+                        <!-- Gradient for text readability -->
+                        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-transparent to-slate-900"></div>
 
                         <!-- Number -->
                         <div class="absolute top-6 left-6 z-10">
-                            <span class="text-7xl font-serif font-bold text-white/10 group-hover:text-purple-500/80 transition-colors duration-500">01</span>
+                            <span class="text-7xl font-serif font-bold text-white/40 group-hover:text-purple-500/80 transition-colors duration-500" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">01</span>
                         </div>
 
                         <!-- Content -->
                         <div class="absolute bottom-0 left-0 right-0 p-8 z-10">
                             <div class="h-0.5 w-8 bg-purple-500 mb-4 group-hover:w-16 transition-all duration-500"></div>
                             <h3 class="text-3xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">MATHEMETRIC</h3>
-                            <p class="text-slate-400 text-xl leading-relaxed line-clamp-3 group-hover:text-slate-200 transition-colors">
+                            <p class="text-slate-300 text-xl leading-relaxed line-clamp-3 group-hover:text-slate-100 transition-colors">
                                 Math Blindness & Diagram Perception Benchmark. Structure-aware geometric dataset.
                             </p>
                         </div>
                     </div>
 
                     <!-- 02 SymVAE -->
-                    <div class="group relative cursor-pointer h-[28rem] rounded-xl overflow-hidden border border-slate-800 bg-slate-900 hover:border-emerald-500 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/10" onclick="goToSlide(5)">
+                    <div class="group relative cursor-pointer h-[28rem] rounded-xl overflow-hidden border border-slate-800 hover:border-emerald-500 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-500/10" onclick="goToSlide(8)">
                         <!-- Background Image -->
-                        <div class="absolute inset-0">
-                            <img src="assets/images/SymVAE/Intro_latent-v2.webp" alt="SymVAE" class="w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0">
-                            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/40 to-slate-900"></div>
+                        <div class="absolute inset-0 bg-white flex items-center justify-center p-4">
+                            <img src="assets/images/SymVAE/Intro_latent-v2.webp" alt="SymVAE" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-all duration-700">
                         </div>
+                        <!-- Gray Overlay -->
+                        <div class="absolute inset-0 bg-slate-800/40 group-hover:bg-slate-800/20 transition-all duration-500"></div>
+                        <!-- Gradient for text readability -->
+                        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-transparent to-slate-900"></div>
 
                         <!-- Number -->
                         <div class="absolute top-6 left-6 z-10">
-                            <span class="text-7xl font-serif font-bold text-white/10 group-hover:text-emerald-500/80 transition-colors duration-500">02</span>
+                            <span class="text-7xl font-serif font-bold text-white/40 group-hover:text-emerald-500/80 transition-colors duration-500" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">02</span>
                         </div>
 
                         <!-- Content -->
                         <div class="absolute bottom-0 left-0 right-0 p-8 z-10">
                             <div class="h-0.5 w-8 bg-emerald-500 mb-4 group-hover:w-16 transition-all duration-500"></div>
                             <h3 class="text-3xl font-bold text-white mb-3 group-hover:text-emerald-400 transition-colors">SymVAE</h3>
-                            <p class="text-slate-400 text-xl leading-relaxed line-clamp-3 group-hover:text-slate-200 transition-colors">
+                            <p class="text-slate-300 text-xl leading-relaxed line-clamp-3 group-hover:text-slate-100 transition-colors">
                                 Symbolic Vision Auto-Encoder. Interpreting diagrams through topological structure.
                             </p>
                         </div>
                     </div>
 
                     <!-- 03 Artemis -->
-                    <div class="group relative cursor-pointer h-[28rem] rounded-xl overflow-hidden border border-slate-800 bg-slate-900 hover:border-blue-500 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10" onclick="goToSlide(8)">
+                    <div class="group relative cursor-pointer h-[28rem] rounded-xl overflow-hidden border border-slate-800 hover:border-blue-500 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10" onclick="goToSlide(11)">
                         <!-- Background Image -->
-                        <div class="absolute inset-0">
-                            <img src="assets/images/artemis/Artemis_motivation.webp" alt="Artemis" class="w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0">
-                            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/40 to-slate-900"></div>
+                        <div class="absolute inset-0 bg-white flex items-center justify-center p-4">
+                            <img src="assets/images/artemis/Artemis_motivation.webp" alt="Artemis" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-all duration-700">
                         </div>
+                        <!-- Gray Overlay -->
+                        <div class="absolute inset-0 bg-slate-800/40 group-hover:bg-slate-800/20 transition-all duration-500"></div>
+                        <!-- Gradient for text readability -->
+                        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-transparent to-slate-900"></div>
 
                         <!-- Number -->
                         <div class="absolute top-6 left-6 z-10">
-                            <span class="text-7xl font-serif font-bold text-white/10 group-hover:text-blue-500/80 transition-colors duration-500">03</span>
+                            <span class="text-7xl font-serif font-bold text-white/40 group-hover:text-blue-500/80 transition-colors duration-500" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">03</span>
                         </div>
 
                         <!-- Content -->
                         <div class="absolute bottom-0 left-0 right-0 p-8 z-10">
                             <div class="h-0.5 w-8 bg-blue-500 mb-4 group-hover:w-16 transition-all duration-500"></div>
                             <h3 class="text-3xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">Artemis</h3>
-                            <p class="text-slate-400 text-xl leading-relaxed line-clamp-3 group-hover:text-slate-200 transition-colors">
+                            <p class="text-slate-300 text-xl leading-relaxed line-clamp-3 group-hover:text-slate-100 transition-colors">
                                 Structured Visual Reasoning for Perception Policy Learning. Moving spotlight in visual space.
                             </p>
                         </div>
                     </div>
 
                     <!-- 04 ViLoMem -->
-                    <div class="group relative cursor-pointer h-[28rem] rounded-xl overflow-hidden border border-slate-800 bg-slate-900 hover:border-rose-500 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-rose-500/10" onclick="goToSlide(11)">
+                    <div class="group relative cursor-pointer h-[28rem] rounded-xl overflow-hidden border border-slate-800 hover:border-rose-500 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-rose-500/10" onclick="goToSlide(15)">
                         <!-- Background Image -->
-                        <div class="absolute inset-0">
-                            <img src="assets/images/vilomem/motivation-1.webp" alt="ViLoMem" class="w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0">
-                            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/40 to-slate-900"></div>
+                        <div class="absolute inset-0 bg-white flex items-center justify-center p-4">
+                            <img src="assets/images/vilomem/motivation-1.webp" alt="ViLoMem" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-all duration-700">
                         </div>
-                        
+                        <!-- Gray Overlay -->
+                        <div class="absolute inset-0 bg-slate-800/40 group-hover:bg-slate-800/20 transition-all duration-500"></div>
+                        <!-- Gradient for text readability -->
+                        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-transparent to-slate-900"></div>
+
                         <!-- Number -->
                         <div class="absolute top-6 left-6 z-10">
-                            <span class="text-7xl font-serif font-bold text-white/10 group-hover:text-rose-500/80 transition-colors duration-500">04</span>
+                            <span class="text-7xl font-serif font-bold text-white/40 group-hover:text-rose-500/80 transition-colors duration-500" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.5);">04</span>
                         </div>
 
                         <!-- Content -->
                         <div class="absolute bottom-0 left-0 right-0 p-8 z-10">
                             <div class="h-0.5 w-8 bg-rose-500 mb-4 group-hover:w-16 transition-all duration-500"></div>
                             <h3 class="text-3xl font-bold text-white mb-3 group-hover:text-rose-400 transition-colors">ViLoMem</h3>
-                            <p class="text-slate-400 text-xl leading-relaxed line-clamp-3 group-hover:text-slate-200 transition-colors">
+                            <p class="text-slate-300 text-xl leading-relaxed line-clamp-3 group-hover:text-slate-100 transition-colors">
                                 Multimodal Semantic Memory. Agents that learn from mistakes via grow-and-refine mechanism.
                             </p>
                         </div>
@@ -201,81 +213,206 @@
         </section>
 
         <!-- PROJECT 1: MATHEMETRIC -->
-        <!-- Slide 2: Motivation -->
+        <!-- Slide 2: Diagrams need symbolic understanding -->
         <section class="slide flex items-center px-20" data-index="2">
+            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                <!-- Quote Header -->
+                <div class="mb-8 text-center animate-fade-down">
+                    <h2 class="text-5xl font-bold font-serif italic text-purple-300">"Symbolic understanding"</h2>
+                </div>
+
+                <!-- Two-Column Layout: Image Left, Text Boxes Right -->
+                <div class="grid grid-cols-[3fr,2fr] gap-12 items-center">
+                    <!-- Left: Main Image -->
+                    <div class="relative group animate-fade-right">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                        <img src="assets/images/MATHEMETRIC/page3.webp" alt="Natural Image vs Math Diagram" class="relative rounded-xl shadow-2xl border border-slate-700 w-full bg-white p-3">
+                    </div>
+
+                    <!-- Right: Text Content -->
+                    <div class="space-y-6 animate-fade-left">
+                        <div class="bg-slate-800/50 p-7 rounded-xl border border-slate-700">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-image text-purple-400 text-xl"></i>
+                                </div>
+                                <h4 class="text-2xl font-bold text-purple-400">Natural Images</h4>
+                            </div>
+                            <p class="text-xl text-slate-300 leading-relaxed">
+                                Images are <span class="text-white font-semibold">natural collections of signals</span>, semantically rich and suited for <span class="text-purple-400 font-semibold">pattern recognition</span>.
+                            </p>
+                        </div>
+                        <div class="bg-slate-800/50 p-7 rounded-xl border border-slate-700">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-shapes text-pink-400 text-xl"></i>
+                                </div>
+                                <h4 class="text-2xl font-bold text-pink-400">Math Diagrams</h4>
+                            </div>
+                            <p class="text-xl text-slate-300 leading-relaxed">
+                                Diagrams are <span class="text-white font-semibold">manual collections of symbols</span> that encode abstract concepts, requiring precise <span class="text-pink-400 font-semibold">topological understanding</span>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Perception Weakness -->
+        <section class="slide flex items-center px-20" data-index="3">
             <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
                 <div class="space-y-8 animate-fade-right">
-                    <div class="flex items-center gap-4">
-                        <span class="px-4 py-1 rounded-full bg-purple-500/10 text-purple-400 text-sm font-bold border border-purple-500/20">Paper 01</span>
-                        <h2 class="text-5xl font-bold font-serif">MATHEMETRIC</h2>
+                    <div class="space-y-7">
+                        <p class="text-2xl text-slate-300 leading-relaxed">
+                            MLLMs exhibit <span class="text-white font-semibold">flawed reasoning and hallucinations</span> when processing diagram inputs, and we manually inspect the reasoning steps where <span class="text-purple-400 font-semibold">visual perception errors</span> escalate into larger failures.
+                        </p>
+                        <p class="text-2xl text-slate-300 leading-relaxed">
+                            Current reasoning test suites <span class="text-white font-semibold">judge only the final answer</span>, mixing perception with reasoning. Most research overlooks perceptual ability and instead <span class="text-purple-400 font-semibold">attributes errors to reasoning alone</span>.
+                        </p>
+                        <p class="text-2xl text-slate-300 leading-relaxed">
+                            We aim to <span class="text-purple-400 font-semibold">uncover the perception weakness</span>. The intuition is that a <span class="text-white font-semibold">reliable perceptual foundation</span> is essential for supporting downstream reasoning.
+                        </p>
                     </div>
-                    <h3 class="text-3xl text-slate-300 font-light">Math Blind</h3>
-                    <p class="text-lg text-slate-400 leading-relaxed">
-                        Current MLLMs suffer from <span class="text-white font-semibold">"Blind Faith in Text"</span>. They rely on textual shortcuts and fail to truly perceive geometric diagrams.
-                        <br><br>
-                        We hypothesize that low-level <span class="text-purple-400 font-semibold">diagram perception</span> is the bottleneck for high-level mathematical reasoning.
-                    </p>
                 </div>
                 <div class="relative group animate-fade-left">
                     <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                    <img src="assets/images/MATHEMETRIC/fig1_new.png" alt="Math Blindness" class="relative rounded-xl shadow-2xl border border-slate-700 w-full bg-white p-2">
+                    <video src="assets/ChatGPT-Demo.mp4" controls muted playsinline class="relative rounded-xl shadow-2xl border border-slate-700 w-full"></video>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 3: Methodology -->
-        <section class="slide flex items-center px-20" data-index="3">
-            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
-                <div class="mb-12 text-center animate-fade-down">
-                    <h2 class="text-4xl font-bold font-serif mb-4">The Benchmark & Dataset</h2>
-                    <p class="text-xl text-slate-400">Isolating Perception from Reasoning</p>
-                </div>
-                <div class="bg-white/5 p-8 rounded-3xl border border-slate-700 backdrop-blur-sm animate-zoom-in">
-                    <img src="assets/images/MATHEMETRIC/Mathglance_PG_pipeline.webp" alt="Pipeline" class="w-full h-auto max-h-[55vh] object-contain mx-auto rounded-lg">
-                </div>
-                <div class="grid grid-cols-4 gap-4 mt-12 text-center animate-fade-up">
-                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                        <h4 class="text-purple-400 font-bold">Shape Classification</h4>
-                    </div>
-                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                        <h4 class="text-purple-400 font-bold">Object Counting</h4>
-                    </div>
-                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                        <h4 class="text-purple-400 font-bold">Relationship ID</h4>
-                    </div>
-                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
-                        <h4 class="text-purple-400 font-bold">Object Grounding</h4>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 4: Experiments -->
+        <!-- Slide 4: Hallucination -->
         <section class="slide flex items-center px-20" data-index="4">
-            <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-                <div class="order-1 relative animate-fade-right">
-                     <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-25"></div>
-                    <img src="assets/images/MATHEMETRIC/main_results.png" alt="Results" class="relative rounded-xl shadow-2xl border border-slate-700 w-full bg-white p-2">
+            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                <!-- Main Image - Large and centered -->
+                <div class="relative group animate-zoom-in mb-10 max-w-5xl mx-auto">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                    <div class="relative bg-white p-6 rounded-2xl shadow-2xl border border-slate-700">
+                        <img src="assets/images/MATHEMETRIC/hallucination_intro.webp" alt="Hallucination in MLLMs" class="w-full h-auto max-h-[50vh] object-contain mx-auto">
+                    </div>
                 </div>
-                <div class="order-2 space-y-8 animate-fade-left">
-                    <h2 class="text-4xl font-bold font-serif">Key Findings</h2>
+
+                <!-- Text Caption - Supporting text -->
+                <div class="animate-fade-up max-w-5xl mx-auto">
+                    <div class="bg-slate-800/50 p-8 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-4 mb-5">
+                            <div class="w-12 h-12 rounded-full bg-pink-500/20 flex items-center justify-center">
+                                <i class="fa-solid fa-triangle-exclamation text-pink-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-pink-400">Hallucinations</h3>
+                        </div>
+                        <p class="text-xl text-slate-300 leading-relaxed">
+                            <span class="text-purple-400 font-semibold">Hallucinations</span> arise when the model <span class="text-white font-semibold">fails to understand the visual input</span>, causing the LLM to <span class="text-pink-400 font-semibold">infer or invent details</span> that don't match what is actually present.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: MATHEMETRIC Overview (Title Slide) -->
+        <section class="slide flex items-center px-20" data-index="5">
+            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                <!-- Title -->
+                <div class="mb-6 text-center animate-fade-down">
+                    <div class="flex items-center justify-center gap-4 mb-3">
+                        <span class="px-4 py-1 rounded-full bg-purple-500/10 text-purple-400 text-sm font-bold border border-purple-500/20">Paper 01</span>
+                        <h2 class="text-5xl font-bold font-serif">MATHEMETRIC</h2>
+                    </div>
+                </div>
+
+                <!-- Carousel Image Area -->
+                <div class="relative bg-slate-800/30 p-6 rounded-3xl border border-slate-700 backdrop-blur-sm animate-zoom-in mb-6">
+                    <!-- Carousel Container -->
+                    <div class="relative overflow-hidden">
+                        <div id="mathemetric-carousel" class="flex transition-transform duration-500 ease-in-out">
+                            <div class="w-full flex-shrink-0">
+                                <img src="assets/images/MATHEMETRIC/QA_cls.webp" alt="Shape Classification" class="w-full h-auto max-h-[45vh] object-contain mx-auto rounded-lg bg-white p-2">
+                                <p class="text-center text-slate-400 mt-3 text-base">Examples of <span class="text-purple-400 font-semibold">Shape Classification</span> in MATHEMETRIC</p>
+                            </div>
+                            <div class="w-full flex-shrink-0">
+                                <img src="assets/images/MATHEMETRIC/QA_cnt.webp" alt="Object Counting" class="w-full h-auto max-h-[45vh] object-contain mx-auto rounded-lg bg-white p-2">
+                                <p class="text-center text-slate-400 mt-3 text-base">Examples of <span class="text-purple-400 font-semibold">Object Counting</span> in MATHEMETRIC</p>
+                            </div>
+                            <div class="w-full flex-shrink-0">
+                                <img src="assets/images/MATHEMETRIC/QA_relat.webp" alt="Relationship Identification" class="w-full h-auto max-h-[45vh] object-contain mx-auto rounded-lg bg-white p-2">
+                                <p class="text-center text-slate-400 mt-3 text-base">Examples of <span class="text-purple-400 font-semibold">Relationship Identification</span> in MATHEMETRIC</p>
+                            </div>
+                            <div class="w-full flex-shrink-0">
+                                <img src="assets/images/MATHEMETRIC/QA_grd.webp" alt="Object Grounding" class="w-full h-auto max-h-[45vh] object-contain mx-auto rounded-lg bg-white p-2">
+                                <p class="text-center text-slate-400 mt-3 text-base">Examples of <span class="text-purple-400 font-semibold">Object Grounding</span> in MATHEMETRIC</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Navigation Arrows -->
+                    <button onclick="mathemetricCarouselPrev()" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-slate-700/80 hover:bg-purple-500/50 rounded-full flex items-center justify-center transition-colors border border-slate-600">
+                        <i class="fa-solid fa-chevron-left text-white text-xl"></i>
+                    </button>
+                    <button onclick="mathemetricCarouselNext()" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-slate-700/80 hover:bg-purple-500/50 rounded-full flex items-center justify-center transition-colors border border-slate-600">
+                        <i class="fa-solid fa-chevron-right text-white text-xl"></i>
+                    </button>
+                    <!-- Dots Indicator -->
+                    <div class="flex justify-center gap-2 mt-4">
+                        <button onclick="mathemetricGoTo(0)" class="mathemetric-dot w-3 h-3 rounded-full bg-purple-500 transition-colors"></button>
+                        <button onclick="mathemetricGoTo(1)" class="mathemetric-dot w-3 h-3 rounded-full bg-slate-600 hover:bg-purple-400 transition-colors"></button>
+                        <button onclick="mathemetricGoTo(2)" class="mathemetric-dot w-3 h-3 rounded-full bg-slate-600 hover:bg-purple-400 transition-colors"></button>
+                        <button onclick="mathemetricGoTo(3)" class="mathemetric-dot w-3 h-3 rounded-full bg-slate-600 hover:bg-purple-400 transition-colors"></button>
+                    </div>
+                </div>
+
+                <!-- Explanation Box -->
+                <div class="animate-fade-up">
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                                <i class="fa-solid fa-layer-group text-purple-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-purple-400">MATHEMETRIC Tasks</h3>
+                        </div>
+                        <p class="text-xl text-slate-300 leading-relaxed">
+                            MATHEMETRIC isolates <span class="text-white font-semibold">perceptual skills</span> from high-level reasoning and features four tasks:
+                            <span class="text-purple-400 font-semibold">shape classification</span>, <span class="text-purple-400 font-semibold">object counting</span>,
+                            <span class="text-purple-400 font-semibold">relationship identification</span>, and <span class="text-purple-400 font-semibold">object grounding</span>,
+                            covering plane geometry, solid geometry, and graph representations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: MATHEMETRIC Key Findings -->
+        <section class="slide flex items-center px-20" data-index="6">
+            <div class="grid grid-cols-[3fr,2fr] gap-12 items-center max-w-7xl mx-auto">
+                <!-- 左侧：大图 -->
+                <div class="relative group animate-fade-right">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                    <img src="assets/images/MATHEMETRIC/fig1_new.webp" alt="MATHEMETRIC Key Findings" class="relative rounded-xl shadow-2xl border border-slate-700 w-full bg-white p-3">
+                </div>
+                <!-- 右侧：Key Findings -->
+                <div class="space-y-6 animate-fade-left">
+                    <h2 class="text-4xl font-bold font-serif mb-6">Key Findings</h2>
                     <ul class="space-y-6">
                         <li class="flex items-start gap-4">
                             <span class="text-4xl font-bold text-purple-500 opacity-50">01</span>
                             <div>
-                                <p class="text-lg text-slate-300">MLLMs perform poorly on basic perceptual tasks, with <span class="text-white font-bold">near-zero accuracy</span> on fine-grained grounding.</p>
+                                <p class="text-lg text-slate-300 leading-relaxed">
+                                    Systematic evaluation of <span class="text-white font-bold">20+ MLLMs</span> shows poor performance on basic perceptual tasks (<span class="text-purple-400 font-bold">&lt;45% accuracy</span>), with <span class="text-pink-400 font-bold">near-zero accuracy</span> on fine-grained grounding.
+                                </p>
                             </div>
                         </li>
                         <li class="flex items-start gap-4">
                             <span class="text-4xl font-bold text-purple-500 opacity-50">02</span>
                             <div>
-                                <p class="text-lg text-slate-300">Training on structured graphs (GeoPeP) yields <span class="text-white font-bold">+79% gain</span> in grounding.</p>
+                                <p class="text-lg text-slate-300 leading-relaxed">
+                                    We propose <span class="text-purple-400 font-bold">structure-aware geometric captions</span>—encoding shapes, attributes, relations, and precise bounding boxes—to train our <span class="text-white font-bold">7B and 32B</span> models.
+                                </p>
                             </div>
                         </li>
                         <li class="flex items-start gap-4">
                             <span class="text-4xl font-bold text-purple-500 opacity-50">03</span>
                             <div>
-                                <p class="text-lg text-slate-300">Perceptual gains transfer to reasoning, improving MathVerse and GeoQA scores.</p>
+                                <p class="text-lg text-slate-300 leading-relaxed">
+                                    <span class="text-white font-bold">Stronger perceptual ability</span> leads to <span class="text-purple-400 font-bold">better reasoning performance</span>, even without any explicit transfer mechanisms.
+                                </p>
                             </div>
                         </li>
                     </ul>
@@ -283,9 +420,41 @@
             </div>
         </section>
 
+        <!-- Slide 7: Improved Perception Demo -->
+        <section class="slide flex items-center px-16" data-index="7">
+            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                <!-- Caption -->
+                <div class="mb-8 animate-fade-down">
+                    <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 mx-auto max-w-4xl">
+                        <div class="flex items-center justify-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-brain text-purple-400 text-xl"></i>
+                            </div>
+                            <p class="text-2xl text-slate-200 font-medium">
+                                <span class="text-purple-400 font-bold">Improved perception</span> stabilizes multi-step reasoning chains
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="grid grid-cols-2 gap-12 items-center">
+                    <!-- Left: Image -->
+                    <div class="animate-fade-right h-full flex items-center">
+                        <img src="assets/images/MATHEMETRIC/4o_response3.webp" alt="Model Comparison" class="rounded-xl shadow-2xl border border-slate-700 w-full bg-white p-3" style="max-height: 77vh; object-fit: contain;">
+                    </div>
+                    <!-- Right: Video -->
+                    <div class="relative group animate-fade-left h-full flex items-center">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                        <video src="assets/images/MATHEMETRIC/OurModel-Demo.mp4" controls muted playsinline class="relative rounded-xl shadow-2xl border border-slate-700 w-full" style="max-height: 77vh; object-fit: contain;"></video>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- PROJECT 2: SymVAE -->
-        <!-- Slide 5: Motivation -->
-        <section class="slide flex items-center px-20" data-index="5">
+        <!-- Slide 8: Motivation -->
+        <section class="slide flex items-center px-20" data-index="8">
             <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
                 <div class="space-y-8 animate-fade-right">
                     <div class="flex items-center gap-4">
@@ -306,8 +475,8 @@
             </div>
         </section>
 
-        <!-- Slide 6: Methodology -->
-        <section class="slide flex items-center px-20" data-index="6">
+        <!-- Slide 9: Methodology -->
+        <section class="slide flex items-center px-20" data-index="9">
             <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
                 <div class="mb-12 text-center animate-fade-down">
                     <h2 class="text-4xl font-bold font-serif mb-4">SymVAE Framework</h2>
@@ -336,41 +505,58 @@
             </div>
         </section>
 
-        <!-- Slide 7: Experiments -->
-        <section class="slide flex items-center px-20" data-index="7">
-            <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
-                <div class="order-1 relative animate-fade-right">
-                    <img src="assets/images/SymVAE/vis_compare.webp" alt="Reconstruction" class="relative rounded-xl shadow-2xl border border-slate-700 w-full">
-                </div>
-                <div class="order-2 space-y-8 animate-fade-left">
+        <!-- Slide 10: Experiments -->
+        <section class="slide flex items-center px-20" data-index="10">
+            <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                <!-- Title -->
+                <div class="mb-8 animate-fade-down">
                     <h2 class="text-4xl font-bold font-serif">Performance</h2>
-                    <div class="grid grid-cols-2 gap-6 mb-6">
-                        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                            <h3 class="text-3xl font-bold text-emerald-400 mb-2">98.2%</h3>
-                            <p class="text-sm text-slate-400">Reduction in MSE for geometric reconstruction.</p>
-                        </div>
-                        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                            <h3 class="text-3xl font-bold text-emerald-400 mb-2">+13%</h3>
-                            <p class="text-sm text-slate-400">Improvement on diagram understanding.</p>
-                        </div>
+                </div>
+
+                <!-- Images Row -->
+                <div class="grid grid-cols-[2fr,3fr] gap-8 mb-8 animate-zoom-in">
+                    <!-- Left: Square image (SymVAE comparison) -->
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                        <img src="assets/images/SymVAE/symvae_results_demo.webp" alt="SymVAE Reconstruction Comparison" class="relative rounded-xl shadow-2xl border border-slate-700 w-full bg-white p-2">
                     </div>
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                            <h3 class="text-3xl font-bold text-emerald-400 mb-2">+3%</h3>
-                            <p class="text-sm text-slate-400">Gains on math reasoning.</p>
+
+                    <!-- Right: Image with box below -->
+                    <div class="space-y-12">
+                        <!-- Wide image (molecules and circuits) -->
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-teal-600 to-emerald-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                            <img src="assets/images/SymVAE/correct_mol_circuit_demo.webp" alt="Cross-domain Generalization" class="relative rounded-xl shadow-2xl border border-slate-700 w-full bg-white p-2">
                         </div>
-                        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                        <!-- Cross-domain box -->
+                        <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 text-center">
                             <h3 class="text-3xl font-bold text-emerald-400 mb-2">✓</h3>
                             <p class="text-sm text-slate-400">Cross-domain generalization to circuits and chemical structures.</p>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Metrics Row (3 boxes) -->
+                <div class="grid grid-cols-3 gap-8 animate-fade-up">
+                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 text-center">
+                        <h3 class="text-3xl font-bold text-emerald-400 mb-2">98.2%</h3>
+                        <p class="text-sm text-slate-400">Reduction in MSE for geometric reconstruction.</p>
+                    </div>
+                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 text-center">
+                        <h3 class="text-3xl font-bold text-emerald-400 mb-2">+13%</h3>
+                        <p class="text-sm text-slate-400">Improvement on diagram understanding.</p>
+                    </div>
+                    <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 text-center">
+                        <h3 class="text-3xl font-bold text-emerald-400 mb-2">+3%</h3>
+                        <p class="text-sm text-slate-400">Gains on math reasoning.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- PROJECT 3: ARTEMIS -->
-        <!-- Slide 8: Motivation -->
-        <section class="slide flex items-center px-20" data-index="8">
+        <!-- Slide 11: Motivation -->
+        <section class="slide flex items-center px-20" data-index="11">
             <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
                 <div class="space-y-8 animate-fade-right">
                     <div class="flex items-center gap-4">
@@ -386,15 +572,15 @@
                         We propose <span class="text-blue-400 font-semibold">Structured Visual Reasoning</span>: a computational analogue of this "moving spotlight," where label–bounding-box pairs provide precise spatial localization and encode object identity.
                     </p>
                 </div>
-                <div class="relative group animate-fade-left mt-15" style="transform: scale(3);">
+                <div class="relative group animate-fade-left" style="transform: scale(4.5) translateY(40%);">
                     <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                     <img src="assets/images/artemis/Artemis_motivation.webp" alt="Artemis Motivation" class="relative rounded-xl shadow-2xl border border-slate-700 w-full object-cover">
                 </div>
             </div>
         </section>
 
-        <!-- Slide 9: Methodology -->
-        <section class="slide flex items-center px-20" data-index="9">
+        <!-- Slide 12: Methodology -->
+        <section class="slide flex items-center px-20" data-index="12">
             <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
                 <div class="mb-12 text-center animate-fade-down">
                     <h2 class="text-4xl font-bold font-serif mb-4">Artemis Methodology</h2>
@@ -420,8 +606,8 @@
             </div>
         </section>
 
-        <!-- Slide 10: Zero-shot Comprehensive Visual Perception -->
-        <section class="slide flex items-center px-20" data-index="10">
+        <!-- Slide 13: Zero-shot Comprehensive Visual Perception -->
+        <section class="slide flex items-center px-20" data-index="13">
             <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
                 <div class="mb-8 animate-fade-down">
                     <h2 class="text-4xl font-bold font-serif mb-3">Zero-shot Comprehensive Visual Perception</h2>
@@ -559,8 +745,8 @@
             </div>
         </section>
 
-        <!-- Slide 11: Zero-shot Diagram Understanding -->
-        <section class="slide flex items-center px-20" data-index="11">
+        <!-- Slide 14: Zero-shot Diagram Understanding -->
+        <section class="slide flex items-center px-20" data-index="14">
             <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
                 <div class="mb-10 text-center animate-fade-down">
                     <h2 class="text-4xl font-bold font-serif mb-3">Zero-shot Diagram Understanding</h2>
@@ -697,8 +883,8 @@
         </section>
 
         <!-- PROJECT 4: ViLoMem -->
-        <!-- Slide 12: Motivation -->
-        <section class="slide flex items-center px-20" data-index="12">
+        <!-- Slide 15: Motivation -->
+        <section class="slide flex items-center px-20" data-index="15">
             <div class="grid grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
                 <div class="space-y-8 animate-fade-right">
                     <div class="flex items-center gap-4">
@@ -719,8 +905,8 @@
             </div>
         </section>
 
-        <!-- Slide 13: Methodology -->
-        <section class="slide flex items-center px-20" data-index="13">
+        <!-- Slide 16: Methodology -->
+        <section class="slide flex items-center px-20" data-index="16">
             <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
                 <div class="mb-12 text-center animate-fade-down">
                     <h2 class="text-4xl font-bold font-serif mb-4">Grow-and-Refine Framework</h2>
@@ -801,8 +987,8 @@
             </div>
         </section>
 
-        <!-- Slide 14: Main Results -->
-        <section class="slide flex items-center px-20" data-index="14">
+        <!-- Slide 17: Main Results -->
+        <section class="slide flex items-center px-20" data-index="17">
             <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
                 <div class="mb-8 animate-fade-down">
                     <h2 class="text-4xl font-bold font-serif mb-3">Main Results</h2>
@@ -903,8 +1089,8 @@
             </div>
         </section>
 
-        <!-- Slide 15: Cross-Model Memory Transfer -->
-        <section class="slide flex items-center px-20" data-index="15">
+        <!-- Slide 18: Cross-Model Memory Transfer -->
+        <section class="slide flex items-center px-20" data-index="18">
             <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
                 <div class="mb-10 text-center animate-fade-down">
                     <h2 class="text-4xl font-bold font-serif mb-4">Cross-Model Memory Transfer</h2>
@@ -1008,8 +1194,8 @@
             </div>
         </section>
 
-        <!-- Slide 16: Closing -->
-        <section class="slide flex flex-col items-center justify-center text-center" data-index="16">
+        <!-- Slide 19: Closing -->
+        <section class="slide flex flex-col items-center justify-center text-center" data-index="19">
             <div class="max-w-5xl space-y-8 animate-fade-up">
                 <h2 class="font-serif font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-400" style="font-size: 80px; line-height: 1.2;">Thank you for listening.</h2>
                 <h3 class="font-serif font-semibold text-slate-300" style="font-size: 48px; line-height: 1.3;">Any questions?</h3>

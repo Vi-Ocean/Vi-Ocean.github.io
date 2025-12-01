@@ -118,11 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const tooltips = {
             0: 'Cover',
             1: 'Agenda',
-            2: 'Artemis',
             5: 'MATHEMETRIC',
-            8: 'SymVAE',
-            11: 'ViLoMem',
-            14: 'Thank You'
+            7: 'SymVAE',
+            10: 'Artemis',
+            14: 'ViLoMem',
+            18: 'Thank You'
         };
         if (tooltips[index]) dot.title = tooltips[index];
 
@@ -130,6 +130,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const dots = document.querySelectorAll('.nav-dot');
+
+    // ========== MATHEMETRIC Carousel ==========
+    let mathemetricIndex = 0;
+    const mathemetricTotal = 4;
+
+    window.mathemetricCarouselNext = () => {
+        mathemetricIndex = (mathemetricIndex + 1) % mathemetricTotal;
+        mathemetricUpdateCarousel();
+    };
+
+    window.mathemetricCarouselPrev = () => {
+        mathemetricIndex = (mathemetricIndex - 1 + mathemetricTotal) % mathemetricTotal;
+        mathemetricUpdateCarousel();
+    };
+
+    window.mathemetricGoTo = (index) => {
+        mathemetricIndex = index;
+        mathemetricUpdateCarousel();
+    };
+
+    function mathemetricUpdateCarousel() {
+        const carousel = document.getElementById('mathemetric-carousel');
+        if (carousel) {
+            carousel.style.transform = `translateX(-${mathemetricIndex * 100}%)`;
+        }
+        // Update dots
+        const allDots = document.querySelectorAll('.mathemetric-dot');
+        allDots.forEach((dot, i) => {
+            if (i === mathemetricIndex) {
+                dot.classList.remove('bg-slate-600');
+                dot.classList.add('bg-purple-500');
+            } else {
+                dot.classList.remove('bg-purple-500');
+                dot.classList.add('bg-slate-600');
+            }
+        });
+    }
 
     // ========== Slide Navigation ==========
     window.goToSlide = (index) => {
