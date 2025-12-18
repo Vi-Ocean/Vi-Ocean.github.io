@@ -1,0 +1,310 @@
+/* ========================================
+   Personal Introduction Presentation
+   Light Theme - Fixed 1920x1080 with viewport scaling
+   ======================================== */
+
+:root {
+    /* Design dimensions (16:9 aspect ratio) */
+    --slide-width: 1920px;
+    --slide-height: 1080px;
+    --footer-height: 48px;
+    --content-height: calc(var(--slide-height) - var(--footer-height));
+
+    /* Light theme colors */
+    --bg-page: #f1f5f9;
+    --bg-slide: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+}
+
+/* Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--bg-page);
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+/* ========== Viewport Container ========== */
+#slides-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-page);
+    overflow: hidden;
+}
+
+/* ========== Slide Wrapper ========== */
+.slide-wrapper {
+    width: 1920px;
+    height: 1080px;
+    position: relative;
+    transform-origin: center center;
+    background-color: var(--bg-slide);
+    border-radius: 16px;
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, 0.05),
+        0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    flex-shrink: 0;
+    opacity: 1; /* 确保立即显示 */
+}
+
+/* ========== Individual Slides ========== */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: calc(1080px - 48px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(20px);
+    z-index: 1;
+    overflow: hidden;
+    padding: 60px 80px;
+    background-color: var(--bg-slide);
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    z-index: 10;
+}
+
+.slide.previous {
+    transform: translateY(-20px);
+}
+
+/* ========== Footer ========== */
+footer.slide-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 1920px;
+    height: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 0 80px;
+    background: var(--bg-slide);
+    border-top: 1px solid var(--border-color);
+    font-size: 14px;
+    z-index: 100;
+}
+
+/* ========== Navigation Dots ========== */
+#nav-dots {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-dot.active {
+    background-color: #3b82f6;
+    transform: scale(1.4);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.nav-dot:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ========== Typography ========== */
+.text-8xl { font-size: 96px; line-height: 1.1; }
+.text-7xl { font-size: 72px; line-height: 1.1; }
+.text-6xl { font-size: 60px; line-height: 1.1; }
+.text-5xl { font-size: 48px; line-height: 1.2; }
+.text-4xl { font-size: 36px; line-height: 1.2; }
+.text-3xl { font-size: 30px; line-height: 1.3; }
+.text-2xl { font-size: 24px; line-height: 1.4; }
+.text-xl { font-size: 20px; line-height: 1.5; }
+.text-lg { font-size: 18px; line-height: 1.6; }
+.text-base { font-size: 16px; line-height: 1.6; }
+.text-sm { font-size: 14px; line-height: 1.5; }
+.text-xs { font-size: 12px; line-height: 1.5; }
+
+/* ========== Layout Utilities ========== */
+.slide .max-w-6xl {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.slide .max-w-5xl {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Grid layouts */
+.slide .grid {
+    display: grid;
+}
+
+.slide .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.slide .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Gaps */
+.slide .gap-4 { gap: 16px; }
+.slide .gap-5 { gap: 20px; }
+.slide .gap-6 { gap: 24px; }
+.slide .gap-8 { gap: 32px; }
+.slide .gap-10 { gap: 40px; }
+
+/* ========== Animations ========== */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeRight {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.slide.active .animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide.active .animate-fade-down { animation: fadeDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide.active .animate-fade-right { animation: fadeRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide.active .animate-fade-left { animation: fadeLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide.active .animate-zoom-in { animation: zoomIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+/* Staggered delays */
+.slide.active .delay-100 { animation-delay: 100ms; }
+.slide.active .delay-200 { animation-delay: 200ms; }
+.slide.active .delay-300 { animation-delay: 300ms; }
+
+/* ========== Cover Slide ========== */
+.slide[data-index="0"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+}
+
+/* ========== Card hover effects ========== */
+.slide .hover\:shadow-md:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== Fullscreen Mode ========== */
+:fullscreen .slide-wrapper,
+:-webkit-full-screen .slide-wrapper,
+:-moz-full-screen .slide-wrapper {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+:fullscreen #slides-container,
+:-webkit-full-screen #slides-container,
+:-moz-full-screen #slides-container {
+    background-color: var(--bg-slide);
+}
+
+:fullscreen body,
+:-webkit-full-screen body,
+:-moz-full-screen body {
+    background-color: var(--bg-slide);
+}
+
+/* ========== Image sizing ========== */
+.slide img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ========== Mobile Optimizations ========== */
+@media (max-width: 768px) {
+    .slide-wrapper {
+        border-radius: 8px;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .slide-wrapper {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* ========== Custom scrollbar (for any scrollable content) ========== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>张珊 - 个人介绍</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="text-slate-800 overflow-hidden antialiased">
+
+    <!-- Slides Container -->
+    <main id="slides-container">
+        <!-- Slide Wrapper -->
+        <div class="slide-wrapper">
+
+            <!-- Navigation Dots -->
+            <div id="nav-dots"></div>
+
+            <!-- Footer -->
+            <footer class="slide-footer">
+                <div class="text-slate-500">
+                    <span class="text-slate-700 font-medium">张珊 Shan Zhang</span>
+                </div>
+                <div class="text-slate-500 text-center">
+                    个人介绍
+                </div>
+                <div class="flex items-center justify-end gap-4 text-slate-500">
+                    <span class="font-mono">
+                        <span id="current-page">1</span> / <span id="total-pages">7</span>
+                    </span>
+                </div>
+            </footer>
+
+            <!-- ==================== Slide 0: 封面 ==================== -->
+            <section class="slide active flex flex-col items-center justify-center text-center" data-index="0">
+                <div class="space-y-8 animate-fade-up" style="max-width: 1200px;">
+                    <!-- Logo/Icon -->
+                    <div class="flex justify-center mb-4">
+                        <div class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center shadow-lg">
+                            <span class="text-5xl font-bold text-white">SZ</span>
+                        </div>
+                    </div>
+
+                    <!-- Name -->
+                    <h1 class="text-7xl font-bold text-slate-800 tracking-tight">
+                        张珊
+                        <span class="text-4xl font-normal text-slate-500 ml-4">Shan Zhang</span>
+                    </h1>
+
+                    <!-- Title -->
+                    <div class="space-y-2">
+                        <p class="text-2xl text-blue-600 font-medium">博士后研究员 / Postdoctoral Researcher</p>
+                        <p class="text-xl text-slate-500">澳大利亚机器学习研究院 (AIML)</p>
+                        <p class="text-lg text-slate-400">The University of Adelaide</p>
+                    </div>
+
+                    <!-- Quote -->
+                    <div class="pt-8 border-t border-slate-200 mt-8">
+                        <p class="text-xl text-slate-600 italic leading-relaxed">
+                            "Abstraction is the path to reasoning.<br>
+                            Diagrams are its visual language."
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== Slide 1: 教育背景 ==================== -->
+            <section class="slide flex items-center px-20" data-index="1">
+                <div class="max-w-6xl mx-auto w-full">
+                    <!-- Header -->
+                    <div class="mb-12 animate-fade-down">
+                        <h2 class="text-5xl font-bold text-slate-800 mb-2">教育背景</h2>
+                        <p class="text-xl text-slate-500">Education</p>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="space-y-8 animate-fade-up">
+                        <!-- PhD -->
+                        <div class="flex gap-8 items-start">
+                            <div class="flex-shrink-0 w-48 text-right">
+                                <span class="text-lg font-semibold text-blue-600">2020.10 - 2025.04</span>
+                            </div>
+                            <div class="flex-shrink-0 relative">
+                                <div class="w-4 h-4 rounded-full bg-blue-500 ring-4 ring-blue-100"></div>
+                                <div class="absolute top-4 left-1.5 w-1 h-32 bg-gradient-to-b from-blue-300 to-violet-300"></div>
+                            </div>
+                            <div class="flex-1 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                                        <span class="text-blue-600 font-bold text-lg">ANU</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-slate-800">澳大利亚国立大学</h3>
+                                        <p class="text-slate-500">Australian National University (ANU)</p>
+                                    </div>
+                                </div>
+                                <p class="text-lg text-slate-700 mb-2"><strong>计算机科学博士</strong> / PhD in Computer Science</p>
+                                <p class="text-slate-600">导师：Dr. Piotr Koniusz / Prof. Liang Zheng / Prof. Lei Wang</p>
+                                <p class="text-slate-500 mt-2">研究方向：小样本学习、目标检测、语义分割</p>
+                            </div>
+                        </div>
+
+                        <!-- Postdoc -->
+                        <div class="flex gap-8 items-start">
+                            <div class="flex-shrink-0 w-48 text-right">
+                                <span class="text-lg font-semibold text-violet-600">2024.06 - 至今</span>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <div class="w-4 h-4 rounded-full bg-violet-500 ring-4 ring-violet-100"></div>
+                            </div>
+                            <div class="flex-1 bg-gradient-to-r from-blue-50 to-violet-50 rounded-2xl p-6 shadow-sm border border-blue-100">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <div class="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center">
+                                        <span class="text-violet-600 font-bold text-sm">AIML</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-slate-800">阿德莱德大学 · AIML</h3>
+                                        <p class="text-slate-500">Australian Institute for Machine Learning</p>
+                                    </div>
+                                </div>
+                                <p class="text-lg text-slate-700 mb-2"><strong>博士后研究员</strong> / Postdoctoral Researcher</p>
+                                <p class="text-slate-600">导师：Prof. Anton van den Hengel</p>
+                                <p class="text-slate-500 mt-2">研究方向：AI for Mathematics、多模态大模型、符号视觉、智能体</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== Slide 2: 科研经历 ==================== -->
+            <section class="slide flex items-center px-20" data-index="2">
+                <div class="max-w-6xl mx-auto w-full">
+                    <!-- Header -->
+                    <div class="mb-10 animate-fade-down">
+                        <h2 class="text-5xl font-bold text-slate-800 mb-2">科研经历</h2>
+                        <p class="text-xl text-slate-500">Research Experience</p>
+                    </div>
+
+                    <!-- Experience Cards -->
+                    <div class="grid grid-cols-2 gap-6 animate-fade-up">
+                        <!-- Torr Vision Group - 突出显示 -->
+                        <div class="col-span-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-white shadow-lg">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
+                                        <i class="fa-solid fa-landmark text-3xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-2xl font-bold">Torr Vision Group</h3>
+                                        <p class="text-blue-100">牛津大学 / University of Oxford</p>
+                                    </div>
+                                </div>
+                                <span class="bg-white/20 px-4 py-1 rounded-full text-sm font-medium">2023.12 - 2024.04</span>
+                            </div>
+                            <div class="mt-6 grid grid-cols-2 gap-6">
+                                <div>
+                                    <p class="text-blue-100 text-sm mb-1">职位</p>
+                                    <p class="text-lg font-medium">学术访问者 / Academic Visitor</p>
+                                </div>
+                                <div>
+                                    <p class="text-blue-100 text-sm mb-1">导师</p>
+                                    <p class="text-lg font-medium">Prof. Philip H.S. Torr</p>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-blue-50 leading-relaxed">
+                                研究开放世界和开放词汇目标检测，提出了类无关的物体性建模框架，在多个检测基准上取得优异性能
+                            </p>
+                        </div>
+
+                        <!-- CSIRO -->
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                                    <i class="fa-solid fa-flask text-emerald-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-slate-800">CSIRO / Data61</h3>
+                                    <p class="text-slate-500 text-sm">堪培拉，澳大利亚</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-sm mb-3">
+                                <span class="text-slate-600">访问科学家</span>
+                                <span class="text-emerald-600 font-medium">2025.02 - 至今</span>
+                            </div>
+                            <p class="text-slate-600 text-sm">合作研究数学多模态大模型，专注于图表感知与理解</p>
+                        </div>
+
+                        <!-- Baidu -->
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                                    <i class="fa-solid fa-building text-red-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-slate-800">百度视觉技术部</h3>
+                                    <p class="text-slate-500 text-sm">北京，中国</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-sm mb-3">
+                                <span class="text-slate-600">研究实习生</span>
+                                <span class="text-red-600 font-medium">2022.08 - 2023.06</span>
+                            </div>
+                            <p class="text-slate-600 text-sm">导师：首席科学家 王井东<br>参与 Group-DETR 等多个项目</p>
+                        </div>
+
+                        <!-- CAS -->
+                        <div class="col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+                                        <i class="fa-solid fa-microscope text-amber-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-slate-800">中国科学院 · 模式识别国家重点实验室</h3>
+                                        <p class="text-slate-500 text-sm">北京，中国</p>
+                                    </div>
+                                </div>
+                                <span class="text-amber-600 font-medium">2019.03 - 2020.01</span>
+                            </div>
+                            <p class="text-slate-600 text-sm mt-4">研究实习生 · 导师：Prof. Changsheng Xu · 小尺度行人检测与生物医学视觉模型</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== Slide 3: 研究成果概览 ==================== -->
+            <section class="slide flex items-center px-20" data-index="3">
+                <div class="max-w-6xl mx-auto w-full">
+                    <!-- Header -->
+                    <div class="mb-10 animate-fade-down">
+                        <h2 class="text-5xl font-bold text-slate-800 mb-2">研究成果</h2>
+                        <p class="text-xl text-slate-500">Research Output</p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-8 mb-12 animate-zoom-in">
+                        <!-- Total Papers -->
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-8 text-white text-center shadow-lg">
+                            <div class="text-6xl font-bold mb-2">14</div>
+                            <div class="text-xl font-medium text-blue-100">论文总数</div>
+                            <div class="text-sm text-blue-200 mt-2">Publications</div>
+                        </div>
+
+                        <!-- CCF-A -->
+                        <div class="bg-gradient-to-br from-violet-500 to-violet-600 rounded-2xl p-8 text-white text-center shadow-lg">
+                            <div class="text-6xl font-bold mb-2">8</div>
+                            <div class="text-xl font-medium text-violet-100">CCF A 类</div>
+                            <div class="text-sm text-violet-200 mt-2">Top-tier Venues</div>
+                        </div>
+
+                        <!-- First-author CCF-A -->
+                        <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-8 text-white text-center shadow-lg">
+                            <div class="text-6xl font-bold mb-2">5</div>
+                            <div class="text-xl font-medium text-emerald-100">一作 CCF A</div>
+                            <div class="text-sm text-emerald-200 mt-2">First-author A-class</div>
+                        </div>
+                    </div>
+
+                    <!-- Research Directions -->
+                    <div class="animate-fade-up">
+                        <h3 class="text-2xl font-bold text-slate-700 mb-6">研究方向 / Research Directions</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <span class="px-6 py-3 bg-blue-100 text-blue-700 rounded-full text-lg font-medium">
+                                <i class="fa-solid fa-brain mr-2"></i>多模态大语言模型
+                            </span>
+                            <span class="px-6 py-3 bg-violet-100 text-violet-700 rounded-full text-lg font-medium">
+                                <i class="fa-solid fa-shapes mr-2"></i>符号视觉 Symbolic Vision
+                            </span>
+                            <span class="px-6 py-3 bg-emerald-100 text-emerald-700 rounded-full text-lg font-medium">
+                                <i class="fa-solid fa-robot mr-2"></i>智能体 Agents
+                            </span>
+                            <span class="px-6 py-3 bg-amber-100 text-amber-700 rounded-full text-lg font-medium">
+                                <i class="fa-solid fa-square-root-variable mr-2"></i>AI for Mathematics
+                            </span>
+                            <span class="px-6 py-3 bg-rose-100 text-rose-700 rounded-full text-lg font-medium">
+                                <i class="fa-solid fa-crosshairs mr-2"></i>目标检测 Object Detection
+                            </span>
+                            <span class="px-6 py-3 bg-cyan-100 text-cyan-700 rounded-full text-lg font-medium">
+                                <i class="fa-solid fa-lightbulb mr-2"></i>小样本学习 Few-shot Learning
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Venues -->
+                    <div class="mt-10 animate-fade-up">
+                        <h3 class="text-2xl font-bold text-slate-700 mb-4">发表会议 / Venues</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium">ICML</span>
+                            <span class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium">CVPR</span>
+                            <span class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium">NeurIPS</span>
+                            <span class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium">ICCV</span>
+                            <span class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium">ECCV</span>
+                            <span class="px-4 py-2 bg-slate-800 text-white rounded-lg font-medium">IJCAI</span>
+                            <span class="px-4 py-2 bg-slate-700 text-white rounded-lg font-medium">WACV</span>
+                            <span class="px-4 py-2 bg-slate-700 text-white rounded-lg font-medium">ACCV</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== Slide 4: 代表论文 ==================== -->
+            <section class="slide flex items-center px-20" data-index="4">
+                <div class="max-w-6xl mx-auto w-full">
+                    <!-- Header -->
+                    <div class="mb-8 animate-fade-down">
+                        <h2 class="text-5xl font-bold text-slate-800 mb-2">代表论文</h2>
+                        <p class="text-xl text-slate-500">Selected Publications</p>
+                    </div>
+
+                    <!-- Papers Grid -->
+                    <div class="space-y-5 animate-fade-up">
+                        <!-- Paper 1: ICML 2025 -->
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="flex items-start gap-4">
+                                <span class="flex-shrink-0 px-3 py-1 bg-blue-600 text-white rounded-lg text-sm font-bold">ICML 2025</span>
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-bold text-slate-800 leading-tight">
+                                        Open Eyes, Then Reason: Fine-grained Visual Mathematical Understanding in MLLMs
+                                    </h4>
+                                    <p class="text-slate-500 text-sm mt-1">
+                                        <strong class="text-slate-700">Shan Zhang</strong>, Aotian Chen, Yanpeng Sun, Jindong Gu, et al.
+                                    </p>
+                                    <p class="text-slate-600 text-sm mt-2">
+                                        <i class="fa-solid fa-star text-amber-500 mr-1"></i>
+                                        提出 MATHEMETRIC 基准，系统评估 MLLM 在数学图表理解中的感知能力
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paper 2: CVPR 2025 -->
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="flex items-start gap-4">
+                                <span class="flex-shrink-0 px-3 py-1 bg-violet-600 text-white rounded-lg text-sm font-bold">CVPR 2025</span>
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-bold text-slate-800 leading-tight">
+                                        Open-World Objectness Modeling Unifies Novel Object Detection
+                                    </h4>
+                                    <p class="text-slate-500 text-sm mt-1">
+                                        <strong class="text-slate-700">Shan Zhang</strong>, Yao Ni, Jinhao Du, Yuan Xue, Philip Torr, et al.
+                                    </p>
+                                    <p class="text-slate-600 text-sm mt-2">
+                                        <i class="fa-solid fa-star text-amber-500 mr-1"></i>
+                                        与 Torr 组合作，提出统一的开放世界目标检测框架
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paper 3: NeurIPS 2024 -->
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="flex items-start gap-4">
+                                <span class="flex-shrink-0 px-3 py-1 bg-emerald-600 text-white rounded-lg text-sm font-bold">NeurIPS 2024</span>
+                                <span class="flex-shrink-0 px-2 py-0.5 bg-amber-100 text-amber-700 rounded text-xs font-bold">Spotlight</span>
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-bold text-slate-800 leading-tight">
+                                        PACE: Marrying Generalization in PArameter-efficient Fine-tuning with Consistency rEgularization
+                                    </h4>
+                                    <p class="text-slate-500 text-sm mt-1">
+                                        Yao Ni, <strong class="text-slate-700">Shan Zhang</strong>, Piotr Koniusz
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paper 4: CVPR 2022 -->
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="flex items-start gap-4">
+                                <span class="flex-shrink-0 px-3 py-1 bg-rose-600 text-white rounded-lg text-sm font-bold">CVPR 2022</span>
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-bold text-slate-800 leading-tight">
+                                        Kernelized Few-shot Object Detection with Efficient Integral Aggregation
+                                    </h4>
+                                    <p class="text-slate-500 text-sm mt-1">
+                                        <strong class="text-slate-700">Shan Zhang</strong>, Lei Wang, Nailia Murray, Piotr Koniusz
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paper 5: ECCV 2022 -->
+                        <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <div class="flex items-start gap-4">
+                                <span class="flex-shrink-0 px-3 py-1 bg-cyan-600 text-white rounded-lg text-sm font-bold">ECCV 2022</span>
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-bold text-slate-800 leading-tight">
+                                        Time-rEversed diffusioN tEnsor Transformer: A New TENET of Few-Shot Object Detection
+                                    </h4>
+                                    <p class="text-slate-500 text-sm mt-1">
+                                        <strong class="text-slate-700">Shan Zhang</strong>, Nailia Murray, Lei Wang, Piotr Koniusz
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== Slide 5: 发展愿景 ==================== -->
+            <section class="slide flex items-center px-20" data-index="5">
+                <div class="max-w-6xl mx-auto w-full">
+                    <!-- Header -->
+                    <div class="mb-10 animate-fade-down">
+                        <h2 class="text-5xl font-bold text-slate-800 mb-2">发展愿景</h2>
+                        <p class="text-xl text-slate-500">Future Vision</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-10 animate-fade-up">
+                        <!-- AI for Mathematics -->
+                        <div class="bg-gradient-to-br from-blue-50 to-violet-50 rounded-2xl p-8 border border-blue-100">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center">
+                                    <i class="fa-solid fa-square-root-variable text-3xl text-white"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800">AI for Mathematics</h3>
+                            </div>
+                            <ul class="space-y-4 text-slate-700">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check-circle text-blue-500 mt-1"></i>
+                                    <span>构建更强大的<strong>数学视觉编码器</strong>，实现精准的图表理解</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check-circle text-blue-500 mt-1"></i>
+                                    <span>开发<strong>符号推理系统</strong>，连接视觉感知与逻辑推理</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check-circle text-blue-500 mt-1"></i>
+                                    <span>推动多模态模型在<strong>数学教育和科研辅助</strong>中的应用</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- AI for Science -->
+                        <div class="bg-gradient-to-br from-emerald-50 to-cyan-50 rounded-2xl p-8 border border-emerald-100">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-16 h-16 bg-emerald-500 rounded-xl flex items-center justify-center">
+                                    <i class="fa-solid fa-atom text-3xl text-white"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-slate-800">AI for Science</h3>
+                            </div>
+                            <ul class="space-y-4 text-slate-700">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check-circle text-emerald-500 mt-1"></i>
+                                    <span>将符号视觉扩展到<strong>分子结构、电路图</strong>等科学图表领域</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check-circle text-emerald-500 mt-1"></i>
+                                    <span>研发具有<strong>长期语义记忆</strong>的科研助手 Agent</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check-circle text-emerald-500 mt-1"></i>
+                                    <span>探索<strong>可解释、可验证</strong>的 AI 推理机制</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Core Belief -->
+                    <div class="mt-10 text-center animate-fade-up">
+                        <div class="inline-block bg-slate-100 rounded-2xl px-10 py-6">
+                            <p class="text-2xl text-slate-700 font-medium italic">
+                                "让 AI 像人类一样理解抽象符号，<br>通过经验学习、通过推理进步"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== Slide 6: 结束页 ==================== -->
+            <section class="slide flex flex-col items-center justify-center text-center" data-index="6">
+                <div class="space-y-10 animate-fade-up" style="max-width: 800px;">
+                    <h2 class="text-6xl font-bold text-slate-800">感谢聆听</h2>
+                    <p class="text-3xl text-slate-500">Thank You</p>
+
+                    <!-- Contact Info -->
+                    <div class="space-y-4 pt-8">
+                        <div class="flex items-center justify-center gap-3 text-xl text-slate-600">
+                            <i class="fa-solid fa-envelope text-blue-500"></i>
+                            <span>shan.zhang@adelaide.edu.au</span>
+                        </div>
+                        <div class="flex items-center justify-center gap-3 text-xl text-slate-600">
+                            <i class="fa-brands fa-github text-slate-700"></i>
+                            <span>github.com/AI4Math-ShanZhang</span>
+                        </div>
+                        <div class="flex items-center justify-center gap-3 text-xl text-slate-600">
+                            <i class="fa-solid fa-graduation-cap text-violet-500"></i>
+                            <span>Google Scholar: Shan Zhang</span>
+                        </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="pt-8">
+                        <p class="text-2xl text-slate-600">
+                            欢迎交流与合作 / Open for Collaboration
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div><!-- End slide-wrapper -->
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
