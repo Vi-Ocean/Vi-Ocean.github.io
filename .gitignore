@@ -13,3 +13,10 @@ Thumbs.db
 # Local development
 .env
 .env.local
+
+# Local assets (untracked)
+img/
+wechat/
+wechat.zip
+SHANZHANG.pdf
+personal_intro/
