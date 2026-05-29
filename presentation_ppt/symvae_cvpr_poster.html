@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>SymVAE — Hierarchical Process Reward Models are Symbolic Vision Learners · CVPR 2026</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (vendored locally so the deck renders offline / during video capture) -->
+    <script src="assets/js/tailwind.cdn.js"></script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Reuse existing presentation styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        .slide-wrapper { opacity: 0; transition: opacity 0.3s ease; }
+        .slide-wrapper.ready { opacity: 1; }
+        .accent-p1 { color: #c084fc; }
+        .accent-p2 { color: #34d399; }
+
+        /* ===== Global font-size bump for all slide body text =====
+           Bump text-* tokens by ~1 step. Headings (text-4xl+) untouched. */
+        .slide .text-xs   { font-size: 0.95rem;  line-height: 1.5rem; }
+        .slide .text-sm   { font-size: 1.05rem;  line-height: 1.65rem; }
+        .slide .text-base { font-size: 1.2rem;   line-height: 1.8rem; }
+        .slide .text-lg   { font-size: 1.375rem; line-height: 1.95rem; }
+        .slide .text-xl   { font-size: 1.55rem;  line-height: 2.1rem; }
+        .slide .text-2xl  { font-size: 1.8rem;   line-height: 2.35rem; }
+        .slide .text-3xl  { font-size: 2.1rem;   line-height: 2.55rem; }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .pillar-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 16px;
+            padding: 28px;
+        }
+        .big-num {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .flow-box {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(52, 211, 153, 0.35);
+            color: #a7f3d0;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 22px;
+        }
+        .flow-arrow {
+            color: #34d399;
+            font-size: 28px;
+        }
+        .insight-quote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #e2e8f0;
+        }
+        .lineage-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 14px;
+            padding: 18px 20px;
+            transition: border-color 0.25s ease, transform 0.25s ease;
+        }
+        .lineage-card.current {
+            border-color: rgba(52, 211, 153, 0.5);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.10), rgba(15, 23, 42, 0.5));
+        }
+        .lineage-arrow {
+            color: rgba(148, 163, 184, 0.4);
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== Image Lightbox (click-to-zoom) ===== */
+        .slide img:not(.no-zoom) {
+            cursor: zoom-in;
+            transition: filter 0.2s ease;
+        }
+        .slide img:not(.no-zoom):hover {
+            filter: brightness(1.04);
+        }
+        #image-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.94);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+            cursor: zoom-out;
+        }
+        #image-lightbox.active {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.25s ease, visibility 0s linear 0s;
+        }
+        #image-lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            transform: scale(0.96);
+            transition: transform 0.25s ease;
+        }
+        #image-lightbox.active img {
+            transform: scale(1);
+        }
+        #lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: background 0.2s;
+        }
+        #lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+        #lightbox-caption {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-style: italic;
+            pointer-events: none;
+        }
+        .logo-watermark img { cursor: default !important; }
+    </style>
+</head>
+<body class="text-white overflow-hidden antialiased">
+
+    <!-- Image Lightbox (outside slide-wrapper so it isn't scaled) -->
+    <div id="image-lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+        <button id="lightbox-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <img id="lightbox-img" src="" alt="">
+        <div id="lightbox-caption">Click outside or press <kbd>Esc</kbd> to close</div>
+    </div>
+
+    <main id="slides-container">
+        <div class="slide-wrapper">
+
+            <!-- Logo -->
+            <div class="logo-watermark">
+                <img src="assets/images/logo.png" alt="ViOcean Logo">
+                <img src="assets/images/title2.png" alt="ViOcean Title">
+            </div>
+
+            <!-- Nav dots -->
+            <div id="nav-dots"></div>
+
+            <!-- Footer -->
+            <footer class="slide-footer" style="display: grid; grid-template-columns: 1fr 2fr 1fr; align-items: center; gap: 1rem;">
+                <div class="text-slate-400">
+                    <span class="text-slate-300 font-medium">Shan Zhang</span>
+                    <span class="text-slate-500 ml-1">(AIML)</span>
+                </div>
+                <div class="text-slate-400 font-medium tracking-wide text-center">
+                    SymVAE &middot; CVPR 2026
+                </div>
+                <div class="flex items-center justify-end gap-4 text-slate-400">
+                    <span class="text-slate-300 font-mono">
+                        <span id="current-page">1</span> / <span id="total-pages">9</span>
+                    </span>
+                </div>
+            </footer>
+
+            <!-- ============================================================
+                 SLIDE 0: COVER
+                 ============================================================ -->
+            <section class="slide active" data-index="0">
+                <div class="flex flex-col items-center justify-center text-center h-full space-y-10">
+                    <div class="flex justify-center">
+                        <img src="assets/images/logo.png" alt="Logo" style="height: 110px; width: auto;" class="drop-shadow-xl">
+                    </div>
+                    <div class="space-y-5">
+                        <p class="text-xl tracking-[0.4em] text-slate-400 font-semibold">CVPR 2026 &middot; POSTER PRESENTATION</p>
+                        <h1 class="font-serif font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 via-teal-200 to-sky-300" style="font-size: 72px; line-height: 1.18; white-space: normal; max-width: 1600px;">
+                            Hierarchical Process Reward Models<br>are Symbolic Vision Learners
+                        </h1>
+                        <p class="text-2xl text-slate-300 font-medium pt-2">
+                            <span class="accent-p2 font-semibold">SymVAE</span> &mdash; a symbolic visual auto-encoder
+                        </p>
+                    </div>
+                    <div class="pt-6 space-y-4 max-w-5xl">
+                        <p class="text-2xl text-slate-200 font-medium leading-relaxed">
+                            Shan Zhang<sup class="text-emerald-300">1,5,&dagger;,*</sup>,
+                            Aotian Chen<sup class="text-emerald-300">2,*</sup>,
+                            Kai Zou<sup class="text-emerald-300">3</sup>,
+                            Jindong Gu<sup class="text-emerald-300">4</sup>,
+                            Yuan Xue<sup class="text-emerald-300">2,&Dagger;</sup>,
+                            Anton van den Hengel<sup class="text-emerald-300">1</sup>
+                        </p>
+                        <p class="text-lg text-slate-400 leading-relaxed">
+                            <sup>1</sup>Adelaide AIML &nbsp;&middot;&nbsp;
+                            <sup>2</sup>Ohio State University &nbsp;&middot;&nbsp;
+                            <sup>3</sup>NetMind.ai &nbsp;&middot;&nbsp;
+                            <sup>4</sup>University of Oxford &nbsp;&middot;&nbsp;
+                            <sup>5</sup>Data61 &amp; CSIRO
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SLIDE 1: SYMVAE INTRO — symbolic latent space
+                 ============================================================ -->
+            <section class="slide" data-index="1">
+                <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                    <div class="mb-4 animate-fade-down text-center">
+                        <span class="chip bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 mb-3">SymVAE</span>
+                        <h2 class="text-5xl font-bold font-serif mt-4">
+                            What if the <span class="accent-p2">latent space itself</span> were symbolic? <span class="accent-p2">[CVPR 2026]</span>
+                        </h2>
+                    </div>
+
+                    <!-- Current MLLM visual-representation flow -->
+                    <div class="pillar-card mb-5 animate-fade-up" style="border-color: rgba(244, 63, 94, 0.35); padding: 16px 24px;">
+                        <p class="text-xs text-rose-300 tracking-widest font-semibold mb-3 text-center">CURRENT MLLM · VISUAL REPRESENTATION FLOW</p>
+                        <div class="flex items-center justify-center gap-2 flex-wrap">
+                            <span class="flow-box" style="font-size: 18px; padding: 10px 18px;">Structural Features</span>
+                            <span class="flow-arrow" style="font-size: 24px;">→</span>
+                            <span class="flow-box" style="font-size: 18px; padding: 10px 18px;">Rendering Engine</span>
+                            <span class="flow-arrow" style="font-size: 24px;">→</span>
+                            <span class="flow-box" style="font-size: 18px; padding: 10px 18px;">Pixels</span>
+                            <span class="flow-arrow" style="font-size: 24px; color: #fb7185;">→</span>
+                            <span class="flow-box" style="background: rgba(244, 63, 94, 0.12); border-color: rgba(244, 63, 94, 0.35); color: #fda4af; font-size: 18px; padding: 10px 18px;">Visual Encoder</span>
+                            <span class="flow-arrow" style="font-size: 24px; color: #fb7185;">→</span>
+                            <span class="flow-box" style="background: rgba(244, 63, 94, 0.12); border-color: rgba(244, 63, 94, 0.35); color: #fda4af; font-size: 18px; padding: 10px 18px;">High-dim Latent</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-emerald-500/15 to-sky-500/10 border-l-4 border-emerald-400 px-6 py-4 rounded-lg mb-5 text-center animate-fade-up">
+                        <p class="insight-quote text-2xl text-slate-200">
+                            "Why not use the <span class="accent-p2 not-italic font-semibold">structural features themselves</span> as the visual representation? — that's SymVAE."
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 items-center">
+                        <div class="animate-fade-right">
+                            <img src="assets/images/SymVAE/Intro_latent-v2.webp" alt="Latent Space Comparison" class="rounded-xl shadow-2xl border border-slate-700 w-full bg-white p-3" style="max-height: 460px; object-fit: contain;">
+                        </div>
+                        <div class="relative group animate-fade-left">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                            <video src="assets/SymVAE-demo.mp4" controls muted playsinline autoplay loop class="relative rounded-xl shadow-2xl border border-slate-700 w-full" style="max-height: 460px; object-fit: contain;"></video>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SLIDE 2: HIERARCHICAL PROCESS REWARDS (SymHPR)
+                 ============================================================ -->
+            <section class="slide" data-index="2">
+                <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                    <div class="mb-8 animate-fade-down">
+                        <h2 class="text-5xl font-bold font-serif">Hierarchical Process Rewards <span class="text-2xl text-slate-400 font-sans font-normal align-middle">· SymHPR</span></h2>
+                        <p class="text-xl text-slate-400 mt-3">
+                            A <span class="accent-p2 font-semibold">logic form</span> decomposes into <span class="text-white font-medium">points → lines → shapes → relations</span>.
+                            <span class="text-slate-300"> Our key idea: make the reward respect this hierarchy.</span>
+                        </p>
+                    </div>
+
+                    <div class="flex items-center justify-center gap-3 mb-10 animate-fade-up">
+                        <span class="flow-box">Point</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-box">Line</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-box">Shape</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-box">Relations</span>
+                    </div>
+
+                    <div class="grid grid-cols-[3fr,2fr] gap-10 items-start animate-fade-up" style="animation-delay: 150ms;">
+                        <div class="space-y-5">
+                            <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+                                <h4 class="text-xl font-bold accent-p2 mb-2"><i class="fa-solid fa-link mr-2"></i>Errors propagate downward</h4>
+                                <p class="text-lg text-slate-300">If a <span class="text-white font-semibold">point</span> is wrong, any <span class="text-white font-semibold">line</span> built on it is meaningless — reward for line / shape / relation is reduced.</p>
+                            </div>
+                            <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700">
+                                <h4 class="text-xl font-bold accent-p2 mb-2"><i class="fa-solid fa-xmark mr-2"></i>Flat-average rewards fail</h4>
+                                <p class="text-lg text-slate-300">Averaging six reward terms independently ignores compositional structure — policy stays near cold-start, no exploration.</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-emerald-500/15 to-teal-500/10 p-5 rounded-xl border border-emerald-400/35">
+                                <h4 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-check mr-2"></i>Dependency blending</h4>
+                                <p class="text-lg text-slate-200">
+                                    <code class="text-emerald-300 text-xl">r'<sub>c</sub> = r<sub>c</sub> · [(1 − α) + α · r'<sub>p</sub>]</code>,&nbsp; with α = 0.9.
+                                </p>
+                                <p class="text-base text-slate-400 mt-2">Parent reward gates child credit — lower-level errors cannot be masked by superficial matches.</p>
+                            </div>
+                        </div>
+
+                        <div class="pillar-card h-full flex flex-col justify-center">
+                            <p class="text-sm text-emerald-400 tracking-widest font-semibold mb-3">ABLATION</p>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-baseline border-b border-slate-700 pb-2">
+                                    <span class="text-slate-400">Flat reward</span>
+                                    <span class="big-num text-3xl text-slate-300">65.7</span>
+                                </div>
+                                <div class="flex justify-between items-baseline border-b border-slate-700 pb-2">
+                                    <span class="text-slate-400">SymHPR (hierarchical)</span>
+                                    <span class="big-num text-3xl accent-p2">69.3</span>
+                                </div>
+                                <div class="flex justify-between items-baseline">
+                                    <span class="text-white font-semibold">+ SymVAE (RL)</span>
+                                    <span class="big-num text-3xl accent-p2">72.6</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-slate-400 mt-4 italic">MathGlance average (3B, overall accuracy %)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SLIDE 3: SYMVAE FRAMEWORK
+                 ============================================================ -->
+            <section class="slide" data-index="3">
+                <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                    <div class="mb-6 animate-fade-down">
+                        <h2 class="text-5xl font-bold font-serif">SymVAE · Framework</h2>
+                        <p class="text-xl text-slate-400 mt-3">
+                            <span class="accent-p2 font-semibold">SymHPR encoder</span> → rendering engine → <span class="text-white font-medium">visual reward</span> closes the loop via GRPO.
+                        </p>
+                    </div>
+
+                    <div class="animate-zoom-in mb-6">
+                        <img src="assets/images/SymVAE/Method.webp" alt="SymVAE Framework" class="w-full object-contain rounded-lg" style="max-height: 440px;">
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6 animate-fade-up">
+                        <div class="pillar-card">
+                            <p class="text-sm text-emerald-400 tracking-widest font-semibold mb-1">ENCODER</p>
+                            <h4 class="text-xl font-bold text-white mb-2">SymHPR</h4>
+                            <p class="text-base text-slate-400">A VLM refined via <span class="accent-p2 font-medium">hierarchical process rewards</span> — parses a diagram into a structured logic form (points, lines, shapes, relations).</p>
+                        </div>
+                        <div class="pillar-card">
+                            <p class="text-sm text-emerald-400 tracking-widest font-semibold mb-1">DECODER</p>
+                            <h4 class="text-xl font-bold text-white mb-2">Rendering Engine</h4>
+                            <p class="text-base text-slate-400">A deterministic data engine (not a neural net) that renders logic forms back into diagrams.</p>
+                        </div>
+                        <div class="pillar-card">
+                            <p class="text-sm text-emerald-400 tracking-widest font-semibold mb-1">TRAINING</p>
+                            <h4 class="text-xl font-bold text-white mb-2">GRPO + Visual Reward</h4>
+                            <p class="text-base text-slate-400">Final <span class="accent-p2 font-medium">SymVAE</span> trained via RL — visual reward from the rendered reconstruction. The engine is non-differentiable, so we use scalar rewards.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SLIDE 4: RL STABILIZATION
+                 ============================================================ -->
+            <section class="slide" data-index="4">
+                <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                    <div class="mb-6 animate-fade-down">
+                        <h2 class="text-5xl font-bold font-serif">Making RL actually work on sparse diagrams</h2>
+                        <p class="text-xl text-slate-400 mt-3">Vanilla GRPO collapses — diagrams are too sparse for stable reward signals.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 mb-6 animate-fade-up">
+                        <div class="pillar-card">
+                            <p class="text-sm text-red-400 tracking-widest font-semibold mb-2">THE PROBLEM</p>
+                            <h4 class="text-2xl font-bold text-white mb-3">Reward variance collapse</h4>
+                            <p class="text-lg text-slate-300 leading-relaxed">
+                                Uniform backgrounds + thin lines → every rollout looks "good enough". Advantages shrink to zero, KL stays flat, policy stops exploring.
+                            </p>
+                        </div>
+                        <div class="pillar-card" style="border-color: rgba(52, 211, 153, 0.35);">
+                            <p class="text-sm text-emerald-400 tracking-widest font-semibold mb-2">TWO FIXES</p>
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-xl font-bold text-white"><i class="fa-solid fa-bolt mr-2 accent-p2"></i>Hard negative contrastive</p>
+                                    <p class="text-base text-slate-400 ml-8">Inject Gaussian noise → fabricate hard negatives → restore reward variance.</p>
+                                </div>
+                                <div>
+                                    <p class="text-xl font-bold text-white"><i class="fa-solid fa-chart-line mr-2 accent-p2"></i>Power-normalization annealing</p>
+                                    <p class="text-base text-slate-400 ml-8">r' = r<sup>α</sup>, α &gt; 1 → amplify good / bad difference while preserving ranking.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border-l-4 border-emerald-400 p-5 rounded-lg animate-fade-up" style="animation-delay: 150ms;">
+                        <p class="text-lg text-slate-300">
+                            <span class="text-white font-semibold">Curriculum:</span> aggressive exploration early (high noise, large α) → stable exploitation late (σ → 0, α → 1).
+                            Steady reward growth, healthy KL — and the encoder actually learns.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SLIDE 5: RESULTS
+                 ============================================================ -->
+            <section class="slide" data-index="5">
+                <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                    <div class="mb-8 animate-fade-down">
+                        <h2 class="text-5xl font-bold font-serif">Experiment results</h2>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6 mb-8 animate-fade-up">
+                        <div class="pillar-card text-center" style="border-color: rgba(52, 211, 153, 0.4);">
+                            <p class="big-num text-7xl accent-p2">98.2%</p>
+                            <p class="text-lg text-slate-200 font-semibold mt-3">MSE reduction</p>
+                            <p class="text-sm text-slate-400 mt-2">Diagram reconstruction fidelity — symbolic latent clearly beats pixel / code baselines.</p>
+                        </div>
+                        <div class="pillar-card text-center" style="border-color: rgba(52, 211, 153, 0.4);">
+                            <p class="big-num text-7xl accent-p2">+0.6%</p>
+                            <p class="text-lg text-slate-200 font-semibold mt-3">over GPT-4o</p>
+                            <p class="text-sm text-slate-400 mt-2">On ChartMimic — at just <span class="text-white font-semibold">7B</span> params. 5× fewer training samples than the specialist parser.</p>
+                        </div>
+                        <div class="pillar-card text-center" style="border-color: rgba(52, 211, 153, 0.4);">
+                            <p class="big-num text-7xl accent-p2">+13% <span class="text-3xl text-slate-400">/</span> +3%</p>
+                            <p class="text-lg text-slate-200 font-semibold mt-3">MathGlance / MathVerse</p>
+                            <p class="text-sm text-slate-400 mt-2">Consistent <span class="accent-p2 font-semibold">improvements</span> on downstream math reasoning after fine-tuning on both perception and reasoning.</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-[3fr,2fr] gap-6 animate-fade-up" style="animation-delay: 150ms;">
+                        <div class="relative">
+                            <img src="assets/images/SymVAE/symvae_results_demo.webp" alt="Reconstruction vs. VQ-GAN, PyParser, SymParser" class="rounded-xl border border-slate-700 w-full bg-white p-2" style="max-height: 360px; object-fit: contain;">
+                            <p class="text-center text-slate-400 mt-2 text-sm italic">Reconstruction: VQ-GAN · PyParser · SymParser · input</p>
+                        </div>
+                        <div class="relative">
+                            <img src="assets/images/SymVAE/vis_compare.webp" alt="Reconstruction vs. Qwen2.5-VL-7B, GPT-4o, SymVAE-7B" class="rounded-xl border border-slate-700 w-full bg-white p-2" style="max-height: 360px; object-fit: contain;">
+                            <p class="text-center text-slate-400 mt-2 text-sm italic">Qwen2.5-VL-7B · GPT-4o · SymVAE-7B (ours) · GT (last col)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SLIDE 6: EMERGENT PROPERTIES
+                 ============================================================ -->
+            <section class="slide" data-index="6">
+                <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                    <div class="mb-8 animate-fade-down">
+                        <p class="text-slate-400 tracking-[0.3em] text-sm font-semibold mb-3">BEYOND THE NUMBERS</p>
+                        <h2 class="text-5xl font-bold font-serif">Two <span class="accent-p2">emergent</span> properties</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700 grid grid-cols-[3fr,2fr] gap-6 items-center animate-fade-up">
+                            <img src="assets/images/SymVAE/correct_mol_circuit_demo.webp" alt="Cross-domain" class="rounded-lg w-full bg-white p-2" style="max-height: 230px; object-fit: contain;">
+                            <div>
+                                <h4 class="text-2xl font-bold accent-p2 mb-2"><i class="fa-solid fa-arrows-split-up-and-left mr-2"></i>Cross-domain generalization</h4>
+                                <p class="text-base text-slate-300 leading-relaxed">
+                                    Primitives learned on plane geometry transfer to <span class="text-white font-semibold">electric circuits</span> and <span class="text-white font-semibold">chemical structures</span> — without domain-specific retraining.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-5 rounded-xl border border-slate-700 grid grid-cols-[3fr,2fr] gap-6 items-center animate-fade-up" style="animation-delay: 150ms;">
+                            <img src="assets/images/SymVAE/MathGlance_Demo2.webp" alt="Cross-lingual translation" class="rounded-lg w-full bg-white p-2" style="max-height: 230px; object-fit: contain;">
+                            <div>
+                                <h4 class="text-2xl font-bold accent-p2 mb-2"><i class="fa-solid fa-language mr-2"></i>Cross-lingual translation</h4>
+                                <p class="text-base text-slate-300 leading-relaxed">
+                                    Logic forms auto-translate into fluent CoT — following our <span class="text-white font-semibold">point → line → shape</span> hierarchy. <span class="text-slate-400">Qwen2.5-VL-7B starts from global shapes, diverging from this structure.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SLIDE 7: PROJECTOR-FREE INSIGHT
+                 ============================================================ -->
+            <section class="slide" data-index="7">
+                <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+                    <div class="mb-6 animate-fade-down">
+                        <p class="text-slate-400 tracking-[0.3em] text-sm font-semibold mb-3">A NUANCED TRADE-OFF</p>
+                        <h2 class="text-5xl font-bold font-serif">Two ways to plug <span class="accent-p2">SymVAE</span> into reasoning</h2>
+                        <p class="text-xl text-slate-400 mt-3">GeoQA · 7B · final-answer accuracy</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 mb-8">
+                        <div class="pillar-card animate-fade-right text-center">
+                            <p class="text-sm text-emerald-400 tracking-widest font-semibold mb-4">① NEURO-SYMBOLIC PIPELINE</p>
+                            <p class="big-num text-7xl accent-p2 my-4">67.9%</p>
+                            <p class="text-base text-slate-300 font-medium mb-3">Logic form → LLM reasoner</p>
+                            <p class="text-sm text-slate-400 italic">No visual tokens — just structured symbols passed directly into the LLM.</p>
+                        </div>
+
+                        <div class="pillar-card animate-fade-left text-center" style="border-color: rgba(52, 211, 153, 0.4);">
+                            <p class="text-sm text-emerald-400 tracking-widest font-semibold mb-4">② VISUAL-ENCODER REPLACEMENT</p>
+                            <p class="big-num text-7xl accent-p2 my-4">79.4%</p>
+                            <p class="text-base text-slate-300 font-medium mb-3">SymVAE replaces the MLLM encoder</p>
+                            <p class="text-sm text-slate-400 italic">Symbolic latent feeds the reasoning path as visual tokens.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-emerald-500/10 to-sky-500/10 border-l-4 border-emerald-400 p-6 rounded-lg animate-fade-up">
+                        <p class="text-xl leading-relaxed text-slate-200">
+                            The neuro-symbolic pipeline offers <span class="accent-p2 font-semibold">explicit interpretability and modular supervision</span>, but is <span class="text-white font-semibold">less flexible</span> at aligning symbolic visual representations with pretrained textual reasoning spaces.
+                            <span class="block mt-3">RL <span class="accent-p2 font-semibold">refines existing reasoning policies</span> rather than inducing new multimodal knowledge.</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SLIDE 8: THANK YOU / Q&A
+                 ============================================================ -->
+            <section class="slide" data-index="8">
+                <div class="flex flex-col items-center justify-center text-center h-full space-y-8 animate-fade-up">
+                    <h2 class="font-serif font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-300 via-teal-200 to-sky-300" style="font-size: 88px; line-height: 1.15;">
+                        Thank you!
+                    </h2>
+                    <h3 class="font-serif italic text-slate-300" style="font-size: 44px; line-height: 1.3;">
+                        SymVAE &middot; come find our poster.
+                    </h3>
+                    <div class="pt-10 flex justify-center gap-16">
+                        <div class="space-y-1">
+                            <p class="text-2xl text-slate-200 font-medium">Shan Zhang</p>
+                            <p class="text-lg text-slate-500">shan.zhang@adelaide.edu.au</p>
+                        </div>
+                        <div class="space-y-1">
+                            <p class="text-2xl text-slate-200 font-medium">Yuan Xue</p>
+                            <p class="text-lg text-slate-500">Yuan.Xue@osumc.edu</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Reuse existing script.js for navigation, scaling, keyboard/touch control -->
+    <script src="assets/js/script.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            // Reveal the wrapper once everything is laid out (matches main deck behavior).
+            const wrapper = document.querySelector('.slide-wrapper');
+            if (wrapper) wrapper.classList.add('ready');
+
+            // ===== Override nav-dot tooltips for THIS deck =====
+            const tooltips = {
+                0: 'Cover',
+                1: 'SymVAE Intro',
+                2: 'SymHPR',
+                3: 'SymVAE Framework',
+                4: 'RL Stabilization',
+                5: 'Results',
+                6: 'Emergent Properties',
+                7: 'Projector-Free Insight',
+                8: 'Thank you / Q&A'
+            };
+            document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+                dot.title = tooltips[i] || '';
+            });
+
+            // ===== Image lightbox (click-to-zoom) =====
+            const lightbox = document.getElementById('image-lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            function openLightbox(src, alt) {
+                lightboxImg.src = src;
+                lightboxImg.alt = alt || '';
+                lightbox.classList.add('active');
+            }
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                setTimeout(() => { lightboxImg.src = ''; }, 260);
+            }
+            function isOpen() { return lightbox.classList.contains('active'); }
+
+            // Bind click on every slide image (excluding logo & explicitly opted-out)
+            document.querySelectorAll('.slide img').forEach(img => {
+                if (img.closest('.logo-watermark')) return;
+                if (img.classList.contains('no-zoom')) return;
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openLightbox(img.src, img.alt);
+                });
+            });
+
+            // Close on backdrop click & close button
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
+            });
+            lightboxClose.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeLightbox();
+            });
+
+            // ===== Block slide navigation while lightbox is open (capture phase) =====
+            document.addEventListener('keydown', (e) => {
+                if (!isOpen()) return;
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return;
+                }
+                // Swallow nav keys (arrows, space, enter, pageup/down, home/end, f)
+                e.stopPropagation();
+                e.preventDefault();
+            }, true);
+
+            ['wheel', 'touchstart', 'touchend'].forEach(ev => {
+                document.addEventListener(ev, (e) => {
+                    if (isOpen()) e.stopPropagation();
+                }, { capture: true, passive: ev !== 'wheel' });
+            });
+        });
+    </script>
+</body>
+</html>
