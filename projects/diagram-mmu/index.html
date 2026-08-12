@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Diagram-MMU: A Multi-Modal Benchmark for Scientific Diagrams. 3.7k curated diagrams and 18.3k human-validated questions across six domains, evaluating MLLMs on diagram-to-code parsing, editing, and question answering, alongside agentic settings.">
+  <meta name="keywords" content="Diagram-MMU, Scientific Diagrams, TikZ, Benchmark, Multimodal Large Language Models, Diagram-to-Code, Agentic Evaluation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diagram-MMU: A Multi-Modal Benchmark for Scientific Diagrams</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="icon" type="image/png" href="./assets/images/diagram-mmu/viocean_logo.png">
+</head>
+<body>
+
+  <!-- ===================== Hero ===================== -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-left">
+            <h1 class="title is-1 publication-title">
+              <span class="diagram-mmu">Diagram-MMU</span>: A Multi-Modal Benchmark for Scientific Diagrams
+            </h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Weihao Bo<sup>1,2,*</sup>,</span>
+              <span class="author-block">Shan Zhang<sup>3,&dagger;</sup>,</span>
+              <span class="author-block">Yanpeng Sun<sup>4,*</sup>,</span>
+              <span class="author-block">Jie Liu<sup>2,5</sup>,</span>
+              <span class="author-block">Yongke Yao<sup>2,6</sup>,</span>
+              <span class="author-block">Jinhao Du<sup>7</sup>,</span>
+              <span class="author-block">Wei He<sup>2</sup>,</span>
+              <span class="author-block">Kai Zou<sup>8</sup>,</span>
+              <span class="author-block">Zechao Li<sup>1,&dagger;</sup>,</span>
+              <span class="author-block">Jingdong Wang<sup>2,&ddagger;</sup></span>
+            </div>
+
+            <div class="is-size-6 publication-authors affiliations">
+              <span class="author-block"><sup>1</sup>Nanjing University of Science and Technology</span>
+              <span class="author-block"><sup>2</sup>Baidu Inc</span>
+              <span class="author-block"><sup>3</sup>AIML, Adelaide University</span>
+              <span class="author-block"><sup>4</sup>SUTD</span>
+              <span class="author-block"><sup>5</sup>Southeast University</span>
+              <span class="author-block"><sup>6</sup>East China Normal University</span>
+              <span class="author-block"><sup>7</sup>University of Oxford</span>
+              <span class="author-block"><sup>8</sup>NetMind.ai</span>
+            </div>
+
+            <div class="is-size-7 publication-authors" style="margin-top: 3px;">
+              <span class="author-block"><sup>*</sup>Equal Contribution &nbsp; <sup>&dagger;</sup>Corresponding Author &nbsp; <sup>&ddagger;</sup>Project Lead</span>
+            </div>
+
+            <div class="column has-text-left" style="padding-left: 0;">
+              <div class="publication-links">
+                <!-- TODO: replace # with the arXiv link once available -->
+                <span class="link-block">
+                  <a href="#" class="external-link button is-normal is-rounded is-arxiv">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/AIGrounding/Diagram-MMU" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://huggingface.co/datasets/AIGrounding/Diagram-MMU" target="_blank" rel="noopener" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fa fa-database"></i></span>
+                    <span>Dataset</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Teaser Video (placeholder) ===================== -->
+  <section class="hero teaser" id="video">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full" style="text-align: center;">
+            <video id="teaser" autoplay muted controls playsinline style="width: 100%; border-radius: 10px; border: 1px solid #e5e7eb;">
+              <source src="./assets/videos/diagram_mmu_teaser.mp4" type="video/mp4">
+            </video>
+            <h3 class="subtitle" style="text-align: center !important; margin-top: 1rem;">
+              This video gives an overview of <span class="diagram-mmu">Diagram-MMU</span>: the diagram domains it covers, the tasks and evaluation settings it designs, and the main experimental findings.
+            </h3>
+          </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc-container">
+          <div class="toc-links">
+            <a href="#video">Video</a>
+            <span class="toc-sep">·</span>
+            <a href="#abstract">Abstract</a>
+            <span class="toc-sep">·</span>
+            <a href="#benchmark">Benchmark</a>
+            <span class="toc-sep">·</span>
+            <a href="#main-results">Main Results</a>
+            <span class="toc-sep">·</span>
+            <a href="#findings">Findings</a>
+            <span class="toc-sep">·</span>
+            <a href="#BibTeX">BibTeX</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Teaser Figure ===================== -->
+  <section class="hero teaser">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="teaser-image">
+          <img src="./assets/images/diagram-mmu/show_case.webp" alt="Six types of diagrams in Diagram-MMU" style="max-width: 100%;">
+        </div>
+        <h2 class="subtitle">
+          <span class="diagram-mmu">Diagram-MMU</span> covers <b>six scientific diagram types</b> including charts, planar geometry, 3D shapes, graphs, chemistry, and circuit diagrams &mdash; for the first time covering chemistry and circuits for diagram-to-code tasks. We adopt TikZ code, which is commonly used in paper writing in LaTeX and integrates directly into Overleaf and Prism. The final <b>3,744</b> unique diagrams paired with <b>18,305</b> evaluation samples are cross-validated by 13 graduate students.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Abstract ===================== -->
+  <section class="section" id="abstract">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Multimodal Large Language Models (MLLMs) have been growing the capability for scientific writing and collaboration. For example, OpenAI Prism is a free workspace for scientific writing and collaboration. One important feature in Prism is turning scientific diagrams directly into LaTeX TikZ code. In this paper, we build a benchmark, <span class="diagram-mmu">Diagram-MMU</span>, a multi-modal benchmark designed to assess MLLMs' ability for scientific diagram parsing and understanding. <span class="diagram-mmu">Diagram-MMU</span> features 3.7k curated diagrams and 18.3k human-validated questions across six domains. It evaluates MLLMs on three tasks common in vibe writing workspaces: <b>diagram-to-code parsing</b>, <b>diagram-to-code editing</b>, and <b>diagram question answering</b>, alongside <b>agentic settings</b> per task. The evaluation of 12 MLLMs reveals that diagram-to-code tasks are more challenging than diagram question answering: models can reason well over diagrams but struggle to parse and edit them, underscoring the need for methods to enhance MLLMs' capability in diagram-to-code generation. Under agentic settings, most models improve parsing and editing performance but degrade on question answering, while Claude-4.6 Opus consistently improves across all three tasks.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Benchmark ===================== -->
+  <section class="section" id="benchmark">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">The <span class="diagram-mmu">Diagram-MMU</span> Benchmark</h2>
+
+      <h3 class="title is-4">Three Tasks for Vibe Writing Workspaces</h3>
+      <div class="content">
+        <p>
+          <span class="diagram-mmu">Diagram-MMU</span> evaluates MLLMs on three tasks that benefit scientific writing:
+        </p>
+        <ul>
+          <li><b>Diagram-to-Code Parsing (D2C-P)</b>: parse the input diagram into editable TikZ code so it can be included in a manuscript.</li>
+          <li><b>Diagram-to-Code Editing (D2C-E)</b>: generate the TikZ code whose rendered diagram meets a modification requirement, across four editing dimensions &mdash; text, color, scope, and layout.</li>
+          <li><b>Diagram Question Answering (DQA)</b>: answer descriptive and reasoning questions (including hypothetical <i>what-if</i> questions) about the diagram, grounded in domain-specific semantics and laws.</li>
+        </ul>
+      </div>
+      <figure class="image">
+        <img src="./assets/images/diagram-mmu/data_intro.webp" alt="Task overview of Diagram-MMU">
+        <figcaption>Task overview of Diagram-MMU: diagram-to-code parsing, diagram-to-code editing, and diagram question answering.</figcaption>
+      </figure>
+
+      <h3 class="title is-4">Data Collection &amp; Curation</h3>
+      <div class="content">
+        <p>
+          TikZ sources are collected from official package handbooks (PGFPlots, CircuiTikZ, TKZ-Euclide, ChemFig, TikZ-Network) and community resources (texample.net, TeX Stack Exchange, GitHub tikz_favorites), yielding 6,849 candidate code pieces. After simplification, compile-and-render verification, de-duplication, and MLLM-assisted domain classification with manual checks, the final benchmark contains <b>3,744 unique diagrams</b> paired with <b>18,305 evaluation samples</b>, cross-validated by 13 graduate students.
+        </p>
+      </div>
+      <figure class="image">
+        <img src="./assets/images/diagram-mmu/data_collection.webp" alt="Data collection and agentic task generation pipeline">
+        <figcaption>Data collection and the agentic pipeline for D2C-E and DQA task generation, with agent-check and human-check stages.</figcaption>
+      </figure>
+
+      <div class="columns is-vcentered">
+        <div class="column is-7">
+          <div class="table-container">
+            <table class="table results-table is-bordered is-striped is-narrow is-fullwidth">
+              <thead>
+                <tr>
+                  <th>Domain</th>
+                  <th>D2C-P #Q</th>
+                  <th>TikZ Package</th>
+                  <th>DQA #Q</th>
+                  <th>Domain Knowledge</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Charts</td><td>959</td><td><code>pgfplots</code></td><td>1,834</td><td>statistics, trend/extremum analysis</td></tr>
+                <tr><td>Planar Geom.</td><td>598</td><td><code>tikz/tkz-euclide</code></td><td>1,118</td><td>Euclidean notation/formulas</td></tr>
+                <tr><td>3D Shapes</td><td>236</td><td><code>pgfplots</code></td><td>455</td><td>solid geometry, cross-sections</td></tr>
+                <tr><td>Graph</td><td>1,356</td><td><code>tikz</code></td><td>2,679</td><td>degree, connectivity, paths, tree</td></tr>
+                <tr><td>Chemistry</td><td>187</td><td><code>chemfig</code></td><td>366</td><td>bond, atom, functional groups</td></tr>
+                <tr><td>Circuit</td><td>403</td><td><code>circuitikz</code></td><td>694</td><td>topology, electrical/power laws</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="column is-5">
+          <figure class="image">
+            <img src="./assets/images/diagram-mmu/de_sunburst_v15.webp" alt="D2C-E metadata breakdown">
+            <figcaption>Metadata breakdown of D2C-E editing dimensions across text, color, scope, and layout.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <h3 class="title is-4">Multi-Level Evaluation Metrics</h3>
+      <div class="content">
+        <ul>
+          <li><b>Object-level</b>: a Semantic Object Model (SOM) is extracted from compiled TikZ, and four F1 scores (type, text, color, bbox) measure whether the code draws the correct basic objects; for editing, metrics are split into <i>preserve-only</i> and <i>edit-only</i> parts.</li>
+          <li><b>Code-level</b>: CrystalBLEU measures TikZ syntactic correctness.</li>
+          <li><b>Image-level</b>: SSIM, CLIP Score, LPIPS, and FID measure visual appearance similarity of rendered outputs.</li>
+          <li><b>Answer accuracy</b>: DQA is graded by an LLM judge with binary scores.</li>
+        </ul>
+      </div>
+
+      <h3 class="title is-4">16 Controllable Evaluation Settings: How to Think &amp; How to Act</h3>
+      <div class="content">
+        <p>
+          <span class="diagram-mmu">Diagram-MMU</span> is the first benchmark to provide <b>16 controllable evaluation settings</b> evaluating both foundational and agentic capability of current MLLMs: 3 for foundational ability and 13 for agentic ability. The four levels of agentic ability are defined as: (1)&nbsp;<b>Context utilization</b>: whether models can leverage task-relevant information from context; (2)&nbsp;<b>Tool use</b>: knowing when to invoke tools, what to query, and how to incorporate the results; (3)&nbsp;<b>State management</b>: whether models can build on prior outputs incrementally toward the final goal; (4)&nbsp;<b>Planning</b>: deciding which ability is needed and how to combine them for task solving. Importantly, for tool use we build our TikZ search tool as an MCP server, enabling MLLMs to selectively access relevant references, reducing the noise of web search and the context rot caused by loading full PDF manuals.
+        </p>
+      </div>
+      <div class="table-container">
+        <table class="table results-table is-bordered is-narrow is-fullwidth">
+          <thead>
+            <tr><th>ID</th><th>Setting</th><th>Abbreviated Prompt</th><th>Capability</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>S1</td><td>Diagram-to-code parsing</td><td>Direct coding</td><td>Foundational</td></tr>
+            <tr><td>S2</td><td>+ Objects</td><td>Use the provided perception data for coding</td><td>Agentic &middot; Context</td></tr>
+            <tr><td>S3</td><td>+ TikZ search tool</td><td>Use search tool for TikZ syntax and examples when necessary</td><td>Agentic &middot; Tool use</td></tr>
+            <tr><td>S4</td><td>+ Objects (model-gen.)</td><td>First perceive basic objects in diagram, then generate code</td><td>Agentic &middot; State</td></tr>
+            <tr><td>S5</td><td>+ S2 &amp; S3</td><td>Plan where to call tool in synergy with perception data</td><td>Agentic &middot; Planning</td></tr>
+            <tr class="is-subheader"><td colspan="4">Diagram-to-Code Editing (S6&ndash;S11) and Diagram Question Answering (S12&ndash;S16) follow analogous settings.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Main Results ===================== -->
+  <section class="section" id="main-results">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Main Results</h2>
+      <div class="content">
+        <p>
+          Main results on foundational capability (pass@1, averaged over 6 diagram types). <i>All</i> averages F1<sub>avg</sub>, CrystalBLEU, and SC (higher is better). D2C-E object/code metrics are split into preserve (p) / edit (e). <b>Bold</b> is best in class; <u>underline</u> is second best.
+        </p>
+      </div>
+      <div class="table-container">
+        <table class="table results-table is-bordered is-striped is-narrow is-fullwidth">
+          <thead>
+            <tr>
+              <th rowspan="2">Model</th>
+              <th colspan="3">Diagram-to-Code Parsing</th>
+              <th colspan="3">Diagram-to-Code Editing</th>
+              <th rowspan="2">DQA<br>Acc.</th>
+            </tr>
+            <tr>
+              <th><i>All</i></th>
+              <th>F1<sub>avg</sub></th>
+              <th>CBLEU</th>
+              <th><i>All</i></th>
+              <th>F1<sub>avg</sub> (p/e)</th>
+              <th>CBLEU (p/e)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="is-subheader"><td colspan="8">Closed-Source Multimodal Large Language Models</td></tr>
+            <tr>
+              <td>Gemini-3.1 Pro</td><td>48.38</td><td>49.94</td><td><b>32.88</b></td><td><u>51.22</u></td><td>60.60 / <b>40.84</b></td><td>42.02 / <b>2.98</b></td><td><u>86.29</u></td>
+            </tr>
+            <tr class="is-highlighted">
+              <td>Gemini-3.0 Pro</td><td><b>53.28</b></td><td><b>54.64</b></td><td><u>32.76</u></td><td><b>53.60</b></td><td><b>65.12</b> / <u>40.24</u></td><td><b>44.77</b> / <u>2.34</u></td><td><b>86.46</b></td>
+            </tr>
+            <tr>
+              <td>Gemini-3.0 Flash</td><td>50.97</td><td>51.19</td><td>30.67</td><td>49.01</td><td>59.29 / 37.24</td><td>42.21 / 2.17</td><td>84.07</td>
+            </tr>
+            <tr>
+              <td>GPT-5.2</td><td>51.88</td><td>51.35</td><td>28.81</td><td>46.15</td><td>55.59 / 31.15</td><td>38.75 / 1.15</td><td>81.67</td>
+            </tr>
+            <tr>
+              <td>Claude-4.6 Opus</td><td><u>52.41</u></td><td><u>52.23</u></td><td>31.27</td><td>51.18</td><td><u>62.56</u> / 31.95</td><td><u>43.59</u> / 1.42</td><td>68.75</td>
+            </tr>
+            <tr>
+              <td>Seed-2.0 Pro</td><td>50.89</td><td>47.57</td><td>32.56</td><td>43.73</td><td>53.03 / 30.14</td><td>37.49 / 1.41</td><td>75.90</td>
+            </tr>
+            <tr class="is-subheader"><td colspan="8">Open-Source Multimodal Large Language Models</td></tr>
+            <tr>
+              <td>Qwen3.5-397B-A17B</td><td>52.72</td><td>51.38</td><td>32.92</td><td>50.82</td><td>62.75 / <u>36.35</u></td><td><b>43.66</b> / <u>1.91</u></td><td><b>83.42</b></td>
+            </tr>
+            <tr>
+              <td>Qwen3-VL-235B-A22B</td><td><u>55.98</u></td><td><u>55.11</u></td><td><b>37.92</b></td><td><b>52.25</b></td><td><b>63.79</b> / 33.38</td><td><u>43.05</u> / 1.85</td><td>63.60</td>
+            </tr>
+            <tr class="is-highlighted">
+              <td>Kimi-K2.5</td><td><b>56.97</b></td><td><b>57.48</b></td><td><u>36.13</u></td><td><u>52.13</u></td><td><u>63.12</u> / <b>36.52</b></td><td>42.11 / <b>2.02</b></td><td><u>79.74</u></td>
+            </tr>
+            <tr>
+              <td>Qwen3-VL-8B</td><td>48.26</td><td>44.66</td><td>33.31</td><td>19.00</td><td>21.26 / 9.95</td><td>16.29 / 0.51</td><td>47.12</td>
+            </tr>
+            <tr>
+              <td>InternVL3-38B</td><td>41.13</td><td>31.47</td><td>30.91</td><td>38.85</td><td>44.72 / 22.69</td><td>33.13 / 1.29</td><td>56.39</td>
+            </tr>
+            <tr>
+              <td>TikZero+ 10B</td><td>25.30</td><td>15.43</td><td>17.19</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Key Findings ===================== -->
+  <section class="section" id="findings">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">Key Findings</h2>
+
+      <h3 class="title is-4">Foundational vs. Agentic Performance</h3>
+      <figure class="image">
+        <img src="./assets/images/diagram-mmu/fig_foundation_vs_agentic.webp" alt="Foundational vs agentic performance across three tasks">
+        <figcaption>Foundational vs. agentic performance across three tasks. Green/red annotations indicate gains/drops from foundational to agentic settings.</figcaption>
+      </figure>
+      <div class="content">
+        <ul>
+          <li><b>Models can reason well over diagrams but struggle to code them.</b> DQA accuracy is up to 86%, while D2C-P object-level F1 ranges 31&ndash;57%, revealing perception and coding limitations.</li>
+          <li><b>Models that fail on diagram-to-code parsing also struggle with editing (D2C-E) and answering tasks (DQA).</b> The object F1 gap between the D2C-P success/failure sets reaches 20&ndash;40 points across most models.</li>
+          <li><b>Gemini-3.0 Pro achieves the most balanced profile</b> across the three tasks.</li>
+          <li><b>Agency helps editing more than parsing</b>, likely because textual editing instructions guide tool and context use.</li>
+          <li><b>Most models degrade from excessive retrieval or poorly targeted queries in the TikZ search process</b>, while Claude-4.6 Opus has the strongest tool use ability.</li>
+          <li><b>Planning is the weakest agentic capability</b>, especially on DQA (&minus;0.3 to &minus;8.8 accuracy degradation); only Claude-4.6 Opus consistently improves across all three tasks.</li>
+        </ul>
+      </div>
+
+      <h3 class="title is-4">Fine-Grained Object Perception</h3>
+      <figure class="image">
+        <img src="./assets/images/diagram-mmu/appx_obj_radar_v15.webp" alt="Breakdown of F1 scores across perception dimensions">
+        <figcaption>Breakdown of F1 scores (avg, type, bbox, color, text). Spatial grounding (bbox) is consistently the weakest perception dimension &mdash; F1<sub>bbox</sub> drops sharply in D2C-P, especially for GPT-5.2, Claude-4.6 Opus, and Seed-2.0 Pro.</figcaption>
+      </figure>
+
+      <figure class="image">
+        <img src="./assets/images/diagram-mmu/pass_at_k_6models.webp" alt="Pass@k evaluation across three tasks">
+        <figcaption>Pass@k evaluation: performance improves with k, gains peak from pass@1 to pass@2 and saturate beyond k=4.</figcaption>
+      </figure>
+      <figure class="image">
+        <img src="./assets/images/diagram-mmu/split_by_D2C-P_success_fail_v15.webp" alt="Performance split by D2C-P success or failure">
+        <figcaption>D2C-E/DQA performance on diagrams split by D2C-P output (successful vs. failed rendering): models that fail D2C-P also score lower on D2C-E and DQA.</figcaption>
+      </figure>
+
+      <h3 class="title is-4">Agentic Capability Takeaways</h3>
+      <div class="highlight-box">
+        <b>Context utilization:</b> most models can use provided diagram objects to ground local edits (F1 gains of 4.1&ndash;10.6 on preserve), but struggle to integrate them into syntax or domain-knowledge reasoning.
+      </div>
+      <div class="highlight-box">
+        <b>Tool use:</b> only Claude-4.6 Opus consistently benefits from the MCP-based TikZ search tool; Gemini-3.1 Pro suffers from excessive retrieval without a stopping criterion, and Qwen3-VL-8B fails at issuing targeted queries.
+      </div>
+      <div class="highlight-box">
+        <b>State management:</b> most models fail to manage intermediate code states across steps; only Claude-4.6 Opus maintains coherence from coding to editing and reasoning (+3.8 on DQA).
+      </div>
+      <div class="highlight-box">
+        <b>Planning:</b> the weakest agentic capability &mdash; no model reliably composes multiple abilities as task complexity grows from D2C-P to DQA, where all six evaluated models degrade under optional code generation.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BibTeX ===================== -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title is-3">BibTeX</h2>
+      <pre><code>@article{bo2026diagrammmu,
+  title   = {Diagram-MMU: A Multi-Modal Benchmark for Scientific Diagrams},
+  author  = {Bo, Weihao and Zhang, Shan and Sun, Yanpeng and Liu, Jie and
+             Yao, Yongke and Du, Jinhao and He, Wei and Zou, Kai and
+             Li, Zechao and Wang, Jingdong},
+  year    = {2026}
+}</code></pre>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container is-max-desktop">
+      <div class="content">
+        <p>
+          This website is adapted from <a href="https://nerfies.github.io/">Nerfies</a> and <a href="https://charxiv.github.io/">CharXiv</a>, licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
